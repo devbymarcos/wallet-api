@@ -9,6 +9,7 @@ const { QueryTypes } = pkg;
 export const income = async(req,res)=>{
   const data = new Date;
   const userSession = req.session.user;
+  const userName  = req.session.fullName;
   let dateInput = req.query.date;
   let dateArr='';
   if(dateInput){
@@ -60,13 +61,15 @@ export const income = async(req,res)=>{
     res.render('pages/widgets/income/receber',{
       dataIncome,
       months,
-      confirmedMonth
+      confirmedMonth,
+      userName
     })
 
 }
 export const incomeCreate = async(req,res)=>{
 
     const userSession = req.session.user
+    const userName  = req.session.fullName;
     const wallet = await Wallet.findAll({
         where:{
         user_id:userSession
@@ -82,12 +85,14 @@ export const incomeCreate = async(req,res)=>{
 
     res.render('pages/widgets/income/receber-create',{
         wallet,
-        category
+        category,
+        userName
     })
 
 }
 export const incomeEdit = async(req,res)=>{
     const userSession = req.session.user
+    const userName  = req.session.fullName;
     const invoice =  await Invoice.findByPk(req.query.id)
     const wallet = await Wallet.findAll({
         where:{
@@ -126,6 +131,7 @@ export const incomeEdit = async(req,res)=>{
         setWallet,
         setCategory,
         status:{selUnpaid,selPaid},
+        userName
 })
 
 }

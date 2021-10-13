@@ -61,7 +61,8 @@ let values = {
 
 
 export const viewCashFlow = async (req,res)=>{
-    const  userSession = res.locals.user // req.session.user
+    const userSession = req.session.user
+    const userName  = req.session.fullName;
 
   const income = await Category.findAll({
     where:{
@@ -84,6 +85,7 @@ export const viewCashFlow = async (req,res)=>{
   res.render('pages/widgets/cashflow/cashflow',{
     income,
     expense,
+    userName
     
   });
 }

@@ -1,10 +1,11 @@
 import { Wallet} from '../models/Wallet.js';
 
 export const wallet = async(req,res)=>{
-  
+    const userId = req.session.user;
+    const userName  = req.session.fullName;
   let wallet =  await Wallet.findAll({
     where: {
-      user_id: req.session.user
+      user_id: userId
     }
   });
   let activeMessage = '';
@@ -13,19 +14,25 @@ export const wallet = async(req,res)=>{
    }
   res.render('pages/widgets/wallet/wallet',{
     wallet,
-    activeMessage
+    activeMessage,
+    userName
   });
 }
 
 export const walletCreate = (req,res)=>{
-  res.render('pages/widgets/wallet/wallet-create');
+  const userName  = req.session.fullName;
+  res.render('pages/widgets/wallet/wallet-create',{
+    userName
+  });
 
 }
 export const walletEdit = async(req,res)=>{
-  let wallet =  await Wallet.findByPk(req.query.id);
-  res.render('pages/widgets/wallet/wallet-edit',{
-    wallet
-  });
+    const userName  = req.session.fullName;
+    let wallet =  await Wallet.findByPk(req.query.id);
+    res.render('pages/widgets/wallet/wallet-edit',{
+        wallet,
+        userName
+    });
 }
 
 export const save = async(req,res)=>{

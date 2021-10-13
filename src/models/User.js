@@ -13,6 +13,14 @@ export const User  = sequelize.define("User",{
   last_name:{
     type:DataTypes.STRING
   },
+  full_name:{
+      type:DataTypes.VIRTUAL,
+      get(){
+          let fisrtName =  this.getDataValue('first_name');
+          let lastName =  this.getDataValue('last_name');
+          return fisrtName+''+lastName;
+      }
+  },
   email:{
     type:DataTypes.STRING
   },

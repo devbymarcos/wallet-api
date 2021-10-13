@@ -3,8 +3,7 @@ import bcryptjs from 'bcryptjs';
 
 
 export const viewLogin = (req,res)=>{
-
-  res.render('pages/widgets/login/login')
+    res.render('pages/widgets/login/login')
 
 }
 
@@ -22,6 +21,7 @@ export const loginAuth = async(req,res)=>{
     return
   }
   req.session.user=user.id;
+  req.session.fullName = user.full_name
   res.json({redirect:"/"})
  
 }

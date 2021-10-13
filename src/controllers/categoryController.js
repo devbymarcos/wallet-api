@@ -29,31 +29,36 @@ export const category = async(req,res)=>{
    if(req.query.category && req.query.category === 'not'){  
         activeMessage = true
    }
-  res.render('pages/widgets/category/category',{
-    typeInvoice,
-    activeMessage
-  });
+   const userName  = req.session.fullName;
+    res.render('pages/widgets/category/category',{
+        typeInvoice,
+        activeMessage,
+        userName
+    });
 }
 export const categoryCreate = (req,res)=>{
-  res.render('pages/widgets/category/category-create',{
-    data:true,
-    categories:true
-  });
+    const userName  = req.session.fullName;
+    res.render('pages/widgets/category/category-create',{
+        data:true,
+        categories:true,
+        userName
+    });
 }
 export const categoryEdit = async (req,res)=>{
-
-  const category =  await Category.findByPk(req.query.id);
-  const select = (type,value)=>{
-    return(type == value ? 'selected' : '');
-  }
+    const userName  = req.session.fullName;
+    const category =  await Category.findByPk(req.query.id);
+    const select = (type,value)=>{
+        return(type == value ? 'selected' : '');
+    }
   
-const selIcome = select(category.type,'income');
-const selExpense = select(category.type,'expense');
+    const selIcome = select(category.type,'income');
+    const selExpense = select(category.type,'expense');
 
 
   res.render('pages/widgets/category/category-edit',{
     category,
-    selects:{selIcome,selExpense}
+    selects:{selIcome,selExpense},
+    userName
     
   });
 }

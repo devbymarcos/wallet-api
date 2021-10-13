@@ -3,7 +3,8 @@
  import { Category } from '../models/Category.js';
  
  export const  invoiceFixedList = async (req,res)=>{
-  const userId = res.locals.user // req.session.user
+  const userId = req.session.user;
+  const userName  = req.session.fullName;
   const fixed = await Invoice.findAll({
     where:{
       user_id:userId,
@@ -32,12 +33,14 @@
   })
     
     res.render('pages/widgets/invoice-fixed/fixed',{
-      newFixed
+      newFixed,
+      userName
     });
     
 }
  export const invoiceFixedEdit = async(req,res)=>{
-    const userId = res.locals.user // req.session.user
+    const userId = req.session.user
+    const userName  = req.session.fullName;
     const invoice =  await Invoice.findByPk(req.query.id)
     const wallet = await Wallet.findAll({
       where:{
@@ -82,6 +85,7 @@
       setWallet,
       setCategory,
       status:{selUnpaid,selPaid},
+      userName
       
     });
     
