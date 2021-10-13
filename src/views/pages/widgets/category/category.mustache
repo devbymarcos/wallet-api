@@ -1,0 +1,38 @@
+{{>partials/header}}
+    <article class="header__section">
+        <div class="header__title">
+            <h4>Categorias</h4>
+            {{>pages/widgets/category/category-header}}
+        </div>
+        <hr>
+    </article>
+    <section class="app__container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Nome</th>
+                    <th>Tipo</th>
+                    <th>Ação</th>
+                </tr>
+            </thead>
+            <tbody>
+            {{#typeInvoice}}
+                <tr>
+                    <td>{{id}}</td>
+                    <td>{{name}}</td>
+                    <td>
+                        {{type}}
+                    </td>
+                    <td><a href="/categoria-editar?id={{id}}"><i class="fas fa-edit"></i></a></td>
+                </tr>
+                {{/typeInvoice}}
+                {{^typeInvoice}}
+                    <tr>
+                        <td colspan="5">Olá você não possui registro nesse momento</td>
+                    </tr>  
+                {{/typeInvoice}}
+            </tbody>
+        </table>
+ </section>
+    {{partials/footer}}

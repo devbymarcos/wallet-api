@@ -1,0 +1,193 @@
+{{>partials/header}}
+    <!-- header da Seção -->
+    <article class="header__section">
+        <h4>Visão Geral</h4>
+        <hr>
+    </article>
+    <section class="view">
+        <div class="view__chart">
+            <div id="container"></div>
+        </div>
+        <div class="view__panels">
+            <div class="view__item">
+                <h3 class="icon-normalize"><i class=" fas fa-balance-scale"></i></h3>
+                <p> R$ 100,00</p>
+                <span>Saldo acumulado</span>
+            </div>
+            <div class="view__item">
+                <h3 class="icon-normalize"><i class="fas fa-funnel-dollar"></i></h3>
+                <p>R$ 200,00</p>
+                <span>Saldo no mês</span>
+            </div>
+            <div class="view__item">
+                <h3 class="icon-normalize"><i class="fas fa-hand-holding-usd"></i></h3>
+                <p>R$ 20.000,00</p>
+                <span>Recebimentos</span>
+            </div>
+            <div class="view__item">
+                <h3 class="icon-normalize"><i class="fas fa-shopping-basket"></i></h3>
+                <p>R$ 30.000,00</p>
+                <span>Pagamentos</span>
+            </div>
+            
+            
+        </div>
+        <div class="list">
+            <div class="list__header">
+                <h3>Recebimentos em aberto</h3>
+            </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Data</th>
+                        <th>Descrição</th>
+                        <th>valor</th>
+                        <th>Status</th>
+                        <th>Acão</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#income}}
+                        <tr>
+                            <td>1</td>
+                            <td>20/02/2021</td>
+                            <td>comida de novembro</td>
+                            <td>R$ 20,00</td>
+                            <td>
+                                {{#data}}
+                                    <p data-pay="unpaid" data-idpay="" class="pay-action ">
+                                        <i class="fas fa-check-circle"></i>
+                                    </p>
+                                {{/data}}
+                                {{^data}}
+                                    <p data-pay="paid" data-idpay="" class="pay-action ">
+                                        <i class="fas fa-times-circle"></i>
+                                    </p>
+                                {{/data}}
+                            </td>
+                            <td><a href="/dash/receita-edit/id"><i class="fas fa-edit"></i></a></td>
+                        </tr>
+                    {{/income}}
+                    {{^income}}
+                        <tr>
+                            <td colspan="6">Não existe recebimentos em aberto</td>
+                        </tr>
+                    {{/income}}
+                    
+                </tbody>
+            </table>
+        </div>
+        <div class="list">
+            <div class="list__header">
+                <h3>Pagamentos em abertos</h3>
+            </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Data</th>
+                        <th>Descrição</th>
+                        <th>valor</th>
+                        <th>Status</th>
+                        <th>Ação</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#expense}}
+                            <tr>
+                                <td>2</td>
+                                <td>20/08/2021</td>
+                                <td>carro</td>
+                                <td>R$ 20,00</td>
+                                <td>
+                                    {{#data}}
+                                        <p data-pay="unpaid" data-idpay="" class="pay-action ">
+                                            <i class="fas fa-check-circle"></i>
+                                        </p>
+                                    {{/data}}
+                                    {{^data}}
+                                        <p data-pay="paid" data-idpay="" class="pay-action ">
+                                            <i class="fas fa-times-circle"></i>
+                                        </p>
+                                    {{/data}}
+                                </td>
+                                <td><a href="/dash/despesa-edit/id"><i class="fas fa-edit"></i></a></td>
+                            </tr>
+                    {{/expense}}
+                    {{^expense}}  
+                        <tr>
+                            <td colspan="6">Você está em dia com os pagamentos</td>
+                        </tr>
+                    {{/expense}} 
+
+                    
+                </tbody>
+            </table>
+        </div>
+
+    </section>
+    <section class="footer">
+        
+    </section>
+    
+    <script>
+        Highcharts.setOptions({
+            lang: {
+                decimalPoint: ',',
+                thousandsSep: '.'
+            },
+            
+        });
+        Highcharts.chart('container', {
+            chart: {
+                backgroundColor: 'transparent',
+                type: 'areaspline'
+            },
+            title: {
+                text: 'Receitas x Despesas'
+            },
+            subtitle: {
+                text: ''
+            },
+            xAxis: {
+                categories: [],
+                crosshair: true
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: ''
+                }
+            },
+            tooltip: {
+                shared: true,
+                valueDecimals: 2,
+                valuePrefix: 'R$ '
+            },
+            credits: {
+                enabled: false
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            series: [{
+                name: 'Receitas',
+                data: [],
+                color: '#61DDBC',
+                lineColor: '#36BA9B'
+    
+            }, {
+                name: 'Despesas',
+                data: [],
+                color: '#f76c82',
+                lineColor: '#D94352'
+    
+            }],
+    
+        });
+    </script>
+    {{>partials/footer}}

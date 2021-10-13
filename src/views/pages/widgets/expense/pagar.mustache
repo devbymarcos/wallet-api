@@ -1,0 +1,63 @@
+{{>partials/header}}
+    <article class="header__section">
+        <div class="header__title">
+            <h4>Despesas</h4>
+            {{>pages/widgets/expense/expense-header }}
+        </div>
+        
+    <hr>
+    </article>
+    <section class="app__container">
+        <div class="form__filter">
+            <form action="/expense-filter" method="POST">
+                <input list="datelist" class="input-control "  name="date" placeholder="{{confirmedMonth}}">
+                <datalist id="datelist">
+                    {{#months}}
+                        <option value="{{month}}"/>
+                    {{/months}}
+                </datalist>
+                <button class="btn btn--blue icon-normalize"><i class="fas fa-filter"></i></button>
+            </form>    
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Data</th>
+                    <th>Descrição</th>
+                    <th>Valor</th>
+                    <th>Status</th>
+                    <th>Ação</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#dataExpense}}           
+                <tr>
+                    <td>{{id}}</td>
+                    <td>{{date}}</td>
+                    <td>{{description}}</td>
+                    <td>{{value}}</td>
+                    <td>
+                        {{#status}}  
+                            <p data-pay="unpaid" data-type="expense" data-idpay="{{id}}" class="pay-action">
+                                <i class="fas fa-check-circle"></i>
+                            </p>
+                        {{/status}}
+                        {{^status}}
+                            <p data-pay="paid" data-type="expense" data-idpay="{{id}}" class="pay-action">
+                                <i class="fas fa-times-circle"></i>
+                            </p>
+                        {{/status}} 
+                    </td>
+                    <td><a href="/despesa-edit?id={{id}}"><i class="fas fa-edit"></i></a></td>
+                </tr>
+                {{/dataExpense}}
+                {{^dataExpense}}
+                    <tr>
+                        <td colspan="6">Você não possue lançamentos para o período</td>
+                    </tr>
+               {{/dataExpense}}
+            </tbody>
+        </table>
+    </section>
+{{>partials/footer}}

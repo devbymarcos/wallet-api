@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Control</title>
+       
+    <link href="css/boot.css" rel="stylesheet">
+    <link href="css/theme.css" rel="stylesheet">
+
+    <script src="https://kit.fontawesome.com/4ac3a9c276.js" crossorigin="anonymous"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    
+</head>
+<body>
+<base id="basepath" path="<?= url()?>" >
+
+<!-- Ajax load -->
+<div class="ajax_load" style="z-index: 999;">
+    <div class="ajax_load_box">
+        <div class="ajax_load_box_circle"></div>
+        <p class="ajax_load_box_title">Aguarde, carregando...</p>
+    </div>
+</div>
+<!-- Ajax load -->
+
+<!-- Ajax respsonse -->
+<div class="ajax_response"></div>
+<!-- Ajax respsonse -->
+
+
+<!-- vavegação Mobile -->
+<div class="mobile__menu">
+    <div class="mm__header">
+    <div class="mm-logo">
+        <img class="logo--mobile" src="images/logo-mycontrol-white.png">
+    </div>
+    <div  class="mm-buttons btn-mobile">
+        <i class="fas fa-align-right"></i>
+    </div>
+    </div>
+    <nav class="navigation__mobile">
+    <ul>
+        <li class="nm__item"><a href="/"><i class="fas fa-chart-line"></i></a></li>
+        <li class="nm__item"><a href="/carteiras"><i class="fas fa-wallet"></i>Carteira</a></li>
+        <li class="nm__item"><a href="/categorias"><i class="fas fa-tag"></i>Categorias</a></li>
+        <li class="nm__item"><a href="/receitas"><i class="fas fa-hand-holding-usd"></i>Receitas</a></li>
+        <li class="nm__item"><a href="/despesas"><i class="fas fa-shopping-cart"></i>Despesas</a></li>
+        <li class="nm__item"><a href="/fixo"><i class="fas fa-thumbtack"></i>Fixo</a></li>
+        <li class="nm__item"><a href="/fluxo-caixa"><i class="fas fa-chart-line"></i>Cashflow</a></li>
+        
+    </ul>
+    </nav>  
+</div>
+
+
+<!-- vavegação Mobile -->
+
+<!-- topo e navegação -->
+<header class="header">
+    <div class="header__info">
+        <div class="header__logo">
+            <img class="logo--used" src="images/logo-mycontrol.png">
+            <img class="logo--dark" src="images/logo-mycontrol-white.png">   
+        </div>
+        <div class="header__user">
+             <img src="images/user.png">
+           
+            <a href="">Marcos</a>
+            <a href="/logoff">
+                <i class="fas fa-sign-out-alt"></i>
+            </a>
+        </div>
+    </div>
+    <div class="header__navigation">
+        <nav>
+        <ul>
+            <li><a href="/"><i class="fas fa-chart-line"></i>Dash</a></li>
+            <li><a href="/carteiras"><i class="fas fa-wallet"></i>Carteira</a></li>
+            <li><a href="/categorias"><i class="fas fa-tag"></i>Categorias</a></li>
+            <li><a href="/receitas"><i class="fas fa-hand-holding-usd"></i>Receitas</a></li>
+            <li><a href="/despesas"><i class="fas fa-shopping-cart"></i>Despesas</a></li>
+            <li><a href="/fixo"><i class="fas fa-thumbtack"></i>Fixo</a></li>
+            <li><a href="/fluxo-caixa"><i class="fas fa-chart-line"></i>Cashflow</a></li>
+            
+        </ul>
+        </nav>
+    </div>
+</header>
+<!-- topo e navegação -->

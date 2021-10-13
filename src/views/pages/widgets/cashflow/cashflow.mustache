@@ -1,0 +1,51 @@
+{{>partials/header}}
+<article class="header__section">
+  <div class="header__title">
+      <h4>Caixa</h4>
+      
+  </div>        
+  <hr>
+  <div class="cash-form-search">
+    <form data-form-search="cashFlow"  class="ajax_off" action="/fluxo-data" method="post">
+        <select style="width: 150px;" data-select="year" class="input-control" type=text name="date" >
+          <option>Escolha...</option>
+        </select>
+       <button data-search="cashFlow" class="btn btn--green">Buscar</button>
+    </form>
+  </div>
+</article>
+<section class="app__container">
+  <table class="t-cashflow">
+    <thead data-table="head">
+      <tr data-table="th">
+          <th  data-name>Fluxo de Caixa</th>
+      </tr>
+    </thead>
+    <tbody data-table="body">
+        <tr data-tb="tb-income" class="tb-income">
+          <td data-name >RECEITAS</td>
+          
+        </tr>
+        {{#income}}  
+          <tr data-id='{{dataValues.id}}' data-category="{{name}}">
+            <td data-name>{{name}}</td>
+          </tr>
+        {{/income}}
+        <tr data-tb="tb-expense" class='tb-expense' >
+          <td data-name>DEPSESAS</td>
+        </tr>
+        {{#expense}}  
+          <tr data-id='{{dataValues.id}}' data-category="{{name}}">
+            <td data-name>{{name}}</td>
+          </tr>
+        {{/expense}}
+        <tr data-tb="tb-balance" class="tb-balance">
+            <td data-name >RESULTADO</td>
+            
+        </tr>
+    </tbody>
+
+
+  </table>
+</section>
+{{>partials/footer}}

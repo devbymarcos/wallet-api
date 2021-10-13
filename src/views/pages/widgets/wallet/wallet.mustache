@@ -1,0 +1,28 @@
+{{>partials/header}}
+    <article class="header__section">
+    <div class="header__title">
+        <h4>Carteiras</h4>
+        {{>pages/widgets/wallet/wallet-header}}
+    </div>
+    
+        
+    <hr>
+    </article>
+    <section class="wallet">
+    
+    {{#wallet}}
+        <a href="/carteira-editar?id={{id}}" class="wallet__panels">
+            <h3>{{name}}</h3>
+            <span>{{description}}</span>
+        </a>
+    {{/wallet}}  
+    
+    {{^wallet}}
+        <a href="/carteira-create" class="wallet__panels">
+            <h3>Sem carteiras cadastradas</h3>
+            <span>Clique e crie</span>
+        </a>
+    {{/wallet}}       
+    </section>
+    
+{{>partials/footer}}

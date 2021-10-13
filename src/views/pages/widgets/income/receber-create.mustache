@@ -1,0 +1,90 @@
+{{>partials/header}}
+
+<article class="header__section">
+    <div class="header__title">
+        <h4>Receitas</h4>
+        {{>pages/widgets/income/income-header}}
+    </div>
+    
+    <hr>
+</article>
+<section class="app__container">
+    <form class="app_form" action="/income/save" method="post">
+        
+        <input type="hidden" name="action" value="create">
+        <div class="input-group">
+            <label for="description">Descrição</label>
+            <input id="description" name="description" type="text" class="input-control">
+        </div>
+        <div class="ds-flex">
+            <div class="input-group_g2">
+                <label for="price">Valor</label>
+                <input id="price" name="price" type="text" class="input-control">
+            </div>
+            <div class="input-group_g2">
+                <label for="date">data</label>
+                <input id="date" name="date" type="date" class="input-control">
+            </div>
+        </div>
+        <div class="ds-flex">
+            <div class="input-group_g2">
+                <label for="wallet">Carteira</label>
+                <select id="wallet" class="input-control" name="wallet">
+                    <option value="">Escolha...</option>
+                    {{#wallet}}
+                        <option value="{{id}}">&ofcir; {{name}}</option>
+                    {{/wallet}}
+                </select>
+            </div>
+            <div class="input-group_g2">
+                <label for="category">Categoria</label>
+                <select id="category" class="input-control" name="category">
+                    <option value="">Escolha...</option>
+                    {{#category}}
+                        <option value="{{id}}">&ofcir; {{name}}</option>
+                    {{/category}}
+                </select>
+            </div>
+        </div>
+        
+        <div class="input-group">
+            <p class="check__title">Repetições:</p>
+            <div class="form-inline">
+                <label>
+                    <input type="radio" checked value="single" name="repeat_when">
+                    Única
+                </label>
+                <label>
+                    <input type="radio" value="enrollment" name="repeat_when">
+                    Parcelado
+                </label>
+                <label>
+                    <input type="radio" value="fixed" name="repeat_when">
+                    Fixa
+                </label>
+            </div>
+        </div>
+        <div id="enrollment" style="display: none" class=" ">
+            <label>Parcelas:
+                <input type="number" min="1" class="input-control" name="enrollments">
+            </label>
+            </div>
+            <div id="fixed" style="display: none" class="">
+                <label>Fixa:
+                    <select class="input-control" name="period">
+                        <option value="month">&ofcir; Mensal</option>
+                        <option value="year">&ofcir; Anual</option>
+                    </select>
+                </label>
+            </div>
+            <div class="col  input-group">
+                <input type="hidden" class="input-control" name="type" value="income">
+            </div>
+        <button class="btn btn--blue">Salvar</button>
+        <a href="/receitas" class="btn btn--yellow">Voltar</a>
+    </form>
+
+    
+</section>
+   
+{{>partials/footer}}

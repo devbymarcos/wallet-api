@@ -1,0 +1,66 @@
+{{>partials/header}}
+    <article class="header__section">
+        <div class="header__title">
+            <h4>Receitas</h4>
+            {{>pages/widgets/income/income-header}}
+        </div>
+            
+        <hr>
+    </article>
+    <section class="app__container">
+        <div class="form__filter">
+            <form action="/income-filter" method="POST">
+                <input list="datelist" class="input-control "  name="date" placeholder="{{confirmedMonth}}">
+                <datalist id="datelist">
+                    {{#months}}
+                        <option value="{{month}}"/>
+                    {{/months}}
+                </datalist>
+                <button class="btn btn--blue icon-normalize"><i class="fas fa-filter"></i></button>
+            </form>    
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Data</th>
+                    <th>Descrição</th>
+                    <th>Valor</th>
+                    <th>Status</th>
+                    <th>Ação</th>
+                </tr>
+            </thead>
+            <tbody>
+            {{#dataIncome}}
+               
+                <tr>
+                    <td>{{id}}</td>
+                    <td>{{date}}</td>
+                    <td>{{description}}</td>
+                    <td>{{value}}</td>
+                    <td>
+                     {{#status}}  
+                        <p data-pay="unpaid" data-type="income" data-idpay="{{id}}" class="pay-action">
+                            <i class="fas fa-check-circle"></i>
+                        </p>
+                    {{/status}}
+                    {{^status}}
+                        <p data-pay="paid" data-type="income" data-idpay="{{id}}" class="pay-action">
+                            <i class="fas fa-times-circle"></i>
+                        </p>
+                    {{/status}}  
+                    </td>
+                    <td><a href="/receita-edit?id={{id}}"><i class="fas fa-edit"></i></a></td>
+                </tr>
+            {{/dataIncome}}
+            {{^dataIncome}}
+                <tr>
+                    <td colspan="5">Não encontramos registros</td>
+                </tr>
+           {{/dataIncome}}
+               
+            </tbody>
+        </table>
+    </section>
+
+{{>partials/footer}}
