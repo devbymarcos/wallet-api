@@ -25,9 +25,13 @@ export const category = async(req,res)=>{
         
         return arr;
     } 
-   
+   let activeMessage = '';
+   if(req.query.category && req.query.category === 'not'){  
+        activeMessage = true
+   }
   res.render('pages/widgets/category/category',{
     typeInvoice,
+    activeMessage
   });
 }
 export const categoryCreate = (req,res)=>{

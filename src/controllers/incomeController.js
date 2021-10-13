@@ -29,6 +29,7 @@ export const income = async(req,res)=>{
   const income = await sequelize.query('SELECT * FROM app_invoice WHERE user_id= :userId AND type = "income" AND year(due_at) = :year AND month(due_at) = :month ORDER BY day(due_at)',{ replacements:{year:due_year,userId:userSession,month:due_month},
   type:QueryTypes.SELECT 
   });
+  
 
     let dataIncome = []
     income.forEach((item)=>{

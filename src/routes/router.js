@@ -8,6 +8,8 @@ import * as InvoiceFixedController from '../controllers/invoiceFixedController.j
 import * as CashFlowController from '../controllers/cashFlowController.js';
 import * as LoginController from '../controllers/loginController.js';
 import * as Auth from '../middlewares/Auth.js';
+import * as Iscategory from '../middlewares/IsCategory.js';
+import * as IsWallet from '../middlewares/IsWallet.js';
 const router = Router();
 
 
@@ -28,13 +30,13 @@ router.get('/carteira-editar',Auth.privateRouter,WalletController.walletEdit);
 router.post('/wallet/save',Auth.privateRouter,WalletController.save);
 // income
 router.get('/receitas',Auth.privateRouter,IncomeController.income);
-router.get('/receita-create',Auth.privateRouter,IncomeController.incomeCreate);
+router.get('/receita-create',Auth.privateRouter,IsWallet.isWallet,Iscategory.isCategory,IncomeController.incomeCreate);
 router.get('/receita-edit',Auth.privateRouter,IncomeController.incomeEdit);
 router.post('/income-filter',Auth.privateRouter,IncomeController.filterLink)
 router.post('/income/save',Auth.privateRouter,IncomeController.save);
 //expense
 router.get('/despesas',Auth.privateRouter,ExpenseController.expense);
-router.get('/despesa-create',Auth.privateRouter,ExpenseController.expenseCreate);
+router.get('/despesa-create',Auth.privateRouter,IsWallet.isWallet,Iscategory.isCategory,ExpenseController.expenseCreate);
 router.get('/despesa-edit',Auth.privateRouter,ExpenseController.expenseEdit);
 router.post('/expense-filter',Auth.privateRouter,ExpenseController.filterLink)
 router.post('/expense/save',Auth.privateRouter,ExpenseController.save);

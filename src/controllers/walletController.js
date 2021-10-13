@@ -7,9 +7,13 @@ export const wallet = async(req,res)=>{
       user_id: req.session.user
     }
   });
-  
+  let activeMessage = '';
+   if(req.query.wallet && req.query.wallet === 'not'){  
+        activeMessage = true
+   }
   res.render('pages/widgets/wallet/wallet',{
     wallet,
+    activeMessage
   });
 }
 

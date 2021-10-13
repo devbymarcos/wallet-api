@@ -11,6 +11,7 @@ export const viewLogin = (req,res)=>{
 export const loginAuth = async(req,res)=>{
 
   const user = await User.findOne({where:{email:req.body.email}});
+  
   if(!user){
     res.json({message:"Usuário não está registrado",type:'error'})
     return

@@ -1,5 +1,10 @@
 {{>partials/header}}
     <article class="header__section">
+        {{#activeMessage}}
+            <div class="box-message message info">
+                <p>É Necessário criar uma categoria, antes de criar RECEITA ou DESPESAS</p>
+            </div>
+        {{/activeMessage}}
         <div class="header__title">
             <h4>Categorias</h4>
             {{>pages/widgets/category/category-header}}
