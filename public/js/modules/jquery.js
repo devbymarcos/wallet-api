@@ -11,17 +11,17 @@ $(function () {
       var repeat_when = $(this).val();
 
       switch (repeat_when) {
-          case 'enrollment':
+          case 'installments':
               $('#fixed').slideUp();
-              $('#enrollment').slideDown();
+              $('#installments').slideDown();
               break;
           case 'fixed':
-              $('#enrollment').slideUp();
+              $('#installments').slideUp();
               $('#fixed').slideDown();
          
               break;
           default:
-              $('#fixed,#enrollment').slideUp();
+              $('#fixed,#installments').slideUp();
       }
       
   })
