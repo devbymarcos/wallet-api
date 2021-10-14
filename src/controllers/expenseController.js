@@ -164,7 +164,7 @@ export const save = async(req,res)=>{
             res.json({message:"É necessario a data",type:'warning'})
         }
     
-        if(req.body.repeat_when === 'enrollment'){
+        if(req.body.repeat_when === 'installments'){
 
             const date = req.body.date;
             const dateArr1 = date.split('-');
@@ -177,7 +177,7 @@ export const save = async(req,res)=>{
             let ano= '';
             let p = 0;
             let invoiceSave='';
-            for(let i = 0;i < req.body.enrollments;i++){
+            for(let i = 0;i < req.body.installments;i++){
                 p++;
                 if(i === 0){
                     data.setMonth(data.getMonth());
@@ -194,7 +194,7 @@ export const save = async(req,res)=>{
                     user_id: useId,
                     wallet_id:req.body.wallet,
                     category_id:req.body.category,
-                    description:req.body.description + " parcela "+p+"/"+req.body.enrollments,
+                    description:req.body.description + " parcela "+p+"/"+req.body.installments,
                     price:parseFloat(req.body.price.replace(',','.')),
                     due_at:dataDb,
                     type:req.body.type,
