@@ -34,8 +34,13 @@ export const expense = async(req,res)=>{
     let dataExpense = []
     expense.forEach((item)=>{
         //formata data
-        let date = new Date(item.due_at);
+        
+        let dateArr = item.due_at.split('-');
+        let [year,month,day] = dateArr.map(Number);
+
+        let date = new Date(year,month-1,day);
         let dateFormat = date.getDate() + "/" +(date.getMonth()+1) + "/" +date.getFullYear();
+        
         let price = item.price.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
         //formata status
         let statusPay = '';
@@ -147,7 +152,7 @@ export const filterLink = (req,res)=>{
 
 export const save = async(req,res)=>{
 
-    const useId = req.session.user
+    const userId = req.session.user
     if(req.body.action && req.body.action === 'create'){
 
         if(!req.body.description){
@@ -191,7 +196,7 @@ export const save = async(req,res)=>{
                 dataDb =  ano +'-'+ mes +'-'+ dia;
 
                 const  expenseCreate = await  Invoice.create({
-                    user_id: useId,
+                    user_id: userId,
                     wallet_id:req.body.wallet,
                     category_id:req.body.category,
                     description:req.body.description + " parcela "+p+"/"+req.body.installments,

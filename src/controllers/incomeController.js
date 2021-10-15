@@ -35,7 +35,10 @@ export const income = async(req,res)=>{
     let dataIncome = []
     income.forEach((item)=>{
         //formata data
-        let date = new Date(item.due_at);
+        let dateArr = item.due_at.split('-');
+        let [year,month,day] = dateArr.map(Number);
+
+        let date = new Date(year,month-1,day);
         let dateFormat = date.getDate() + "/" +(date.getMonth()+1) + "/" +date.getFullYear();
         let price = item.price.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
         //formata status
@@ -148,7 +151,7 @@ export const filterLink = (req,res)=>{
 export const save = async(req,res)=>{
 
     const userSession = req.session.user;
-      
+         
     if(req.body.action && req.body.action === 'create'){
 
         if(!req.body.description){
@@ -164,7 +167,55 @@ export const save = async(req,res)=>{
         }else if(!req.body.date){
             res.json({message:"É necessario a data",type:'warning'})
         }
-    
+
+        if(req.body.repeat_when === 'installments'){
+
+            const date = req.body.date;
+            const dateArr1 = date.split('-');
+            const [year,month,day] = dateArr1.map(Number);
+            
+            const data = new Date(year,month-1,day);
+            let dataDb = '';
+            let dia= '';
+            let mes= '';
+            let ano= '';
+            let p = 0;
+           
+            for(let i = 0;i < req.body.installments;i++){
+                p++;
+                if(i === 0){
+                    data.setMonth(data.getMonth());
+                }else{
+                    data.setMonth(data.getMonth()+1);
+                }
+                  
+                dia = data.getDate();
+                mes = data.getMonth()+1;
+                ano = data.getFullYear();
+                dataDb =  ano +'-'+ mes +'-'+ dia;
+
+                const  expenseCreate = await  Invoice.create({
+                    user_id: userSession,
+                    wallet_id:req.body.wallet,
+                    category_id:req.body.category,
+                    description:req.body.description + " parcela "+p+"/"+req.body.installments,
+                    price:parseFloat(req.body.price.replace(',','.')),
+                    due_at:dataDb,
+                    type:req.body.type,
+                    repeat_when:req.body.repeat_when,
+                });
+
+            }
+            
+                      
+            res.json({redirect:"/receitas"})
+            return
+
+
+
+        }
+        //end parcelado 
+
         const incomeCreate =  Invoice.build({
           user_id: userSession,
           wallet_id:req.body.wallet,
