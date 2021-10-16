@@ -6,16 +6,24 @@ import * as IncomeController from '../controllers/incomeController.js';
 import * as ExpenseController from '../controllers/expenseController.js';
 import * as InvoiceFixedController from '../controllers/invoiceFixedController.js';
 import * as CashFlowController from '../controllers/cashFlowController.js';
+import * as UserController from '../controllers/userController.js'
 import * as LoginController from '../controllers/loginController.js';
 import * as Auth from '../middlewares/Auth.js';
 import * as Iscategory from '../middlewares/IsCategory.js';
 import * as IsWallet from '../middlewares/IsWallet.js';
+
 const router = Router();
 
 
 router.get('/login',LoginController.viewLogin);
-router.post('/login-validation',LoginController.loginAuth)
-router.get('/logoff',LoginController.logout)
+router.post('/login-validation',LoginController.loginAuth);
+router.get('/logoff',LoginController.logout);
+//user
+router.get('/cadastro',UserController.viewRegister);
+router.get('/perfil',Auth.privateRouter,UserController.viewPerfil);
+
+
+//home
 router.get('/',Auth.privateRouter,HomeController.home);
 
 //category

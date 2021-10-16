@@ -9,12 +9,14 @@ import fs from 'fs'
 import https from 'https';
 import session from 'express-session';
 import flash from 'connect-flash';
+import favicon from 'serve-favicon';
 
 
 dotenv.config();
 
 const upload = multer();
 const app = express();
+
 app.use(session({
   secret:process.env.SESSION_SECRET,
   resave:true,
@@ -23,6 +25,9 @@ app.use(session({
 }))
 app.use(flash());
 const __dirname = path.resolve();
+//favicon
+app.use(favicon(path.join(__dirname, 'public','favicon.ico')))
+
  // middleware id user para desenvolvimento
 app.use((req,res,next)=>{
   res.locals.user='1';

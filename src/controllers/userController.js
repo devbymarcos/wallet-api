@@ -1,7 +1,13 @@
 import { User } from '../models/User.js';
 
 
-export const user = async(req,res)=>{
-  let users = await User.findAll();
-   return res.json({result: users});
+export const viewRegister = (req,res)=>{
+
+    res.render('pages/widgets/user/user-create')
+
+}
+export const viewPerfil = (req,res)=>{
+
+    res.render('pages/widgets/user/user-perfil')
+
 }

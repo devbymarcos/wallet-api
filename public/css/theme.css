@@ -700,6 +700,98 @@ body {
 .tb-balance {
     background-color: #bdc3c7 !important;
 }
+
+/*
+###############
+### REGISTER ##
+###############
+*/
+
+.container-register {
+    width: 100%;
+    max-width: var(--width-container);
+    margin: 0 auto;
+}
+.header-register-content {
+    width: 100%;
+    height: 50vh;
+    position: relative;
+}
+.header-content-bg {
+    width: 100%;
+    height: 50vh;
+    object-fit: center;
+}
+.header-content-text {
+    width: 100%;
+    height: 50vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+.header-register {
+    width: 100%;
+    height: 100px;
+    background-color: #efefef;
+    box-shadow: 2px 0 10px rgb(0 0 0 / 60%);
+}
+
+.nav-register {
+    padding: 0 10px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo-register a img {
+    width: 130px;
+}
+.header-content-textbox {
+    width: 600px;
+    max-width: 100%;
+    margin: 80px auto;
+    text-align: center;
+}
+.header-content-text h1 {
+    color: #fff;
+    font-size: 3em;
+    text-shadow: 1px 2px 6px rgba(39, 174, 96, 0.6);
+}
+.btn-register {
+    width: 300px;
+    cursor: pointer;
+    display: inline-block;
+    padding: 30px;
+    text-transform: uppercase;
+    font-weight: bold;
+    text-shadow: 0 1px 1px rgb(0 0 0 / 50%);
+    background-image: linear-gradient(
+        to right,
+        #17ead9 0%,
+        #6078ea 50%,
+        #17ead9 100%
+    );
+    border: none;
+    outline: none;
+    color: #fff;
+    border-radius: 6px;
+    font-size: 20px;
+    margin-top: 30px;
+}
+.box-form-register {
+    width: 600px;
+    margin-top: 2rem;
+}
+.title-form-register {
+    margin: 2rem 0;
+    text-align: center;
+    font-size: 30px;
+}
+/*#### MEDIA QUERIE ####*/
+
 @media (max-width: 1130px) {
 }
 
