@@ -25,6 +25,7 @@ router.get('/perfil',Auth.privateRouter,UserController.viewPerfil);
 
 //home
 router.get('/',Auth.privateRouter,HomeController.home);
+router.get('/chartdata',Auth.privateRouter,HomeController.dataChart);
 
 //category
 router.get('/categorias',Auth.privateRouter,CategoryController.category);

@@ -6,7 +6,7 @@
     </article>
     <section class="view">
         <div class="view__chart">
-            <div id="container"></div>
+            <div id="chartContainer"></div>
         </div>
         <div class="view__panels">
             <div class="view__item">
@@ -131,63 +131,4 @@
         
     </section>
     
-    <script>
-        Highcharts.setOptions({
-            lang: {
-                decimalPoint: ',',
-                thousandsSep: '.'
-            },
-            
-        });
-        Highcharts.chart('container', {
-            chart: {
-                backgroundColor: 'transparent',
-                type: 'areaspline'
-            },
-            title: {
-                text: 'Receitas x Despesas'
-            },
-            subtitle: {
-                text: ''
-            },
-            xAxis: {
-                categories: [],
-                crosshair: true
-            },
-            yAxis: {
-                min: 0,
-                title: {
-                    text: ''
-                }
-            },
-            tooltip: {
-                shared: true,
-                valueDecimals: 2,
-                valuePrefix: 'R$ '
-            },
-            credits: {
-                enabled: false
-            },
-            plotOptions: {
-                column: {
-                    pointPadding: 0.2,
-                    borderWidth: 0
-                }
-            },
-            series: [{
-                name: 'Receitas',
-                data: [],
-                color: '#61DDBC',
-                lineColor: '#36BA9B'
-    
-            }, {
-                name: 'Despesas',
-                data: [],
-                color: '#f76c82',
-                lineColor: '#D94352'
-    
-            }],
-    
-        });
-    </script>
     {{>partials/footer}}

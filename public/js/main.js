@@ -20,6 +20,16 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 
 /***/ }),
 
+/***/ "./public/js/modules/highchart.js":
+/*!****************************************!*\
+  !*** ./public/js/modules/highchart.js ***!
+  \****************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ initChart)\n/* harmony export */ });\nfunction initChart() {\n  var load = document.querySelector('.ajax_load');\n  load.classList.add('ajax_load_flex'); // loading start\n\n  fetch('/chartdata').then(function (r) {\n    load.classList.remove('ajax_load_flex');\n    return r.json();\n  }).then(function (data) {\n    Highcharts.setOptions({\n      lang: {\n        decimalPoint: ',',\n        thousandsSep: '.'\n      }\n    });\n    Highcharts.chart('chartContainer', {\n      chart: {\n        backgroundColor: 'transparent',\n        type: 'areaspline'\n      },\n      title: {\n        text: 'Receitas x Despesas'\n      },\n      subtitle: {\n        text: ''\n      },\n      xAxis: {\n        categories: data.months,\n        crosshair: true\n      },\n      yAxis: {\n        min: 0,\n        title: {\n          text: ''\n        }\n      },\n      tooltip: {\n        shared: true,\n        valueDecimals: 2,\n        valuePrefix: 'R$ '\n      },\n      credits: {\n        enabled: false\n      },\n      plotOptions: {\n        column: {\n          pointPadding: 0.2,\n          borderWidth: 0\n        }\n      },\n      series: [{\n        name: 'Receitas',\n        data: data.income,\n        color: '#61DDBC',\n        lineColor: '#36BA9B'\n      }, {\n        name: 'Despesas',\n        data: data.expense,\n        color: '#f76c82',\n        lineColor: '#D94352'\n      }]\n    });\n  });\n}\n\n//# sourceURL=webpack://node/./public/js/modules/highchart.js?");
+
+/***/ }),
+
 /***/ "./public/js/modules/jquery.js":
 /*!*************************************!*\
   !*** ./public/js/modules/jquery.js ***!
@@ -46,7 +56,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
   \******************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _modules_jquery_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/jquery.js */ \"./public/js/modules/jquery.js\");\n/* harmony import */ var _modules_cashflow_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/cashflow.js */ \"./public/js/modules/cashflow.js\");\n/* harmony import */ var _modules_year_sel_cashflow_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/year-sel-cashflow.js */ \"./public/js/modules/year-sel-cashflow.js\");\n\n\n\n(0,_modules_jquery_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"])();\n(0,_modules_cashflow_js__WEBPACK_IMPORTED_MODULE_1__[\"default\"])();\n(0,_modules_year_sel_cashflow_js__WEBPACK_IMPORTED_MODULE_2__[\"default\"])();\n\n//# sourceURL=webpack://node/./public/js/scripts.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _modules_jquery_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/jquery.js */ \"./public/js/modules/jquery.js\");\n/* harmony import */ var _modules_cashflow_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/cashflow.js */ \"./public/js/modules/cashflow.js\");\n/* harmony import */ var _modules_year_sel_cashflow_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/year-sel-cashflow.js */ \"./public/js/modules/year-sel-cashflow.js\");\n/* harmony import */ var _modules_highchart_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/highchart.js */ \"./public/js/modules/highchart.js\");\n\n\n\n\n(0,_modules_jquery_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"])();\n(0,_modules_cashflow_js__WEBPACK_IMPORTED_MODULE_1__[\"default\"])();\n(0,_modules_year_sel_cashflow_js__WEBPACK_IMPORTED_MODULE_2__[\"default\"])();\n(0,_modules_highchart_js__WEBPACK_IMPORTED_MODULE_3__[\"default\"])();\n\n//# sourceURL=webpack://node/./public/js/scripts.js?");
 
 /***/ })
 
