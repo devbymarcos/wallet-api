@@ -11,26 +11,10 @@
         <div class="view__panels">
             <div class="view__item">
                 <h3 class="icon-normalize"><i class=" fas fa-balance-scale"></i></h3>
-                <p> R$ 100,00</p>
-                <span>Saldo acumulado</span>
+                <p data-balance > </p>
+                <span>Saldo Total</span>
             </div>
-            <div class="view__item">
-                <h3 class="icon-normalize"><i class="fas fa-funnel-dollar"></i></h3>
-                <p>R$ 200,00</p>
-                <span>Saldo no mês</span>
-            </div>
-            <div class="view__item">
-                <h3 class="icon-normalize"><i class="fas fa-hand-holding-usd"></i></h3>
-                <p>R$ 20.000,00</p>
-                <span>Recebimentos</span>
-            </div>
-            <div class="view__item">
-                <h3 class="icon-normalize"><i class="fas fa-shopping-basket"></i></h3>
-                <p>R$ 30.000,00</p>
-                <span>Pagamentos</span>
-            </div>
-            
-            
+                        
         </div>
         <div class="list">
             <div class="list__header">
@@ -39,41 +23,39 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>#</th>
+                       
                         <th>Data</th>
                         <th>Descrição</th>
                         <th>valor</th>
                         <th>Status</th>
-                        <th>Acão</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {{#income}}
+                    {{#openIncome}}
                         <tr>
-                            <td>1</td>
-                            <td>20/02/2021</td>
-                            <td>comida de novembro</td>
-                            <td>R$ 20,00</td>
+                            <td>{{due_at}}</td>
+                            <td><a href="/receita-edit/id={{id}}">{{description}}</a></td>
+                            <td>{{price}}</td>
                             <td>
-                                {{#data}}
-                                    <p data-pay="unpaid" data-idpay="" class="pay-action ">
+                                {{#pay}}
+                                    <p  data-type="income" data-pay="unpaid" data-idpay="{{id}}" class="pay-action ">
                                         <i class="fas fa-check-circle"></i>
                                     </p>
-                                {{/data}}
-                                {{^data}}
-                                    <p data-pay="paid" data-idpay="" class="pay-action ">
+                                {{/pay}}
+                                {{^pay}}
+                                    <p data-type="income" data-pay="paid" data-idpay="{{id}}" class="pay-action ">
                                         <i class="fas fa-times-circle"></i>
                                     </p>
-                                {{/data}}
+                                {{/pay}}
                             </td>
-                            <td><a href="/dash/receita-edit/id"><i class="fas fa-edit"></i></a></td>
+                           
                         </tr>
-                    {{/income}}
-                    {{^income}}
+                    {{/openIncome}}
+                    {{^openIncome}}
                         <tr>
                             <td colspan="6">Não existe recebimentos em aberto</td>
                         </tr>
-                    {{/income}}
+                    {{/openIncome}}
                     
                 </tbody>
             </table>
@@ -85,41 +67,37 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>#</th>
-                        <th>Data</th>
                         <th>Descrição</th>
                         <th>valor</th>
                         <th>Status</th>
-                        <th>Ação</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {{#expense}}
-                            <tr>
-                                <td>2</td>
-                                <td>20/08/2021</td>
-                                <td>carro</td>
-                                <td>R$ 20,00</td>
-                                <td>
-                                    {{#data}}
-                                        <p data-pay="unpaid" data-idpay="" class="pay-action ">
-                                            <i class="fas fa-check-circle"></i>
-                                        </p>
-                                    {{/data}}
-                                    {{^data}}
-                                        <p data-pay="paid" data-idpay="" class="pay-action ">
-                                            <i class="fas fa-times-circle"></i>
-                                        </p>
-                                    {{/data}}
-                                </td>
-                                <td><a href="/dash/despesa-edit/id"><i class="fas fa-edit"></i></a></td>
-                            </tr>
-                    {{/expense}}
-                    {{^expense}}  
+                    {{#openExpense}}
                         <tr>
-                            <td colspan="6">Você está em dia com os pagamentos</td>
+                            <td>{{due_at}}</td>
+                            <td><a href="/despesa-edit/id={{id}}">{{description}}</a></td>
+                            <td>{{price}}</td>
+                            <td>
+                                {{#pay}}
+                                    <p  data-type="income" data-pay="unpaid" data-idpay="{{id}}" class="pay-action ">
+                                        <i class="fas fa-check-circle"></i>
+                                    </p>
+                                {{/pay}}
+                                {{^pay}}
+                                    <p data-type="income" data-pay="paid" data-idpay="{{id}}" class="pay-action ">
+                                        <i class="fas fa-times-circle"></i>
+                                    </p>
+                                {{/pay}}
+                            </td>
+                           
                         </tr>
-                    {{/expense}} 
+                    {{/openExpense}}
+                    {{^openExpense}}
+                        <tr>
+                            <td colspan="6">Não existe recebimentos em aberto</td>
+                        </tr>
+                    {{/openExpense}} 
 
                     
                 </tbody>

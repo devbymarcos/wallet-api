@@ -4,21 +4,85 @@ import { sequelize } from '../instances/mysql.js';
 const { QueryTypes } = pkg;
 
 
-export const home = (req,res)=>{
+export const home = async(req,res)=>{
   const userName  = req.session.fullName;
+  const userSession = req.session.user
+  
    //INCOME && EXPENSE 
 
-  res.render('pages/widgets/dash/home',{
-    expense:true,
-    income:true,
-    userName
-  });
+    const income = await sequelize.query("SELECT *  FROM app_invoice WHERE user_id= :userId AND pay = :p AND type = 'income' AND due_at < DATE(NOW())",{
+        replacements:{userId:userSession,p:'unpaid'},
+        type:QueryTypes.SELECT   
+    })
+   const expense = await sequelize.query("SELECT *  FROM app_invoice WHERE user_id= :userId AND pay = :p AND type = 'expense' AND due_at < DATE(NOW())",{
+    replacements:{userId:userSession,p:'unpaid'},
+    type:QueryTypes.SELECT   
+})
+    let openIncome = income.map((item)=>{
+        let obj = {};
+
+        let dateArr = item.due_at.split('-');
+        let [year,month,day] = dateArr.map(Number);
+
+        let date = new Date(year,month-1,day);
+        let dateFormat = date.getDate() + "/" +(date.getMonth()+1) + "/" +date.getFullYear();
+        //formata status
+        let statusPay = '';
+        if(item.pay === 'paid'){
+          statusPay = true;
+        } else{
+          statusPay = false;
+        }
+        obj.id = item.id;
+        obj.description = item.description;
+        obj.price =item.price.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
+        obj.pay = statusPay;
+        obj.due_at = dateFormat;
+
+        return obj;
+
+    })
+
+    let openExpense = expense.map((item)=>{
+        let obj = {};
+
+        let dateArr = item.due_at.split('-');
+        let [year,month,day] = dateArr.map(Number);
+
+        let date = new Date(year,month-1,day);
+        let dateFormat = date.getDate() + "/" +(date.getMonth()+1) + "/" +date.getFullYear();
+        //formata status
+        let statusPay = '';
+        if(item.pay === 'paid'){
+          statusPay = true;
+        } else{
+          statusPay = false;
+        }
+        obj.id = item.id;
+        obj.description = item.description;
+        obj.price =item.price.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
+        obj.pay = statusPay;
+        obj.due_at = dateFormat;
+
+        return obj;
+    })
+
+
+    console.log(openIncome,openExpense)
+
+
+
+    res.render('pages/widgets/dash/home',{
+        openExpense,
+        openIncome,
+        userName
+    });
 }
 
 
 
 export const dataChart = async (req,res)=>{
-    const userSession = res.locals.user // req.session.user
+    const userSession =  req.session.user
     let dateChart = new Date();
 
     let chartMonths = [];
@@ -46,7 +110,7 @@ export const dataChart = async (req,res)=>{
         chartIncome.push(item.income)
     })
     let dataBase = '';
-    if(!chart){
+    if(chart.length < 1){
         dataBase = {
             months:chartMonths.reverse(),
             income:[0,0,0,0],
@@ -61,4 +125,28 @@ export const dataChart = async (req,res)=>{
     }
     
     res.json(dataBase);
+}
+
+
+export const panelsData = async (req,res)=>{
+    const userSession = req.session.user
+    const wallet = await sequelize.query("SELECT (SELECT SUM(price) FROM app_invoice WHERE user_id= :userId AND pay = 'paid' AND type = 'income') as income,(select SUM(price) FROM app_invoice WHERE user_id= :userId AND pay = 'paid' AND type = 'expense') as expense from app_invoice WHERE user_id = :userId and pay = 'paid' group by income,expense",
+     {replacements:{userId:userSession},
+        type:QueryTypes.SELECT 
+    })
+    
+    let data ='';
+    if(wallet.length < 1){
+        data = false;
+        res.json(data);
+        return;
+    }
+    
+    data = {
+        balance:wallet[0].income - wallet[0].expense
+    }
+
+    res.json(data);
+
+    
 }

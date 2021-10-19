@@ -1,3 +1,5 @@
+import initPanels from './dash-panels.js';
+import initChart from './highchart.js';
 export default function initJquery(){
 
 $(function () {
@@ -79,11 +81,14 @@ $(function () {
       }
 
       $.post(router, {pay: dataPay, id: idPay, action: action, acao: acao}, function (response) {
+        initChart();
+        initPanels();
           
         if (response.message) {
             let message = `<div class='message ${response.type}'>${response.message}</div>`;
-              ajaxMessage(message, ajaxResponseBaseTime);
-          }
+                ajaxMessage(message, ajaxResponseBaseTime);
+                
+        }
 
       }, 'json');
   });

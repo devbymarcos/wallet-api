@@ -219,7 +219,7 @@ export const save = async(req,res)=>{
 
 
         const expenseCreate =  Invoice.build({
-            user_id: useId,
+            user_id: userId,
             wallet_id:req.body.wallet,
             category_id:req.body.category,
             description:req.body.description,
