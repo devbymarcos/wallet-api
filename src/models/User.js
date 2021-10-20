@@ -13,6 +13,9 @@ export const User  = sequelize.define("User",{
   last_name:{
     type:DataTypes.STRING
   },
+  genre:{
+      type:DataTypes.STRING
+  },
   full_name:{
       type:DataTypes.VIRTUAL,
       get(){

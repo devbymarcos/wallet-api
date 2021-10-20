@@ -1,4 +1,4 @@
-<?php $render('header');?>
+{{>partials/header}}
     <article class="header__section">
             <div class="header__title">
                 <h4>Perfil</h4>
@@ -9,11 +9,12 @@
     <section class="app__container">
         <form class="app_form" action="<?=url('/user/save')?>" method="post" enctype="multipart/form-data">
         <div class="capa_perfil">
-            <?php if($user->photo != "default"):?>
-                <img class='rounded perfil-img' data-cover="cover-img" src="<?=image($user->photo , 200)?>">
-            <?php else:?>
-                <img  class='rounded perfil-img' data-cover="cover-img" src="<?=image("default/user.png", 200)?>">
-            <?php endif;?>
+            {{#cover}}
+                <img class='rounded perfil-img' data-cover="cover-img" src="{{findUser.photo}}">
+           {{/cover}}
+           {{^cover}}
+                <img  class='rounded perfil-img' data-cover="cover-img" src="images/user.png">
+            {{/cover}}
             <div class="upload_img_perfil">
                 <label class="icon-normalize" for="user_perfil"><i class="fas fa-camera-retro"></i></label>
             </div>
@@ -27,11 +28,11 @@
         <div class="ds-flex flex-column">
             <div class="input-group_g2">
                 <label>Nome</label>
-                <input  type="text" class="input-control" name="first_name" value="<?=$user->first_name?>">
+                <input  type="text" class="input-control" name="first_name" value="{{findUser.first_name}}">
             </div>
             <div class="input-group_g2">
                 <label>Sobrenome</label>
-                <input  type="text" class="input-control" name="last_name" value="<?=$user->last_name?>">
+                <input  type="text" class="input-control" name="last_name" value="{{findUser.last_name}}">
             </div>
         </div>
 
@@ -86,4 +87,4 @@
 </section>
 
 
-<?php $render('footer');?>
+{{>partials/footer}}
