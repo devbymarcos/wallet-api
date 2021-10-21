@@ -247,7 +247,7 @@ $(function () {
       });
 
       $(".ajax_response").append(ajaxMessage);
-      ajaxMessage.effect("bounce");
+      ajaxMessage.effect("slide");
   }
 
   // AJAX RESPONSE MONITOR

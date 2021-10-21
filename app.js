@@ -16,7 +16,7 @@ dotenv.config();
 
 const upload = multer();
 const app = express();
-
+app.disable('x-powered-by');
 app.use(session({
   secret:process.env.SESSION_SECRET,
   resave:true,

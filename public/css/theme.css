@@ -800,15 +800,13 @@ body {
         padding: 0 30px;
     }
     .view {
-        grid-template-columns: 100%;
+        grid-template-columns: 1fr;
         padding: 30px;
     }
     .list {
         grid-column: auto;
     }
-    .view__panels {
-        grid-template-columns: 1fr 1fr;
-    }
+
     .header__logo,
     .header__navigation {
         display: none;
@@ -828,8 +826,14 @@ body {
     .view__panels {
         grid-template-columns: 100%;
     }
+    .view__item p {
+        font-size: 30px;
+    }
 
     .flex-column {
         flex-direction: column;
+    }
+    .mobile-none {
+        display: none;
     }
 }
