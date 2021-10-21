@@ -11,6 +11,7 @@ import * as LoginController from '../controllers/loginController.js';
 import * as Auth from '../middlewares/Auth.js';
 import * as Iscategory from '../middlewares/IsCategory.js';
 import * as IsWallet from '../middlewares/IsWallet.js';
+import * as InvoiceFixed from '../middlewares/InvoiceFixed.js';
 
 const router = Router();
 
@@ -24,7 +25,7 @@ router.get('/perfil',Auth.privateRouter,UserController.viewPerfil);
 
 
 //home
-router.get('/',Auth.privateRouter,HomeController.home);
+router.get('/',Auth.privateRouter,InvoiceFixed.createFixed,HomeController.home);
 router.get('/chartdata',Auth.privateRouter,HomeController.dataChart);
 router.get('/panels',Auth.privateRouter,HomeController.panelsData)
 

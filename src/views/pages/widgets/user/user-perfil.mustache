@@ -7,7 +7,7 @@
             <hr>
         </article>
     <section class="app__container">
-        <form class="app_form" action="<?=url('/user/save')?>" method="post" enctype="multipart/form-data">
+        <form class="app_form" action="/user/save" method="post" enctype="multipart/form-data">
         <div class="capa_perfil">
             {{#cover}}
                 <img class='rounded perfil-img' data-cover="cover-img" src="{{findUser.photo}}">
@@ -23,7 +23,7 @@
     
         <!-- ACTION SPOOFING-->
         <input type="hidden" name="action" value="update"/>
-        <input type="hidden" name="user_id" value="<?=$user->id?>"/>
+        <input type="hidden" name="user_id" value="{{findUser.id}}"/>
 
         <div class="ds-flex flex-column">
             <div class="input-group_g2">
@@ -39,14 +39,8 @@
         <div class="input-group">
             <label>Gênero:</label>
             <select class="input-control" name="genre">
-                <?php
-                $status = $user->genre;
-                $select = function ($value) use ($status) {
-                    return ($status == $value ? "selected" : "");
-                };
-                ?>
-                <option <?= $select("male"); ?> value="male">Masculino</option>
-                <option <?= $select("female"); ?> value="female">femenino</option>
+                <option {{selMale}} value="male">Masculino</option>
+                <option {{selFemale}} value="female">femenino</option>
             </select>
         </div>
         <div class="input-group">
@@ -55,24 +49,24 @@
                 data-cover="preview" 
                 name="file" 
                 placeholder="Imagem de perfil"
-                onchange="previewImage()">
-            <input type="hidden" name="file_dir" value="<?=$user->photo?>">
+               >
+            <input type="hidden" name="file_dir" value="{{findUser.photo}}">
         </div>
         
         <div class="ds-flex flex-column">
             <div class="input-group_g2">
                 <label>Nascimento</label>
-                <input  type="text" class="input-control mask-date " name="datebirth" value="<?=date_fmt($user->datebirth)?>">
+                <input  type="date" class="input-control mask-date " name="datebirth" value="{{findUser.datebirth}}">
             </div>
             <div class="input-group_g2">
                 <label>Documento</label>
-                <input  type="text" class="input-control mask-doc" name="document" value="<?=$user->document?>">
+                <input  type="text" class="input-control mask-doc" name="document" value="{{findUser.document}}">
             </div>
         </div>
         <div class="ds-flex flex-column">
             <div class="input-group_g2">
                 <label>Email</label>
-                <input  type="email" class="input-control" name="email" value="<?=$user->email?>">
+                <input  type="email" class="input-control" name="email" value="{{findUser.email}}">
             </div>
             <div class="input-group_g2">
                 <label>Senha</label>

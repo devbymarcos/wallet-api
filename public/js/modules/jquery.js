@@ -286,23 +286,31 @@ $(function () {
 
 //PREVIEW DE IMAGE ANTES DO UPLOAD
 
-function  previewImage()
-{
-  let image = document.querySelector("input[data-cover=preview]").files[0];
-  //console.log(image);
-  let preview = document.querySelector("img[data-cover=cover-img]");
 
-  let reader = new FileReader();
+  
+  
+  function  previewImage()
+  {     let image = document.querySelector("input[data-cover=preview]");
+        let preview = document.querySelector("img[data-cover=cover-img]");
+        if(image){
+            image.addEventListener('change',()=>{
+                let reader = new FileReader();
+    
+                reader.onloadend = function () {
+                    preview.setAttribute('src', reader.result);
+                }
+            
+                if (image.files[0]) {
+                    reader.readAsDataURL(image.files[0])
+                }
+            });
+        }
+       
+    
+    
 
-  reader.onloadend = function () {
-      preview.setAttribute('src', reader.result);
   }
-
-  if (image) {
-      reader.readAsDataURL(image)
-  }
-
-}
+  previewImage();
 
 
 /* SLIDE UP */

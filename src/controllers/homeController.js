@@ -68,10 +68,6 @@ export const home = async(req,res)=>{
     })
 
 
-    console.log(openIncome,openExpense)
-
-
-
     res.render('pages/widgets/dash/home',{
         openExpense,
         openIncome,

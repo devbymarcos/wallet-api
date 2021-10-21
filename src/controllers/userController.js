@@ -9,12 +9,20 @@ export const viewRegister = (req,res)=>{
 export const viewPerfil = async(req,res)=>{
     const userSession = req.session.user;
     const findUser =  await User.findByPk(userSession);
-    console.log(findUser);
+   
     const cover =  (findUser.photo === 'default' ? false  : true);
-    console.log(cover);
+
+    const select = (type,value)=>{
+        return(type == value ? 'selected' : '');
+    }
+  
+    const selMale = select(findUser.genre,'male');
+    const selFemale = select(findUser.genre,'female');
     res.render('pages/widgets/user/user-perfil',{
         findUser,
-        cover
+        cover,
+        selMale,
+        selFemale
     })
 
 }

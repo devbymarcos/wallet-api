@@ -15,7 +15,10 @@
   
   const newFixed = fixed.map((item)=>{
     const obj = {}
-    const date = new Date(item.due_at);
+    const date1 = item.due_at.split('-');
+    const [year,month,day] = date1.map(Number);
+    const date = new Date(year,month,day);
+    console.log(date)
     //formata status
     let statusPay = '';
     if(item.pay === 'paid'){
@@ -24,7 +27,7 @@
       statusPay = false;
     }
     obj.id = item.id;
-    obj.due_at = (date.getDate()< 10 ? "Dia 0"+date.getDate():"Dia "+date.getDate() );
+    obj.due_at = (date.getDate() < 10 ? "Dia 0"+ date.getDate():"Dia "+date.getDate() );
     obj.description = (item.type ==='fixed_income' ? 'Receita / '+item.description: 'Despesa / '+item.description);
     obj.price = item.price.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})+" /mês";
     obj.status = statusPay;
