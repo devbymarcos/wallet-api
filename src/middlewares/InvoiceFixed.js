@@ -28,14 +28,16 @@ export const createFixed = async (req,res,next)=>{
     let dateInvoice = '';
     let dateInvoiceMap ='';
     let newDate =''
-    invoice.forEach(async(itemfixed)=>{
+    for(const itemfixed of invoice){
+        
         invoiceId = itemfixed.id;
+       
         const [year,month,day] = itemfixed.due_at.split('-').map(Number)
        
         const fixedSearch = await  sequelize.query("SELECT *  FROM app_invoice WHERE  user_id = :userId  AND invoice_of = :of AND month(due_at) = :mes", {replacements:{userId:userSession,mes:currentDate.getMonth()+1,of:invoiceId},
         type:QueryTypes.SELECT 
         })
-
+       
         if(fixedSearch.length < 1 ){
             
             const invoiceCreate = await Invoice.create({
@@ -51,12 +53,12 @@ export const createFixed = async (req,res,next)=>{
                 repeat_when:'fixed',
                 period:itemfixed.period
             })
-            console.log(currentDate.getFullYear()+'-'+(currentDate.getMonth()+1)+'-'+day)
+       
         }
 
         
 
-    })
+    }
     
 
     next();

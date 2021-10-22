@@ -256,7 +256,7 @@ body {
 
 .view__panels {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
     grid-gap: 20px;
 }
 
@@ -294,7 +294,7 @@ body {
 
 .view__item p {
     font-weight: bold;
-    font-size: 58px;
+    font-size: 25px;
     margin-bottom: 1rem;
     color: var(--color-font);
 }

@@ -22,7 +22,7 @@ export const loginAuth = async(req,res)=>{
   }
   req.session.user=user.id;
   req.session.fullName = user.full_name
-  res.json({redirect:"/"})
+  res.json({redirect:"/painel"})
  
 }
 

@@ -15,17 +15,17 @@ import * as InvoiceFixed from '../middlewares/InvoiceFixed.js';
 
 const router = Router();
 
+router.get('/',UserController.viewRegister);
 
 router.get('/login',LoginController.viewLogin);
 router.post('/login-validation',LoginController.loginAuth);
 router.get('/logoff',LoginController.logout);
 //user
-router.get('/cadastro',UserController.viewRegister);
 router.get('/perfil',Auth.privateRouter,UserController.viewPerfil);
 
 
 //home
-router.get('/',Auth.privateRouter,InvoiceFixed.createFixed,HomeController.home);
+router.get('/painel',Auth.privateRouter,InvoiceFixed.createFixed,HomeController.home);
 router.get('/chartdata',Auth.privateRouter,HomeController.dataChart);
 router.get('/panels',Auth.privateRouter,HomeController.panelsData)
 
