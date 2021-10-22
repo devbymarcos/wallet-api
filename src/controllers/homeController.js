@@ -131,6 +131,19 @@ export const panelsData = async (req,res)=>{
         type:QueryTypes.SELECT 
     })
     
+    const currentDate = new Date();
+
+    const receivedMonth = await sequelize.query("SELECT  SUM(price) as incomeMonth FROM app_invoice WHERE user_id = :userId AND pay = 'paid' AND month(due_at) = :date AND type = 'income'",{
+        replacements:{userId:userSession,date:(currentDate.getMonth()+1)},
+        type:QueryTypes.SELECT
+    })
+    const paidMonth = await sequelize.query("SELECT  SUM(price) as expenseMonth FROM app_invoice WHERE user_id = :userId AND pay = 'paid' AND month(due_at) = :date AND type = 'expense'",{
+        replacements:{userId:userSession,date:(currentDate.getMonth()+1)},
+        type:QueryTypes.SELECT
+    })
+
+   
+
     let data ='';
     if(wallet.length < 1){
         data = false;
@@ -139,7 +152,10 @@ export const panelsData = async (req,res)=>{
     }
     
     data = {
-        balance:wallet[0].income - wallet[0].expense
+        balance:wallet[0].income - wallet[0].expense,
+        received:receivedMonth[0].incomeMonth,
+        paid:paidMonth[0].expenseMonth,
+        balanceMonth:(receivedMonth[0].incomeMonth - paidMonth[0].expenseMonth )
     }
 
     res.json(data);
