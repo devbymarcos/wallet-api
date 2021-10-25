@@ -9,7 +9,7 @@ $(function () {
   var ajaxResponseRequestError = "<div class='message error icon-warning'>Desculpe mas não foi possível processar sua requisição...</div>";
   
   // ABRE O CAMPO PARA PARCELAS O FIXO NO LANÇAMENTO DA INVOICE
-  $('input[name="repeat_when"]').on("click", function () {
+    $('input[name="repeat_when"]').on("click", function () {
       var repeat_when = $(this).val();
 
       switch (repeat_when) {
@@ -26,9 +26,9 @@ $(function () {
               $('#fixed,#installments').slideUp();
       }
       
-  })
+    })
   //MOSTRA FORM DE RECUPERAÇÃO DE SENHA
-  $('.btn-action').click(function(){
+    $('.btn-action').click(function(){
            
           var formVisibilit = $('.form-step:visible')
           var formHidden = $('.form-step:hidden')
@@ -39,7 +39,7 @@ $(function () {
 
 
 
-      })
+    })
   
   // ALTERA O STATUS DE PAGAMENTO DAS INVOICES
 

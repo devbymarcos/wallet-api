@@ -22,29 +22,29 @@ body {
   border: 0;
   box-shadow: 0 10px 30px 0 rgba(172, 168, 168, 0.43);
   overflow: hidden;
-  max-width: 450px;
+  /*! max-width: 500px; */
   margin: 0 auto;
   background-color: #fff;
 }
 
 .login-card .card-body {
-  padding: 85px 60px 60px;
-  min-height: 500px;
+  padding: 20px 40px 20px 40px;
   transition: all 0.3s;
+ 
 }
 
 .brand-wrapper {
-  margin-bottom: 35px;
+  margin-bottom: 16px;
 }
 .login-card-description {
-  font-size: 25px;
+  font-size: 17px;
   color: #000;
   font-weight: normal;
   margin-bottom: 23px;
 }
 
 .login-card .login-btn {
-  padding: 13px 20px 12px;
+  padding: 9px;
   background-color: #000;
   border-radius: 4px;
   font-size: 17px;
@@ -68,7 +68,7 @@ body {
 .login-card .forgot-password-link {
   font-size: 14px;
   color: #919aa3;
-  margin: 12px 12px;
+  margin: 30px;
 }
 .box-img {
   position: relative;

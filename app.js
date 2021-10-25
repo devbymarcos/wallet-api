@@ -5,8 +5,6 @@ import mustache from 'mustache-express';
 import dotenv from 'dotenv';
 import mainRoutes from './src/routes/router.js';
 import morgan from 'morgan';
-import fs from 'fs'
-import https from 'https';
 import session from 'express-session';
 import flash from 'connect-flash';
 import favicon from 'serve-favicon';
@@ -23,6 +21,7 @@ app.use(session({
   saveUninitialized:true,
   cookie:{maxAge:30*60*1000}
 }))
+
 app.use(flash());
 const __dirname = path.resolve();
 //favicon
@@ -39,10 +38,7 @@ app.set('view engine','mustache');
 app.set('views',path.join(__dirname, './src/views'));
 app.engine('mustache',mustache());
 
-const options = {
-  cert: fs.readFileSync(path.join(__dirname,'ssl','localhost.crt')),
-  key:fs.readFileSync(path.join(__dirname,'ssl','localhost.key')) 
-}
+
 // for parsing multipart/form-data
 app.use(upload.array()); 
 //pasta public 
@@ -64,9 +60,8 @@ app.use((req,res)=>{
   res.status(404).send('Página não encontrada')
 })
 
-const httpsServer = https.createServer(options,app);
 
-httpsServer.listen(process.env.PORT,()=>{
+app.listen(process.env.PORT,()=>{
     console.log("rodando porta :" + process.env.PORT);
 })
 
