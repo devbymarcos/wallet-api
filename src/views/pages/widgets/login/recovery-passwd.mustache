@@ -2,13 +2,13 @@
 <div class="card login-card">
     <div class="card-body">
         <div class="brand-wrapper">
-            <img width="150" src="<?= url('themes/'.CONF_THEME_DASH.'/assets/images/logo.png') ?>" alt="logo">
+            <img width="150"  src="images/logo-mycontrol.png" alt="logo">
         </div>
         <!--NEW PASSWD-->
         <div data-action="forget" class="box-login form-step">
             <p class="login-card-description">Crie uma nova senha</p>
-            <form class="app_form" action="<?= url('/dash/login-recovery') ?>" method="post">
-                <?= csrf_input() ?>
+            <form class="app_form" action="/login-recovery" method="post">
+               
                 <!-- ACTION SPOOFING-->
                 <input type="hidden" name="action" value="update" />
                 <input type="hidden" name="token" value="<?= $token->forget ?>">
