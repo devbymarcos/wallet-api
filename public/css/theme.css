@@ -760,27 +760,7 @@ body {
     font-size: 3em;
     text-shadow: 1px 2px 6px rgba(39, 174, 96, 0.6);
 }
-.btn-register {
-    width: 300px;
-    cursor: pointer;
-    display: inline-block;
-    padding: 30px;
-    text-transform: uppercase;
-    font-weight: bold;
-    text-shadow: 0 1px 1px rgb(0 0 0 / 50%);
-    background-image: linear-gradient(
-        to right,
-        #17ead9 0%,
-        #6078ea 50%,
-        #17ead9 100%
-    );
-    border: none;
-    outline: none;
-    color: #fff;
-    border-radius: 6px;
-    font-size: 20px;
-    margin-top: 30px;
-}
+
 .box-form-register {
     width: 600px;
     margin-top: 2rem;
@@ -788,7 +768,22 @@ body {
 .title-form-register {
     margin: 2rem 0;
     text-align: center;
-    font-size: 30px;
+    font-size: 16px;
+}
+
+/** SOBRE **/
+.box-img-stack {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+.img-stack img {
+    width: 50px;
+    height: 50px;
+}
+.img-stack p {
+    text-align: center;
+    font-weight: bold;
 }
 /*#### MEDIA QUERIE ####*/
 

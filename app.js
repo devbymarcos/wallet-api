@@ -13,8 +13,10 @@ import favicon from 'serve-favicon';
 dotenv.config();
 
 const upload = multer();
+
 const app = express();
 app.disable('x-powered-by');
+
 app.use(session({
   secret:process.env.SESSION_SECRET,
   resave:true,
@@ -23,7 +25,9 @@ app.use(session({
 }))
 
 app.use(flash());
+
 const __dirname = path.resolve();
+
 //favicon
 app.use(favicon(path.join(__dirname, 'public','favicon.ico')))
 
@@ -41,6 +45,7 @@ app.engine('mustache',mustache());
 
 // for parsing multipart/form-data
 app.use(upload.array()); 
+
 //pasta public 
 app.use(express.static(path.join(__dirname, 'public')));
 

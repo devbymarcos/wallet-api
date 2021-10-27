@@ -11,19 +11,28 @@ export default function initPanels(){
             return response.json();
         })
         .then((data)=>{ 
-            //console.log(data)
-            if(!data){
-            balance.innerHTML = "R$ 0,00";  
-            received.innerHTML = "R$ 0,00";
-            paid.innerHTML = "R$ 0,00";
-            balanceMotnh.innerHTML ="R$ 0,00";
+            console.log(data)
+            if(!data.balance){
+                balance.innerHTML = "R$ 0,00";  
             }else{
                 balance.innerHTML = data.balance.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
+            } 
+            if(!data.received){
+                received.innerHTML = "R$ 0,00";
+            }else {
                 received.innerHTML = data.received.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
+            }
+            if(!data.paid){
+                paid.innerHTML = "R$ 0,00";
+            }else {
                 paid.innerHTML = data.paid.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
+            }
+            if(!data.balanceMonth){
+                balanceMonth.innerHTML ="R$ 0,00";
+            }else{
                 balanceMonth.innerHTML = data.balanceMonth.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
             }
-        
+
         })
     }
 

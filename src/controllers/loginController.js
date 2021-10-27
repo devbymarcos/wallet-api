@@ -1,6 +1,10 @@
 import { User } from '../models/User.js';
 import bcryptjs from 'bcryptjs';
+import dotenv from 'dotenv';
+import jwt from 'jsonwebtoken';
+const { sign, verify } = jwt;
 
+dotenv.config();
 
 export const viewLogin = (req,res)=>{
     res.render('pages/widgets/login/login')
@@ -20,9 +24,14 @@ export const loginAuth = async(req,res)=>{
     res.json({message:"Usuário e senha não confere",type:'error'})
     return
   }
-  req.session.user=user.id;
-  req.session.fullName = user.full_name
-  res.json({redirect:"/painel"})
+
+  const token = sign(
+      {id:user.id,email:user.email},
+      String(process.env.SECRET_KEY_JWT)
+  )
+
+ req.session.tokenUser = token;
+ res.json({redirect:"/painel"})
  
 }
 
@@ -30,3 +39,4 @@ export const logout = (req,res)=>{
   req.session.destroy();
   res.redirect('/login');
 }
+
