@@ -264,9 +264,22 @@ export const save = async(req,res)=>{
           res.json({message:"Registro Atualizado",type:'success'})
 
         }else{
+            
+            if(!req.body.description){
+                res.json({message:"Preencha a descrição",type:'warning'})
+                return
+            }else if(!req.body.price){
+                res.json({message:"Preencha o valor",type:'warning'})
+                return
+            }else if(!req.body.category){
+                res.json({message:"Escolha a categoria",type:'warning'})
+            }else if(!req.body.wallet){
+                res.json({message:"Escolha a carteira",type:'warning'})
+            }else if(!req.body.date){
+                res.json({message:"É necessario a data",type:'warning'})
+            }
 
             const expenseUpdate = await Invoice.update({
-            user_id: useId,
             wallet_id:req.body.wallet,
             category_id:req.body.category,
             description:req.body.description,

@@ -55,43 +55,78 @@ export const forgetAction = async(req, res)=>{
 
     const token = sign(
         {id:user.id,email:user.email},
-        String(process.env.SECRET_KEY_JWT)
+        String(process.env.SECRET_KEY_JWT),
+        {
+           expiresIn: 300
+        }
     )
     
     
-    const link = `${process.env.URL_BASE}/altera-senha/${token}`;
+    const link = `${process.env.URL_BASE}/altera-senha?token=${token}`;
     
-     let emailTemplate = `<h2>Perdeu sua senha ${user.fullName} ?</h2>"
+     let emailTemplate = `<h2>Perdeu sua senha ${user.full_name} ?</h2>
     <p>Você está recebendo este e-mail pois foi solicitado a recuperação de senha no site ${process.env.URL_BASE} </p>
-    <p><a title='Recuperar Senha' href='${link}'> CLIQUE AQUI PARA CRIAR UMA NOVA SENHA</a></p>
+    <p><a title='Recuperar Senha' href='${link}'> CLIQUE AQUI PARA CRIAR UMA NOVA SENHA</a>
+    </p>
     <p><b>IMPORTANTE:</b> Se não foi você que solicitou ignore o e-mail. Seus dados permanecem seguros.</p>`;
 
-    
+     
 
     //configurando o tranporte
     let transport = nodemailer.createTransport({
-        host:'devbymarcos.com',
-        port:'456',
+        host:'smtp.sendgrid.net',
+        port:465,
+        secure:true,
         auth:{
-            user:'marcos@devbymarcos.com',
-            pass:'w91xQLnUk88A'
+            user:'apikey',
+            pass:process.env.API_KEY_SENDGRID
         }
     });
     // configura a menssagem
     let message = {
-        from:'',
-        to:'',
-        subject:'',
-        html:'',
-        text:''
+        from:"marcos@devbymarcos.com",
+        to:user.email,
+        subject:"Mycontrol",
+        html:emailTemplate,
+        text:'um simples teste de envio'
     }
-    //envia a mensagem
-    // let info = await transport.sendMail(message);
-    // console.log(info)
+    // envia a mensagem
+    try{
+        let info = await transport.sendMail(message);
+        console.log(info)
+    }catch(err){
+        console.log("erro de envio:" ,err)
+    }
+    
 
     res.json({action:'processando'});
 }
 
-export const viewRecoveryPass = (req,res)=>{
-    console.log(req.params)
+export const viewRecoveryPass = async(req,res)=>{
+    
+    const tokenRecoveryPass = req.query.token;
+    let decode = '';
+    try{
+        decode = verify(
+            tokenRecoveryPass,
+            String(process.env.SECRET_KEY_JWT)
+        )
+    }catch(err){
+        console.log('erro:',err)
+        res.status(404)
+        res.send("Link expirado ou invalido solicite novamente");
+    }
+    
+    const user  = await User.findByPk(decode.id);
+    if(!user){
+        res.status(404)
+        res.send("Link expirado ou invalido solicite novamente");
+    }
+
+    if(user.email != decode.email){
+        res.status(404)
+        res.send("Link expirado ou invalido solicite novamente 3");
+    }
+
+    res.render("pages/widgets/login/recovery-passwd");
 }

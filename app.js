@@ -9,6 +9,9 @@ import session from 'express-session';
 import flash from 'connect-flash';
 import favicon from 'serve-favicon';
 
+import fs from 'fs'
+import https from 'https';
+
 
 dotenv.config();
 
@@ -42,7 +45,10 @@ app.set('view engine','mustache');
 app.set('views',path.join(__dirname, './src/views'));
 app.engine('mustache',mustache());
 
-
+const options = {
+    cert: fs.readFileSync(path.join(__dirname,'ssl','localhost.crt')),
+    key:fs.readFileSync(path.join(__dirname,'ssl','localhost.key')) 
+  }
 // for parsing multipart/form-data
 app.use(upload.array()); 
 
@@ -65,8 +71,12 @@ app.use((req,res)=>{
   res.status(404).send('Página não encontrada')
 })
 
+// const httpsServer = https.createServer(options,app);
+
+// httpsServer.listen(process.env.PORT,()=>{
+//     console.log("rodando porta :" + process.env.PORT);
+// })
 
 app.listen(process.env.PORT,()=>{
-    console.log("rodando porta :" + process.env.PORT);
+        console.log("rodando porta :" + process.env.PORT);
 })
-

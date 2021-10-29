@@ -21,7 +21,7 @@ router.get('/login',LoginController.viewLogin);
 router.post('/login-validation',LoginController.loginAuth);
 router.get('/logoff',LoginController.logout);
 router.post('/forget-action',LoginController.forgetAction);
-router.get('/altera-senha/:token',LoginController.viewRecoveryPass)
+router.get('/altera-senha',LoginController.viewRecoveryPass)
 //user
 router.get('/perfil',Auth.privateRouter,UserController.viewPerfil);
 

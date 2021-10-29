@@ -1,4 +1,4 @@
-<?php $render('header-login'); ?>
+{{>partials/header-login}}
 <div class="card login-card">
     <div class="card-body">
         <div class="brand-wrapper">
@@ -7,12 +7,11 @@
         <!--NEW PASSWD-->
         <div data-action="forget" class="box-login form-step">
             <p class="login-card-description">Crie uma nova senha</p>
-            <form class="app_form" action="/login-recovery" method="post">
+            <form class="app_form" action="/pass-update" method="post">
                
                 <!-- ACTION SPOOFING-->
                 <input type="hidden" name="action" value="update" />
-                <input type="hidden" name="token" value="<?= $token->forget ?>">
-                <input type="hidden" name="user_id" value="<?= $token->id ?>">
+                
                 <div class="col  input-group">
                     <label class="icon-unlock-alt">Nova Senha:</label>
                     <input type="password" class="input-control" name="passwd">
@@ -27,10 +26,10 @@
                 </div>
             </form>
             <div class="footer_login">
-                <p><a href="<?= url('/login') ?>">Já tenho a senha</a></p>
+                <p><a href="/login">Já tenho a senha</a></p>
             </div>
 
         </div>
     </div>
 </div>
-<?php $render('footer-login'); ?>
+{{>partials/footer-login}}
