@@ -221,9 +221,7 @@ body {
     max-width: var(--width-container);
     margin: 2rem auto;
     color: var(--color-font);
-    display:flex;
-    justify-content:space-between;
-    align-items:center
+   
 }
 .header__section hr {
     margin-top: 1rem;

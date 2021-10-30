@@ -3,11 +3,17 @@ export default function initChart(){
 
     const load = document.querySelector('.ajax_load');
     const charDiv = document.querySelector('#chartContainer');
+    const wallet = document.getElementById('wallet-panels');
+    let  walletValue = '';
     
     if(charDiv){
 
-        //load.classList.add('ajax_load_flex'); // loading start
-        fetch('/chartdata',).then((r)=>{
+        walletValue = new FormData(wallet);
+        
+        fetch('/chartdata',{
+            method:'POST',
+            body:walletValue
+        }).then((r)=>{
             
         //load.classList.remove('ajax_load_flex');
         return r.json();

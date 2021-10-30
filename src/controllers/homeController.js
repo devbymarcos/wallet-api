@@ -91,6 +91,7 @@ export const home = async(req,res)=>{
 
 export const dataChart = async (req,res)=>{
     const userSession =  req.session.user
+    const walletSearchId = req.body.wallet;
     let dateChart = new Date();
 
     let chartMonths = [];
@@ -105,14 +106,22 @@ export const dataChart = async (req,res)=>{
 
     }
 
-    const chart = await sequelize.query("SELECT year(due_at) as due_year,month(due_at) as due_month,DATE_FORMAT (due_at,'%m/%y') AS due_date,(SELECT SUM(price) FROM app_invoice WHERE user_id = :userId AND pay = 'paid' AND type = 'income' AND year(due_at) = due_year AND month(due_at) = due_month) as income,(SELECT SUM(price) FROM app_invoice WHERE user_id = :userId AND pay = 'paid' AND type = 'expense' AND year(due_at) = due_year AND month(due_at) = due_month) as expense FROM app_invoice WHERE user_id = :userId AND pay = 'paid' AND due_at >= date(now()- INTERVAL 4 MONTH) GROUP BY due_year, due_month,due_date ORDER BY due_month ASC limit 5",{ replacements:{userId:userSession},
-    type:QueryTypes.SELECT 
-  })
+    let chart ='';
+    if(walletSearchId === 'all'){
+        chart = await sequelize.query("SELECT year(due_at) as due_year,month(due_at) as due_month,DATE_FORMAT (due_at,'%m/%y') AS due_date,(SELECT SUM(price) FROM app_invoice WHERE user_id = :userId AND pay = 'paid' AND type = 'income' AND year(due_at) = due_year AND month(due_at) = due_month) as income,(SELECT SUM(price) FROM app_invoice WHERE user_id = :userId AND pay = 'paid' AND type = 'expense' AND year(due_at) = due_year AND month(due_at) = due_month) as expense FROM app_invoice WHERE user_id = :userId AND pay = 'paid' AND due_at >= date(now()- INTERVAL 4 MONTH) GROUP BY due_year, due_month,due_date ORDER BY due_month ASC limit 5",{ replacements:{userId:userSession},
+        type:QueryTypes.SELECT 
+        })
+    }else{
+        chart = await sequelize.query("SELECT year(due_at) as due_year,month(due_at) as due_month,DATE_FORMAT (due_at,'%m/%y') AS due_date,(SELECT SUM(price) FROM app_invoice WHERE user_id = :userId AND pay = 'paid' AND type = 'income' AND year(due_at) = due_year AND month(due_at) = due_month AND wallet_id = :w) as income,(SELECT SUM(price) FROM app_invoice WHERE user_id = :userId AND pay = 'paid' AND type = 'expense' AND year(due_at) = due_year AND month(due_at) = due_month AND wallet_id = :w) as expense FROM app_invoice WHERE user_id = :userId AND pay = 'paid'AND wallet_id = :w AND due_at >= date(now()- INTERVAL 4 MONTH) GROUP BY due_year, due_month,due_date ORDER BY due_month ASC limit 5",{ replacements:{userId:userSession,w:walletSearchId},
+        type:QueryTypes.SELECT 
+        })
+    }
+
+
     let chartCategories = [];
     let chartExpense = [];
     let chartIncome = [];
 
-    
     chart.forEach((item)=>{
         chartCategories.push(item.due_month +'/'+ item.due_year );
         chartExpense.push(item.expense);

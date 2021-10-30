@@ -1,15 +1,19 @@
 {{>partials/header}}
     <!-- header da Seção -->
     <article class="header__section">
-        <h4>Dash Board</h4>
-        <form id="wallet-panels">
-            <select  name="wallet">
-                <option value="all">Carteira...</option>
-                {{#wallet}}
-                    <option value="{{id}}">{{name}}</option>
-                {{/wallet}}
-            </select>
-        </form>
+        <div class="header__title">
+            <h4>Dash Board</h4>
+            <form id="wallet-panels">
+                <select  name="wallet">
+                    <option value="all">Todas...</option>
+                    {{#wallet}}
+                        <option value="{{id}}">{{name}}</option>
+                    {{/wallet}}
+                </select>
+            </form>
+        </div> 
+             
+    
     </article>
    
     <section class="view">

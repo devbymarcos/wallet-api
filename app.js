@@ -34,11 +34,6 @@ const __dirname = path.resolve();
 //favicon
 app.use(favicon(path.join(__dirname, 'public','favicon.ico')))
 
- // middleware id user para desenvolvimento
-app.use((req,res,next)=>{
-  res.locals.user='1';
-  next();
-})
 
 //template engine
 app.set('view engine','mustache');
@@ -70,12 +65,6 @@ app.use('/',mainRoutes);
 app.use((req,res)=>{
   res.status(404).send('Página não encontrada')
 })
-
-// const httpsServer = https.createServer(options,app);
-
-// httpsServer.listen(process.env.PORT,()=>{
-//     console.log("rodando porta :" + process.env.PORT);
-// })
 
 app.listen(process.env.PORT,()=>{
         console.log("rodando porta :" + process.env.PORT);

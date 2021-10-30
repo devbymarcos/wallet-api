@@ -142,7 +142,6 @@ export const incomeEdit = async(req,res)=>{
 export const filterLink = (req,res)=>{
 
   let dateLink = req.body.date.replace('/','-');
-
   res.json({redirect:"/receitas?date="+dateLink});
   
 
