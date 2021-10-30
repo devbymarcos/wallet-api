@@ -29,7 +29,7 @@ router.get('/perfil',Auth.privateRouter,UserController.viewPerfil);
 //home
 router.get('/painel',Auth.privateRouter,InvoiceFixed.createFixed,HomeController.home);
 router.get('/chartdata',Auth.privateRouter,HomeController.dataChart);
-router.get('/panels',Auth.privateRouter,HomeController.panelsData)
+router.post('/panels',Auth.privateRouter,HomeController.panelsData)
 
 //category
 router.get('/categorias',Auth.privateRouter,CategoryController.category);

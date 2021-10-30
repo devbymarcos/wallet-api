@@ -101,7 +101,7 @@ export  default function initCashflow(){
           tabelTh.appendChild(th);
       })
       
-         
+         console.log(groupResult);
     
         idCategory.forEach((item)=>{
             groupResult.forEach((itens,index,array)=>{

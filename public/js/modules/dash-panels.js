@@ -5,9 +5,17 @@ export default function initPanels(){
     const received = document.querySelector('[data-received]');
     const paid = document.querySelector('[data-paid]');
     const balanceMonth = document.querySelector('[data-balanceMonth]');
+    const wallet = document.getElementById('wallet-panels');
+    let  walletValue = '';
+    
     if(balance ){
-
-        fetch('/panels').then((response)=>{
+        walletValue = new FormData(wallet);
+                 
+        fetch('/panels',{
+            method:'POST',
+            body: walletValue
+            }
+        ).then((response)=>{
             return response.json();
         })
         .then((data)=>{ 
