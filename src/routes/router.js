@@ -5,7 +5,6 @@ import * as WalletController from '../controllers/walletController.js';
 import * as IncomeController from '../controllers/incomeController.js';
 import * as ExpenseController from '../controllers/expenseController.js';
 import * as InvoiceFixedController from '../controllers/invoiceFixedController.js';
-import * as CashFlowController from '../controllers/cashFlowController.js';
 import * as UserController from '../controllers/userController.js'
 import * as LoginController from '../controllers/loginController.js';
 import * as Auth from '../middlewares/Auth.js';
@@ -59,12 +58,6 @@ router.get('/fixo',Auth.privateRouter,InvoiceFixedController.invoiceFixedList);
 router.get('/fixed-edit',Auth.privateRouter,InvoiceFixedController.invoiceFixedEdit);
 router.post('/fixed/update',Auth.privateRouter,InvoiceFixedController.fixedUpdate);
 
-
-//cashflow
-router.get('/fluxo-caixa',Auth.privateRouter,CashFlowController.viewCashFlow);
-router.post('/fluxo-data',Auth.privateRouter,CashFlowController.cashFlow);
-
-//logout
 
 
 export default router;
