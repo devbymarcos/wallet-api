@@ -33,12 +33,6 @@ export const User  = sequelize.define("User",{
   level:{
     type:DataTypes.INTEGER
   },
-  forget:{
-    type:DataTypes.STRING
-  },
-  date_link_forget:{
-    type:DataTypes.STRING
-  },
   datebirth:{
     type:DataTypes.DATE  
   },

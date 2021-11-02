@@ -221,7 +221,6 @@ body {
     max-width: var(--width-container);
     margin: 2rem auto;
     color: var(--color-font);
-   
 }
 .header__section hr {
     margin-top: 1rem;
@@ -229,21 +228,22 @@ body {
     border: 1px solid;
     border-color: rgba(0, 0, 0, 0.1);
 }
-.header__section select{
-    width:200px;
-    height:35px;
-    font-size:16px;
-    border-radius:20px;
-    text-align:center;
-    background-color:#fff;
-    border:1px solid #ccc;
-    outline:none;
-}
 
 .header__title {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+#wallet-panels select {
+    width: 200px;
+    height: 35px;
+    font-size: 16px;
+    border-radius: 20px;
+    text-align: center;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    outline: none;
 }
 
 /*
