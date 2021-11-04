@@ -717,7 +717,12 @@ body {
 ### REGISTER ##
 ###############
 */
-
+.overlayer {
+    width: 100%;
+    height: 50vh;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.5);
+}
 .container-register {
     width: 100%;
     max-width: var(--width-container);
@@ -770,8 +775,17 @@ body {
     color: #fff;
     font-size: 3em;
     text-shadow: 1px 2px 6px rgba(39, 174, 96, 0.6);
+    margin-bottom: 2rem;
 }
-
+.header-content-textbox p {
+    color: #fff;
+    font-size: 19px;
+}
+.header-content-textbox a {
+    color: #fff;
+    font-size: 19px;
+    text-transform: uppercase;
+}
 .box-form-register {
     width: 600px;
     margin-top: 2rem;
@@ -783,6 +797,21 @@ body {
 }
 
 /** SOBRE **/
+.box-container {
+    width: 100%;
+    max-width: var(--width-container);
+    margin: 0 auto;
+    background: var(--color-bg-darkmode);
+    padding: 20px;
+    border-radius: 6px;
+    z-index: 2;
+    position: relative;
+    top: -83px;
+}
+.box-titleimg-stack {
+    margin-bottom: 3rem;
+    text-align: center;
+}
 .box-img-stack {
     display: flex;
     align-items: center;
@@ -795,6 +824,15 @@ body {
 .img-stack p {
     text-align: center;
     font-weight: bold;
+}
+
+footer {
+    margin-top: 3rem;
+    width: 100%;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 /*#### MEDIA QUERIE ####*/
 

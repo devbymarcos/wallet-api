@@ -87,8 +87,6 @@ export const home = async(req,res)=>{
     });
 }
 
-
-
 export const dataChart = async (req,res)=>{
     const userSession =  req.session.user
     const walletSearchId = req.body.wallet;

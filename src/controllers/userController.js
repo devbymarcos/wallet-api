@@ -26,3 +26,8 @@ export const viewPerfil = async(req,res)=>{
     })
 
 }
+
+export const save = async(req,res)=>{
+
+    res.json({retorno:'deutudo certo'});
+}
