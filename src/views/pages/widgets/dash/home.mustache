@@ -1,5 +1,7 @@
 {{>partials/header}}
-    <!-- header da Seção -->
+
+<section class="dash-grid">
+    <!-- grid 1 -->
     <article class="header__section">
         <div class="header__title">
             <h4>Dash Board</h4>
@@ -12,129 +14,89 @@
                 </select>
             </form>
         </div> 
-             
-    
-    </article>
-   
-    <section class="view">
         <div class="view__chart">
             <div id="chartContainer"></div>
         </div>
-        <div class="view__panels">
-            <div class="view__item">
-                <h3 class="icon-normalize"><i class=" fas fa-balance-scale"></i></h3>
-                <p data-balance > </p>
-                <span>Saldo Total</span>
-            </div>
-            <div class="view__item">
-                <h3 class="icon-normalize"><i class="fas fa-funnel-dollar"></i></h3>
-                <p data-balanceMonth  ></p>
-                <span>Saldo no mês</span>
-            </div>
-            <div class="view__item">
-                <h3 class="icon-normalize"><i class="fas fa-hand-holding-usd"></i></h3>
-                <p data-received ></p>
-                <span>Recebimentos</span>
-            </div>
-            <div class="view__item">
-                <h3 class="icon-normalize"><i class="fas fa-shopping-basket"></i></h3>
-                <p data-paid ></p>
-                <span>Pagamentos</span>
-            </div>
-                        
-        </div>
-        <div class="list">
-            <div class="list__header">
-                <h3>Recebimentos em aberto</h3>
-            </div>
-            <table class="table">
-                <thead>
-                    <tr>
-                       
-                        <th>Data</th>
-                        <th>Descrição</th>
-                        <th>valor</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {{#openIncome}}
-                        <tr>
-                            <td>{{due_at}}</td>
-                            <td><a href="/receita-edit?id={{id}}">{{description}}</a></td>
-                            <td>{{price}}</td>
-                            <td>
-                                {{#pay}}
-                                    <p  data-type="income" data-pay="unpaid" data-idpay="{{id}}" class="pay-action ">
-                                        <i class="fas fa-check-circle"></i>
-                                    </p>
-                                {{/pay}}
-                                {{^pay}}
-                                    <p data-type="income" data-pay="paid" data-idpay="{{id}}" class="pay-action ">
-                                        <i class="fas fa-times-circle"></i>
-                                    </p>
-                                {{/pay}}
-                            </td>
-                           
-                        </tr>
-                    {{/openIncome}}
-                    {{^openIncome}}
-                        <tr>
-                            <td colspan="6">Não existe recebimentos em aberto</td>
-                        </tr>
-                    {{/openIncome}}
-                    
-                </tbody>
-            </table>
-        </div>
-        <div class="list">
-            <div class="list__header">
-                <h3>Pagamentos em abertos</h3>
-            </div>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Data</th>
-                        <th>Descrição</th>
-                        <th>valor</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {{#openExpense}}
-                        <tr>
-                            <td>{{due_at}}</td>
-                            <td><a href="/despesa-edit?id={{id}}">{{description}}</a></td>
-                            <td>{{price}}</td>
-                            <td>
-                                {{#pay}}
-                                    <p  data-type="income" data-pay="unpaid" data-idpay="{{id}}" class="pay-action ">
-                                        <i class="fas fa-check-circle"></i>
-                                    </p>
-                                {{/pay}}
-                                {{^pay}}
-                                    <p data-type="income" data-pay="paid" data-idpay="{{id}}" class="pay-action ">
-                                        <i class="fas fa-times-circle"></i>
-                                    </p>
-                                {{/pay}}
-                            </td>
-                           
-                        </tr>
-                    {{/openExpense}}
-                    {{^openExpense}}
-                        <tr>
-                            <td colspan="6">Não existe recebimentos em aberto</td>
-                        </tr>
-                    {{/openExpense}} 
-
-                    
-                </tbody>
-            </table>
-        </div>
-
-    </section>
-    <section class="footer">
-        
-    </section>
+    </article>
+    <!-- /grid 1 -->
     
-    {{>partials/footer}}
+    
+    <div class="dash-panels">
+        <div class="dash-user">
+            <img src="images/user.png">
+            <p>Bem vindo</p>
+            <a href="/perfil">Marcos Lopes{{userName}}</a>
+            
+        </div>
+        <div class="dash-user-item">
+            <h3 class="icon-normalize bg-green">
+                <i class="fas fa-hand-holding-usd"></i>
+            </h3>
+            <div>
+                <span>Recebimentos</span>
+                <p data-received ></p>
+            </div>
+        </div>
+        <div class="dash-user-item">
+            <h3 class="icon-normalize bg-red">
+                <i class="fas fa-shopping-basket"></i>
+            </h3>
+            <div>
+                <span>Pagamentos</span>
+                <p data-paid ></p>
+            </div>
+        </div>
+                        
+    </div>
+    
+    <div class="list">
+        <div class="list__header">
+            <h3>Transações em aberto</h3>
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Data</th>
+                    <th>Descrição</th>
+                    <th>valor</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#openExpense}}
+                    <tr>
+                        <td>{{due_at}}</td>
+                        <td><a href="/despesa-edit?id={{id}}">{{description}}</a></td>
+                        <td>{{price}}</td>
+                        <td>
+                            {{#pay}}
+                                <p  data-type="income" data-pay="unpaid" data-idpay="{{id}}" class="pay-action ">
+                                    <i class="fas fa-check-circle"></i>
+                                </p>
+                            {{/pay}}
+                            {{^pay}}
+                                <p data-type="income" data-pay="paid" data-idpay="{{id}}" class="pay-action ">
+                                    <i class="fas fa-times-circle"></i>
+                                </p>
+                            {{/pay}}
+                        </td>
+                       
+                    </tr>
+                {{/openExpense}}
+                {{^openExpense}}
+                    <tr>
+                        <td colspan="6">Não existe recebimentos em aberto</td>
+                    </tr>
+                {{/openExpense}} 
+
+                
+            </tbody>
+        </table>
+    </div>
+    <div class="view__item">
+        <h3 class="icon-normalize"><i class=" fas fa-balance-scale"></i></h3>
+        <p data-balance > </p>
+        <span>Saldo Total</span>
+    </div>
+</section>
+{{>partials/footer}}

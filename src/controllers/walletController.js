@@ -1,7 +1,7 @@
 import { Wallet} from '../models/Wallet.js';
 
 export const wallet = async(req,res)=>{
-    const userId = req.session.user;
+    const userSession = 1 // req.session.user
     const userName  = req.session.fullName;
   let wallet =  await Wallet.findAll({
     where: {

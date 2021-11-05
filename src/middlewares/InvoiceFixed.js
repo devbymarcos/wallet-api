@@ -6,7 +6,7 @@ const { Sequelize, QueryTypes } = pkg;
 
 export const createFixed = async (req,res,next)=>{
     const Op = Sequelize.Op;
-    const userSession = req.session.user
+    const userSession = 1 // req.session.user
 
     const invoice = await Invoice.findAll({
         where:{

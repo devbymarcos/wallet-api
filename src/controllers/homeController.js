@@ -7,7 +7,7 @@ const { QueryTypes } = pkg;
 
 export const home = async(req,res)=>{
   const userName  = req.session.fullName;
-  const userSession = req.session.user
+  const userSession = 1 // req.session.user
   
    //INCOME && EXPENSE 
 
@@ -88,7 +88,7 @@ export const home = async(req,res)=>{
 }
 
 export const dataChart = async (req,res)=>{
-    const userSession =  req.session.user
+    const userSession = 1 // req.session.user
     const walletSearchId = req.body.wallet;
     let dateChart = new Date();
 
@@ -146,7 +146,7 @@ export const dataChart = async (req,res)=>{
 
 
 export const panelsData = async (req,res)=>{
-    const userSession = req.session.user
+    const userSession = 1 // req.session.user
     const walletSearchId = req.body.wallet;
     let wallet = '';
     let currentDate ='';

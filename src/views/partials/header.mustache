@@ -35,63 +35,53 @@
 <div class="ajax_response"></div>
 <!-- Ajax respsonse -->
 
-
-<!-- vavegação Mobile -->
-<div class="mobile__menu">
-    <div class="mm__header">
-    <div class="mm-logo">
-        <img class="logo--mobile" src="images/logo-mycontrol-white.png">
-    </div>
-    <div  class="mm-buttons btn-mobile">
-        <i class="fas fa-align-right"></i>
-    </div>
-    </div>
-    <nav class="navigation__mobile">
-    <ul>
-        <li class="nm__item"><a href="/"><i class="fas fa-tachometer-alt"></i>Dash</a></li>
-        <li class="nm__item"><a href="/carteiras"><i class="fas fa-wallet"></i>Carteira</a></li>
-        <li class="nm__item"><a href="/categorias"><i class="fas fa-tag"></i>Categorias</a></li>
-        <li class="nm__item"><a href="/receitas"><i class="fas fa-hand-holding-usd"></i>Receitas</a></li>
-        <li class="nm__item"><a href="/despesas"><i class="fas fa-shopping-cart"></i>Despesas</a></li>
-        <li class="nm__item"><a href="/fixo"><i class="fas fa-thumbtack"></i>Fixo</a></li>
-       
-        
-    </ul>
-    </nav>  
-</div>
-
-
-<!-- vavegação Mobile -->
-
-<!-- topo e navegação -->
-<header class="header">
-    <div class="header__info">
-        <div class="header__logo">
-            <img class="logo--used" src="images/logo-mycontrol.png">
-            <img class="logo--dark" src="images/logo-mycontrol-white.png">   
+<main class="app-main">
+    <aside class="sidebar">
+        <div class="sidebar-logo">
+          <img  src="/images/logo-mywallet.png">
         </div>
-        <div class="header__user">
-             <img src="images/user.png">
-           
-            <a href="/perfil">{{userName}}</a>
-            <a href="/logoff">
-                <i class="fas fa-sign-out-alt"></i>
-            </a>
+        <div class="sidebar-content">
+          <nav class="sidebar-nav">
+            <ul>
+              <li class="nm__item">
+                <span><i class="fas fa-tachometer-alt"></i></span>
+                <a href="/">Dash</a>
+              </li>
+              <li class="nm__item">
+                <span><i class="fas fa-wallet"></i></span>
+                <a href="/carteiras">Carteira</a></li>
+              <li class="nm__item">
+                <span><i class="fas fa-tag"></i></span>
+                <a href="/categorias">Categorias</a>
+              </li>
+              <li class="nm__item">
+                <span><i class="fas fa-hand-holding-usd"></i></span>
+                <a href="/receitas">Receitas</a>
+              </li>
+              <li class="nm__item">
+                <span><i class="fas fa-shopping-cart"></i></span>
+                <a href="/despesas">Despesas</a>
+              </li>
+              <li class="nm__item">
+                <span><i class="fas fa-funnel-dollar"></i></span>
+                <a href="/fixo"> Fixo</a>
+              </li>
+            </ul>
+    
+          </nav>
+          <div class="footer-sidebar">
+            <ul>
+              <li class="nm__item"><a href="">
+                <span><i class="fas fa-sign-out-alt"></i></span>
+                <a href="/logout">Logout</a>
+              </li>
+          </ul>
+          </div>
+    
         </div>
-    </div>
-    <div class="header__navigation">
-        <nav>
-        <ul>
-            <li><a href="/painel"><i class="fas fa-tachometer-alt"></i>Dash</a></li>
-            <li><a href="/carteiras"><i class="fas fa-wallet"></i>Carteira</a></li>
-            <li><a href="/categorias"><i class="fas fa-tag"></i>Categorias</a></li>
-            <li><a href="/receitas"><i class="fas fa-hand-holding-usd"></i>Receitas</a></li>
-            <li><a href="/despesas"><i class="fas fa-shopping-cart"></i>Despesas</a></li>
-            <li><a href="/fixo"><i class="fas fa-thumbtack"></i>Fixo</a></li>
-            
-            
-        </ul>
+    </aside>
+      <section class="app-content">
+        <nav class="nav-top">
+          <span></span>
         </nav>
-    </div>
-</header>
-<!-- topo e navegação -->
+        <div class="dash-content">
