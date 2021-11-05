@@ -205,8 +205,6 @@
 */
 .header__section {
     width: 100%;
-    max-width: var(--width-container);
-    margin: 2rem auto;
     color: var(--color-font);
 }
 .header__section hr {
