@@ -7,18 +7,19 @@
             
         <hr>
     </article>
+    <div class="form__filter">
+        <form action="/income-filter" method="POST">
+            <input list="datelist" class="input-control "  name="date" placeholder="{{confirmedMonth}}">
+            <datalist id="datelist">
+                {{#months}}
+                    <option value="{{month}}"/>
+                {{/months}}
+            </datalist>
+            <button class="btn btn--blue icon-normalize"><i class="fas fa-filter"></i></button>
+        </form>    
+    </div>
     <section class="app__container">
-        <div class="form__filter">
-            <form action="/income-filter" method="POST">
-                <input list="datelist" class="input-control "  name="date" placeholder="{{confirmedMonth}}">
-                <datalist id="datelist">
-                    {{#months}}
-                        <option value="{{month}}"/>
-                    {{/months}}
-                </datalist>
-                <button class="btn btn--blue icon-normalize"><i class="fas fa-filter"></i></button>
-            </form>    
-        </div>
+        
         <table class="table">
             <thead>
                 <tr>

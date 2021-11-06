@@ -30,7 +30,7 @@ export const loginAuth = async(req,res)=>{
       {id:user.id,email:user.email},
       String(process.env.SECRET_KEY_JWT)
   )
-
+ 
  req.session.tokenUser = token;
  res.json({redirect:"/painel"})
  

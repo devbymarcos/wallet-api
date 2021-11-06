@@ -17,7 +17,7 @@ const router = Router();
 router.get('/',LoginController.viewLogin);
 router.get('/login',LoginController.viewLogin);
 router.post('/login-validation',LoginController.loginAuth);
-router.get('/logoff',LoginController.logout);
+router.get('/logout',LoginController.logout);
 router.post('/forget-action',LoginController.forgetAction);
 router.get('/altera-senha',LoginController.viewRecoveryPass)
 //user

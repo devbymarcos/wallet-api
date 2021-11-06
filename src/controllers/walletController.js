@@ -1,11 +1,11 @@
 import { Wallet} from '../models/Wallet.js';
 
 export const wallet = async(req,res)=>{
-    const userSession = 1 // req.session.user
+    const userSession = req.session.user
     const userName  = req.session.fullName;
   let wallet =  await Wallet.findAll({
     where: {
-      user_id: userId
+      user_id: userSession
     }
   });
   let activeMessage = '';
@@ -36,11 +36,12 @@ export const walletEdit = async(req,res)=>{
 }
 
 export const save = async(req,res)=>{
+    const userSession = req.session.user
   
   if(req.body.action && req.body.action ==='create'){
     
     const wCreate = Wallet.build({
-      user_id:req.session.user,
+      user_id:userSession,
       name:req.body.name,
       description:req.body.description
     })
