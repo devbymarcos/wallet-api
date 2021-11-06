@@ -35,11 +35,7 @@ export default function initPanels(){
             }else {
                 paid.innerHTML = data.paid.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
             }
-            if(!data.balanceMonth){
-                balanceMonth.innerHTML ="R$ 0,00";
-            }else{
-                balanceMonth.innerHTML = data.balanceMonth.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
-            }
+            
 
         })
     }
