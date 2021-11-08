@@ -64,7 +64,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {{#openExpense}}
+                    {{#openInvoice}}
                         <tr>
                             <td>{{due_at}}</td>
                             <td><a href="/despesa-edit?id={{id}}">{{description}}</a></td>
@@ -83,12 +83,12 @@
                             </td>
                         
                         </tr>
-                    {{/openExpense}}
-                    {{^openExpense}}
+                    {{/openInvoice}}
+                    {{^openInvoice}}
                         <tr>
                             <td colspan="6">Não existe recebimentos em aberto</td>
                         </tr>
-                    {{/openExpense}} 
+                    {{/openInvoice}} 
 
                     
                 </tbody>

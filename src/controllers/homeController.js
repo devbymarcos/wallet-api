@@ -11,21 +11,18 @@ export const home = async(req,res)=>{
   
    //INCOME && EXPENSE 
 
-    const income = await sequelize.query("SELECT *  FROM app_invoice WHERE user_id= :userId AND pay = :p AND type = 'income' AND due_at < DATE(NOW())",{
+    const invoice = await sequelize.query("SELECT *  FROM app_invoice WHERE user_id= :userId AND pay = :p AND type IN('income','expense') AND due_at < DATE(NOW())",{
     replacements:{userId:userSession,p:'unpaid'},
     type:QueryTypes.SELECT   
     })
-    const expense = await sequelize.query("SELECT *  FROM app_invoice WHERE user_id= :userId AND pay = :p AND type = 'expense' AND due_at < DATE(NOW())",{
-    replacements:{userId:userSession,p:'unpaid'},
-    type:QueryTypes.SELECT   
-    })
+    
 
     const wallet = await Wallet.findAll({
         where:{
             user_id:userSession
         }
     })
-    let openIncome = income.map((item)=>{
+    let openInvoice = invoice.map((item)=>{
         let obj = {};
 
         let dateArr = item.due_at.split('-');
@@ -50,38 +47,14 @@ export const home = async(req,res)=>{
 
     })
 
-    let openExpense = expense.map((item)=>{
-        let obj = {};
-
-        let dateArr = item.due_at.split('-');
-        let [year,month,day] = dateArr.map(Number);
-
-        let date = new Date(year,month-1,day);
-        let dateFormat = date.getDate() + "/" +(date.getMonth()+1) + "/" +date.getFullYear();
-        //formata status
-        let statusPay = '';
-        if(item.pay === 'paid'){
-          statusPay = true;
-        } else{
-          statusPay = false;
-        }
-        obj.id = item.id;
-        obj.description = item.description;
-        obj.price =item.price.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
-        obj.pay = statusPay;
-        obj.due_at = dateFormat;
-
-        return obj;
-    })
-
+    
     const select = (type,value)=>{
         return(type == value ? 'selected' : '');
     }
     
 
     res.render('pages/widgets/dash/home',{
-        openExpense,
-        openIncome,
+        openInvoice,
         wallet,
         userName
     });

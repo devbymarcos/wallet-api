@@ -9,13 +9,12 @@
             <h4>Categorias</h4>
             {{>pages/widgets/category/category-header}}
         </div>
-        <hr>
+        
     </article>
     <section class="app__container">
         <table class="table">
             <thead>
                 <tr>
-                    <th>#</th>
                     <th>Nome</th>
                     <th>Tipo</th>
                     <th>Ação</th>
@@ -24,7 +23,6 @@
             <tbody>
             {{#typeInvoice}}
                 <tr>
-                    <td>{{id}}</td>
                     <td>{{name}}</td>
                     <td>
                         {{type}}

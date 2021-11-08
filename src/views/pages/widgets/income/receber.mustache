@@ -4,8 +4,7 @@
             <h4>Receitas</h4>
             {{>pages/widgets/income/income-header}}
         </div>
-            
-        <hr>
+        
     </article>
     <div class="form__filter">
         <form action="/income-filter" method="POST">
@@ -23,7 +22,6 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th class="mobile-none">#</th>
                     <th>Data</th>
                     <th>Descrição</th>
                     <th>Valor</th>
@@ -35,7 +33,6 @@
             {{#dataIncome}}
                
                 <tr>
-                    <td class="mobile-none">{{id}}</td>
                     <td>{{date}}</td>
                     <td>{{description}}</td>
                     <td>{{value}}</td>

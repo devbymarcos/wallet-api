@@ -4,8 +4,7 @@
             <h4>Despesas</h4>
             {{>pages/widgets/expense/expense-header }}
         </div>
-        
-    <hr>
+   
     </article>
     <section class="app__container">
         <div class="form__filter">
@@ -22,8 +21,7 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th class="mobile-none">#</th>
-                    <th>Data</th>
+                   <th>Data</th>
                     <th>Descrição</th>
                     <th>Valor</th>
                     <th>Status</th>
@@ -33,7 +31,6 @@
             <tbody>
                 {{#dataExpense}}           
                 <tr>
-                    <td class="mobile-none">{{id}}</td>
                     <td>{{date}}</td>
                     <td>{{description}}</td>
                     <td>{{value}}</td>

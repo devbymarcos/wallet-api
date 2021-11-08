@@ -24,12 +24,13 @@ a {
     --color-green: #2ecc71;
     --color-red: #f44336;
     --color-yellow: #ff8f00;
-    --color-blue: #3a52ff;
+    --color-blue: #3498db;
     --color-white: #fff;
     --color-tag: #fff;
+    --color-bg-dash: #222;
 
     --hover-color-green: #218c74;
-    --hover-color-blue: #66d4f1;
+    --hover-color-blue: #2980b9;
     --hover-color-yellow: #fcd277;
     --hover-color-red: #f76c82;
     --hover-duration: 0.3s;
