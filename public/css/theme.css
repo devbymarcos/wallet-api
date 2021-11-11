@@ -787,24 +787,3 @@ footer {
     align-items: center;
 }
 /*#### MEDIA QUERIE ####*/
-
-@media (max-width: 1130px) {
-}
-
-@media (max-width: 950px) {
-    .header__section {
-        padding: 0 30px;
-    }
-}
-
-@media (max-width: 730px) {
-}
-
-@media (max-width: 480px) {
-    .flex-column {
-        flex-direction: column;
-    }
-    .mobile-none {
-        display: none;
-    }
-}
