@@ -36,7 +36,7 @@
 <!-- Ajax respsonse -->
 
 <main class="app-main">
-    <aside class="sidebar">
+    <aside data-sidebar class="sidebar">
         <div class="sidebar-content">
             <div class="sidebar-box-nav">
                 <div class="sidebar-logo">
@@ -75,8 +75,11 @@
     
         </div>
     </aside>
-      <section class="app-content">
+      <section data-app="content" class="app-content">
         <nav class="nav-top">
-          <span></span>
+          <div data-btn="sidebar" class="btn-menu-mobile">
+            <span></span>
+          </div>  
+          
         </nav>
         <div class="dash-content">

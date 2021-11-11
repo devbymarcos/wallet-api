@@ -43,11 +43,31 @@ body {
     height: 100vh;
     position: fixed;
     overflow-y: auto;
+    transition: all 0.5s;
 }
 .app-content {
     width: calc(100% - 300px);
     left: 300px;
     position: absolute;
+    transition: all 0.5s;
+}
+
+.sidebar.active {
+    margin-left: 0px;
+}
+.app-content.active {
+    width: calc(100% - 300px);
+    left: 300px;
+}
+@media (max-width: 920px) {
+    .sidebar {
+        margin-left: -300px;
+    }
+    .app-content {
+        width: 100%;
+        left: 0;
+        position: absolute;
+    }
 }
 .sidebar .sidebar-logo {
     width: 100%;
@@ -64,7 +84,6 @@ body {
 .sidebar-content {
     padding: 0.1px;
     width: 100%;
-    height: 100%;
     background-color: var(--color-bg-dash);
     position: relative;
     display: flex;
@@ -108,6 +127,20 @@ body {
 #########################
 */
 /**MENU BAR**/
+
+.btn-menu-mobile {
+    width: 67px;
+    height: 60px;
+    position: relative;
+    cursor: pointer;
+    display: none;
+}
+
+@media (max-width: 920px) {
+    .btn-menu-mobile {
+        display: block;
+    }
+}
 .nav-top {
     display: flex;
     align-items: center;
@@ -118,9 +151,10 @@ body {
     display: block;
     position: relative;
     background-color: #1b232a;
-    left: 20px;
+    left: 42px;
+    top: 26px;
     border-radius: 2px;
-    cursor: pointer;
+    transition: 0.5s;
 }
 
 .nav-top span::before {
@@ -133,6 +167,7 @@ body {
     left: 0px;
     top: -7px;
     border-radius: 2px;
+    transition: 0.5s;
 }
 .nav-top span::after {
     content: "";
@@ -144,8 +179,20 @@ body {
     left: 0px;
     top: 7px;
     border-radius: 2px;
+    transition: 0.5s;
 }
-
+.nav-top span.active {
+    width: 0px;
+}
+.nav-top span.active::before {
+    transform: rotate(-45deg);
+    top: 0;
+    width: 23px;
+}
+.nav-top span.active::after {
+    transform: rotate(45deg);
+    top: 0;
+}
 /*
 ###################
 #### DASHBOARD ####
@@ -786,4 +833,3 @@ footer {
     justify-content: center;
     align-items: center;
 }
-/*#### MEDIA QUERIE ####*/
