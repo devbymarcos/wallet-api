@@ -209,6 +209,12 @@ body {
     grid-template-columns: 1fr 250px;
     gap: 40px;
 }
+
+@media (max-width: 590px) {
+    .dash-grid {
+        grid-template-columns: 1fr;
+    }
+}
 .dash-user {
     text-align: center;
     margin-bottom: 1rem;
@@ -254,6 +260,12 @@ body {
 .dash-user-item p {
     font-weight: bold;
 }
+@media (max-width: 780px) {
+    .dash-user {
+        display: none;
+    }
+}
+
 .dash__balance {
     height: 90%;
     display: flex;

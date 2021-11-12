@@ -262,6 +262,11 @@ a {
 .ds-flex {
     display: flex;
 }
+@media (max-width: 450px) {
+    .ds-flex {
+        flex-direction: column;
+    }
+}
 
 .ds-inblock {
     display: inline-block;
