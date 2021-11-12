@@ -43,6 +43,7 @@ body {
     height: 100vh;
     position: fixed;
     overflow-y: auto;
+    background-color: var(--color-bg-dash);
     transition: all 0.5s;
 }
 .app-content {
@@ -84,6 +85,7 @@ body {
 .sidebar-content {
     padding: 0.1px;
     width: 100%;
+    height: 100%;
     background-color: var(--color-bg-dash);
     position: relative;
     display: flex;
