@@ -498,6 +498,11 @@ body {
 .table__tag--unpaid {
     background: var(--color-red);
 }
+@media (max-width: 620px) {
+    .table-responsive {
+        overflow-x: scroll;
+    }
+}
 
 /**INPUT**/
 .input-group {
