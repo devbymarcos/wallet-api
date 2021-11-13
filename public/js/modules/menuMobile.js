@@ -4,11 +4,13 @@ export default function initMenuMobile() {
     const sideBar = document.querySelector("[data-sidebar]");
     const spanEfect = document.querySelector('[data-btn="sidebar"] span');
 
-    function openSidebar() {
-        appContent.classList.toggle("active");
-        sideBar.classList.toggle("active");
-        spanEfect.classList.toggle("active");
-    }
+    if (btnSidebar) {
+        function openSidebar() {
+            appContent.classList.toggle("active");
+            sideBar.classList.toggle("active");
+            spanEfect.classList.toggle("active");
+        }
 
-    btnSidebar.addEventListener("click", openSidebar);
+        btnSidebar.addEventListener("click", openSidebar);
+    }
 }
