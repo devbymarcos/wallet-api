@@ -6,27 +6,25 @@
         <div class="header__title">
             <h2 class="title-dash">Dash Board</h2>
             <form id="wallet-panels">
-                <select   name="wallet">
+                <select name="wallet">
                     <option value="all">Todas...</option>
                     {{#wallet}}
-                        <option value="{{id}}">{{name}}</option>
+                    <option value="{{ id }}">{{ name }}</option>
                     {{/wallet}}
                 </select>
             </form>
-        </div> 
+        </div>
         <div class="view__chart">
             <div id="chartContainer"></div>
         </div>
     </article>
     <!-- /grid 1 -->
-    
-    
+
     <div class="dash-panels">
         <div class="dash-user">
-            <img src="images/user.png">
+            <img src="images/user.png" />
             <p>Bem vindo</p>
-            <a href="/perfil">{{userName}}</a>
-            
+            <a href="/perfil">{{ userName }}</a>
         </div>
         <div class="dash-user-item">
             <h3 class="icon-normalize bg-green">
@@ -34,7 +32,7 @@
             </h3>
             <div>
                 <span>Recebimentos</span>
-                <p data-received ></p>
+                <p data-received></p>
             </div>
         </div>
         <div class="dash-user-item">
@@ -43,56 +41,70 @@
             </h3>
             <div>
                 <span>Pagamentos</span>
-                <p data-paid ></p>
+                <p data-paid></p>
             </div>
         </div>
-                        
     </div>
-    
-    <section class=table__section>
+
+    <section class="table__section">
         <div class="table__header">
             <h3>Transações em aberto</h3>
         </div>
         <div class="table__box">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Data</th>
-                        <th>Descrição</th>
-                        <th>valor</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {{#openInvoice}}
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
                         <tr>
-                            <td>{{due_at}}</td>
-                            <td><a href="/despesa-edit?id={{id}}">{{description}}</a></td>
-                            <td>{{price}}</td>
+                            <th>Data</th>
+                            <th>Descrição</th>
+                            <th>valor</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#openInvoice}}
+                        <tr>
+                            <td>{{ due_at }}</td>
+                            <td>
+                                <a href="/despesa-edit?id={{ id }}">{{
+                                    description
+                                }}</a>
+                            </td>
+                            <td>{{ price }}</td>
                             <td>
                                 {{#pay}}
-                                    <p  data-type="income" data-pay="unpaid" data-idpay="{{id}}" class="pay-action ">
-                                        <i class="fas fa-check-circle"></i>
-                                    </p>
+                                <p
+                                    data-type="income"
+                                    data-pay="unpaid"
+                                    data-idpay="{{ id }}"
+                                    class="pay-action"
+                                >
+                                    <i class="fas fa-check-circle"></i>
+                                </p>
                                 {{/pay}}
                                 {{^pay}}
-                                    <p data-type="income" data-pay="paid" data-idpay="{{id}}" class="pay-action ">
-                                        <i class="fas fa-times-circle"></i>
-                                    </p>
+                                <p
+                                    data-type="income"
+                                    data-pay="paid"
+                                    data-idpay="{{ id }}"
+                                    class="pay-action"
+                                >
+                                    <i class="fas fa-times-circle"></i>
+                                </p>
                                 {{/pay}}
                             </td>
-                        
                         </tr>
-                    {{/openInvoice}}
-                    {{^openInvoice}}
+                        {{/openInvoice}}
+                        {{^openInvoice}}
                         <tr>
-                            <td colspan="6">Não existe recebimentos em aberto</td>
+                            <td colspan="6">
+                                Não existe recebimentos em aberto
+                            </td>
                         </tr>
-                    {{/openInvoice}} 
-
-                    
-                </tbody>
-            </table>
+                        {{/openInvoice}}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </section>
     <section class="balance__section">
@@ -100,8 +112,8 @@
             <h3>Saldo Total</h3>
         </div>
         <div class="dash__balance">
-            <h3 class="icon-normalize"><i class=" fas fa-balance-scale"></i></h3>
-            <p data-balance > </p>
+            <h3 class="icon-normalize"><i class="fas fa-balance-scale"></i></h3>
+            <p data-balance></p>
         </div>
     </section>
 </section>
