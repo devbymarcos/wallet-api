@@ -212,7 +212,7 @@ body {
 
 @media (max-width: 590px) {
     .dash-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: 250px;
     }
 }
 .dash-user {
@@ -321,7 +321,7 @@ body {
     outline: none;
 }
 .title-dash {
-    font-size: 35px;
+    font-size: 22px;
 }
 /*
 ##################
