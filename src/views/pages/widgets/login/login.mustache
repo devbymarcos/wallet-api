@@ -14,7 +14,12 @@
         <!--LOGIN-->
         <div data-action="forget" class="box-login form-step">
             <p class="login-card-description">Faça o seu login</p>
-            <form class="app_form" action="/login-validation" method="post">
+            <form
+                data-form
+                class="app_form ajax_off"
+                action="/login-validation"
+                method="post"
+            >
                 <div class="input-group">
                     <input
                         type="text"
@@ -40,12 +45,17 @@
                 </div>
                 <div class="remenber">
                     <label>
-                        <input type="checkbox" value="remenber" />
+                        <input type="checkbox" name="remember" value="true" />
                         Lembre-me
                     </label>
                 </div>
                 <div class="">
-                    <input type="submit" class="login-btn" value="login" />
+                    <input
+                        data-submit
+                        type="submit"
+                        class="login-btn"
+                        value="login"
+                    />
                 </div>
             </form>
             <a href="#" class="forgot-password-link btn-action"
