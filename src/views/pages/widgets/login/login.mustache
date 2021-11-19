@@ -1,74 +1,87 @@
 {{>partials/header-login}}
+<!--user teste-->
+<div class="user-teste">
+    <p><strong>Usuário teste: </strong>visitor@teste.com.br</p>
+    <p><strong>Senha: </strong>mycontrol123</p>
+</div>
+<!--/user teste-->
 <div class="card login-card">
-
     <div class="card-body">
         <div class="brand-wrapper">
-            <img width="150"  src="images/logo-mywallet.png" alt="logo">
+            <img width="150" src="images/logo-mywallet.png" alt="logo" />
         </div>
+
         <!--LOGIN-->
         <div data-action="forget" class="box-login form-step">
             <p class="login-card-description">Faça o seu login</p>
-            <form class="app_form" action="/login-validation" method="post" >
-              
+            <form class="app_form" action="/login-validation" method="post">
                 <div class="input-group">
-                   
-                    <input type="text" 
-                           class="input-control" 
-                           id="Username" 
-                           name="email"
-                           required 
-                           autocomplete="off"
-                           value="visitor@teste.com.br"
-                           > 
-                           <span>Usuário</span>  
+                    <input
+                        type="text"
+                        class="input-control"
+                        id="Username"
+                        name="email"
+                        required
+                        autocomplete="off"
+                        value=""
+                    />
+                    <span>Usuário</span>
                 </div>
                 <div class="input-group">
-                    
-                    <input type="password" 
-                           class="input-control" 
-                           id="passwd" 
-                           name="passwd"
-                           required 
-                           value="mycontrol123"
-                           >
-                           <span>Senha</span>
-
+                    <input
+                        type="password"
+                        class="input-control"
+                        id="passwd"
+                        name="passwd"
+                        required
+                        value=""
+                    />
+                    <span>Senha</span>
+                </div>
+                <div class="remenber">
+                    <label>
+                        <input type="checkbox" value="remenber" />
+                        Lembre-me
+                    </label>
                 </div>
                 <div class="">
-                    <input type="submit" class="login-btn" value="login">
+                    <input type="submit" class="login-btn" value="login" />
                 </div>
             </form>
-            <a  href="#" class="forgot-password-link btn-action">Recuperar senha</a>
-            <a  href="/registro" class="forgot-password-link ">Registre-se</a>
+            <a href="#" class="forgot-password-link btn-action"
+                >Recuperar senha</a
+            >
+            <a href="/registro" class="forgot-password-link">Registre-se</a>
         </div>
         <!--RECUPERAÇÃO DE SENHA-->
         <div data-action="login" class="box-forget form-step">
             <p class="login-card-description">Recuperar Senha</p>
 
             <form action="/forget-action" method="post">
-            
                 <div class="input-group">
                     <label for="Useremail">Email</label>
-                    <input type="text" 
-                           class="input-control" 
-                           id="Useremail"
-                           name="email" 
-                           placeholder="Insira o email cadastrado">
-
+                    <input
+                        type="text"
+                        class="input-control"
+                        id="Useremail"
+                        name="email"
+                        placeholder="Insira o email cadastrado"
+                    />
                 </div>
 
-                <div class=" col-md-8 col-lg-7">
-                    <input type="submit" class="btn login-btn " value="Recuperar">
+                <div class="col-md-8 col-lg-7">
+                    <input
+                        type="submit"
+                        class="btn login-btn"
+                        value="Recuperar"
+                    />
                 </div>
             </form>
-            <a  href="#" class="forgot-password-link  btn-action">Realizar login</a>
+            <a href="#" class="forgot-password-link btn-action"
+                >Realizar login</a
+            >
         </div>
     </div>
 </div>
 
-
 {{>partials/footer-login}}
-
-
-
-

@@ -784,7 +784,7 @@ body {
     width: 130px;
 }
 .header-content-textbox {
-    width: 600px;
+    width: 605px;
     max-width: 100%;
     margin: 80px auto;
     text-align: center;
@@ -814,7 +814,8 @@ body {
     font-size: 16px;
 }
 
-/** SOBRE **/
+/** SITE  **/
+
 .box-container {
     width: 100%;
     max-width: var(--width-container);
@@ -851,4 +852,9 @@ footer {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.terms {
+    text-align: center;
+    margin-top: 100px;
 }
