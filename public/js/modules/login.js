@@ -2,12 +2,12 @@ export default function initLogin() {
     const form = document.querySelector("[data-form]");
     const btnForm = document.querySelector("[data-submit]");
     const load = document.querySelector(".ajax_load");
-    const router = form.getAttribute("action");
+
     let dataForm = "";
 
     function sendForm(e) {
         e.preventDefault();
-
+        const router = form.getAttribute("action");
         dataForm = new FormData(form);
         let dados = { email: dataForm.get("email"), remember: true };
 
@@ -33,6 +33,7 @@ export default function initLogin() {
                 console.log(data);
             });
     }
-
-    btnForm.addEventListener("click", sendForm);
+    if (btnForm) {
+        btnForm.addEventListener("click", sendForm);
+    }
 }
