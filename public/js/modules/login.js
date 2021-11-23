@@ -3,7 +3,6 @@ export default function initLogin() {
     const btnForm = document.querySelector("[data-submit]");
     const load = document.querySelector(".ajax_load");
     const router = form.getAttribute("action");
-
     let dataForm = "";
 
     function sendForm(e) {
@@ -20,11 +19,13 @@ export default function initLogin() {
         }
 
         // fazer a requisição fetch
+        load.classList.add("ajax_load_flex");
         fetch(router, {
             method: "POST",
             body: dataForm,
         })
             .then((response) => {
+                load.classList.remove("ajax_load_flex");
                 return response.json();
             })
             .then((data) => {
@@ -33,7 +34,5 @@ export default function initLogin() {
             });
     }
 
-    if (form) {
-        btnForm.addEventListener("click", sendForm);
-    }
+    btnForm.addEventListener("click", sendForm);
 }

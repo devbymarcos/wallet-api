@@ -2,7 +2,6 @@ export default function initPanels() {
     const balance = document.querySelector("[data-balance]");
     const received = document.querySelector("[data-received]");
     const paid = document.querySelector("[data-paid]");
-    const balanceMonth = document.querySelector("[data-balanceMonth]");
     const wallet = document.getElementById("wallet-panels");
     let walletValue = "";
 

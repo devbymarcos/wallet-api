@@ -4,7 +4,7 @@ export default function initUserLogin() {
     let user = localStorage.getItem("login");
     let userObj = JSON.parse(user);
 
-    if (inputUser) {
+    if (userObj) {
         inputUser.value = userObj.email;
         checkbox.checked = true;
     }
