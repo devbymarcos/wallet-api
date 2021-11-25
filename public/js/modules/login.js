@@ -2,6 +2,7 @@ export default function initLogin() {
     const form = document.querySelector("[data-form]");
     const btnForm = document.querySelector("[data-submit]");
     const load = document.querySelector(".ajax_load");
+    const divMessage = document.querySelector(".alert");
 
     let dataForm = "";
 
@@ -29,9 +30,24 @@ export default function initLogin() {
                 return response.json();
             })
             .then((data) => {
-                //window.location.href = data.redirect;
-                console.log(data);
+                if (data.redirect) {
+                    window.location.href = data.redirect;
+                    return;
+                } else {
+                    messageView(data.message, data.type);
+                }
             });
+    }
+
+    function messageView(msg, type) {
+        let message = document.createElement("div");
+        message.classList.add("message_login", type);
+        message.innerText = msg;
+        divMessage.appendChild(message);
+
+        setTimeout(() => {
+            message.style.display = "none";
+        }, 3000);
     }
     if (btnForm) {
         btnForm.addEventListener("click", sendForm);

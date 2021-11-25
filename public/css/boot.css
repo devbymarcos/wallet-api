@@ -113,7 +113,6 @@ a {
     position: fixed;
     padding: 20px 20px 0 0;
     z-index: 998;
-
     top: 0;
     right: 0;
     width: 300px;
@@ -126,7 +125,6 @@ a {
     font-weight: var(--weight-normal);
     overflow: hidden;
     border: none;
-
     display: flex;
     align-items: center;
     width: 100%;
@@ -134,12 +132,11 @@ a {
     background: #333333;
     margin-bottom: 15px;
     position: relative;
-
     -webkit-border-radius: var(--radius-normal);
     -moz-border-radius: var(--radius-normal);
     border-radius: var(--radius-normal);
-
     cursor: pointer;
+    animation: slide-in-right 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 }
 
 .ajax_response .message:before {

@@ -183,3 +183,72 @@ body {
 .remenber label {
     cursor: pointer;
 }
+
+/* ALERTA */
+ajax_response {
+    position: fixed;
+    padding: 20px 20px 0 0;
+    z-index: 998;
+    top: 0;
+    right: 0;
+    width: 300px;
+    max-width: 100%;
+}
+
+.alert .message_login {
+    padding: 19px 28px;
+    position: fixed;
+    top: 20px;
+    right: 56px;
+    /* background-color: chocolate; */
+    border-radius: 3px;
+    color: #fff;
+    font-size: 17px;
+    animation: slide-in-right 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+.alert .message_login:before {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    content: "";
+    width: 0px;
+    height: 5px;
+    background-color: rgba(0, 0, 0, 0.5);
+    animation: time 3s forwards;
+}
+
+@keyframes slide-in-right {
+    0% {
+        transform: translateX(1000px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+@keyframes time {
+    0% {
+        width: 0;
+    }
+    100% {
+        width: 100%;
+    }
+}
+
+.alert .message_login.success {
+    background: var(--color-green);
+}
+
+.alert .message_login.info {
+    background: var(--color-blue);
+}
+
+.alert .message_login.warning {
+    background: var(--color-yellow);
+}
+
+.alert .message_login.error {
+    background: var(--color-red);
+}
