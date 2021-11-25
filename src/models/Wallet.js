@@ -19,6 +19,9 @@ export const Wallet = sequelize.define(
         description: {
             type: DataTypes.STRING,
         },
+        option: {
+            type: DataTypes.INTEGER,
+        },
     },
     {
         tableName: "app_wallet",

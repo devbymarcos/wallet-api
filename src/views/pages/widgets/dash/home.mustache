@@ -8,9 +8,11 @@
             <form id="wallet-panels">
                 <select name="wallet">
                     <option value="all">Todas...</option>
-                    {{#wallet}}
-                    <option value="{{ id }}">{{ name }}</option>
-                    {{/wallet}}
+                    {{#setWallet}}
+                    <option {{selAttr}} value="{{ id }}">
+                        {{ name }}
+                    </option>
+                    {{/setWallet}}
                 </select>
             </form>
         </div>
