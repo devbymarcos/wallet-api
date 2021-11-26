@@ -795,6 +795,12 @@ body {
     text-shadow: 1px 2px 6px rgba(39, 174, 96, 0.6);
     margin-bottom: 2rem;
 }
+
+@media(max-width:400px){
+    .header-content-text h1{
+        font-size:2rem
+    }
+}
 .header-content-textbox p {
     color: #fff;
     font-size: 19px;
@@ -805,13 +811,17 @@ body {
     text-transform: uppercase;
 }
 .box-form-register {
-    width: 600px;
+    max-width: 600px;
+    width: 100%;
     margin-top: 2rem;
 }
 .title-form-register {
     margin: 2rem 0;
     text-align: center;
     font-size: 16px;
+}
+.form-register {
+    padding: 0 1rem 0 1rem;
 }
 
 /** SITE  **/
@@ -822,11 +832,12 @@ body {
     margin: 0 auto;
     background: var(--color-bg-darkmode);
     padding: 20px;
-    border-radius: 6px;
     z-index: 2;
     position: relative;
     top: -83px;
 }
+
+
 .box-titleimg-stack {
     margin-bottom: 3rem;
     text-align: center;
@@ -843,6 +854,15 @@ body {
 .img-stack p {
     text-align: center;
     font-weight: bold;
+}
+@media(max-width:400px){
+    .img-stack img {
+        width: 32px;
+        height: 32px;
+    }
+    .img-stack p {
+        font-size:11px
+    }
 }
 
 footer {
