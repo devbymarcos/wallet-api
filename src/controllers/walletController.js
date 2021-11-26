@@ -34,7 +34,7 @@ export const walletEdit = async (req, res) => {
     };
     const selFavoriteYes = select(wallet.option_wallet, 1);
     const selFavoriteNo = select(wallet.option_wallet, 0);
-    console.log(wallet.option_wallet);
+
     res.render("pages/widgets/wallet/wallet-edit", {
         wallet,
         userName,
@@ -51,6 +51,7 @@ export const save = async (req, res) => {
             user_id: userSession,
             name: req.body.name,
             description: req.body.description,
+            option_wallet: req.body.prefwallet,
         });
         if (!(await wCreate.save())) {
             res.json({
@@ -67,6 +68,7 @@ export const save = async (req, res) => {
             {
                 name: req.body.name,
                 description: req.body.description,
+                option_wallet: req.body.prefwallet,
             },
             {
                 where: {
