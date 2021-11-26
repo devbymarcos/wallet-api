@@ -32,11 +32,14 @@ export const walletEdit = async (req, res) => {
     let select = (type, value) => {
         return type === value ? "selected" : "";
     };
-    const favorite = select(wallet.option, "1");
+    const selFavoriteYes = select(wallet.option_wallet, 1);
+    const selFavoriteNo = select(wallet.option_wallet, 0);
+    console.log(wallet.option_wallet);
     res.render("pages/widgets/wallet/wallet-edit", {
         wallet,
         userName,
-        favorite,
+        selFavoriteYes,
+        selFavoriteNo,
     });
 };
 
