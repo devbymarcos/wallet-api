@@ -64,7 +64,7 @@ export const home = async (req, res) => {
         setWallet.push({
             id: wal.id,
             name: wal.name,
-            selAttr: select(wal.option, "1"),
+            selAttr: select(wal.option_wallet, "1"),
         });
     });
 
