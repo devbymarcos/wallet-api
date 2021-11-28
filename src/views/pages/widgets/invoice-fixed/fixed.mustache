@@ -1,13 +1,12 @@
 {{>partials/header}}
-    <article class="header__section">
+<article class="header__section">
     <div class="header__title">
         <h4>Lançamentos Fixo</h4>
-       {{>pages/widgets/invoice-fixed/fixed-header}}
+        {{>pages/widgets/invoice-fixed/fixed-header}}
     </div>
-     
-    </article>
-    <section class="app__container">
-       
+</article>
+<section class="app__container">
+    <div class="table-responsive">
         <table class="table">
             <thead>
                 <tr>
@@ -20,36 +19,49 @@
                 </tr>
             </thead>
             <tbody>
-            {{#newFixed}} 
+                {{#newFixed}}
                 <tr>
-                    <td>{{id}}</td>
-                    <td>{{due_at}}</td>
-                    <td>{{description}}</td>
-                    <td>{{price}}</td>
-                    
+                    <td>{{ id }}</td>
+                    <td>{{ due_at }}</td>
+                    <td>{{ description }}</td>
+                    <td>{{ price }}</td>
+
                     <td>
-                    {{#status}}  
-                        <p data-pay="unpaid" data-type="{{type}}" data-idpay="{{id}}" class="pay-action">
+                        {{#status}}
+                        <p
+                            data-pay="unpaid"
+                            data-type="{{ type }}"
+                            data-idpay="{{ id }}"
+                            class="pay-action"
+                        >
                             <i class="fas fa-check-circle"></i>
                         </p>
-                    {{/status}}
-                    {{^status}}
-                        <p data-pay="paid" data-type="{{type}}" data-idpay="{{id}}" class="pay-action">
+                        {{/status}}
+                        {{^status}}
+                        <p
+                            data-pay="paid"
+                            data-type="{{ type }}"
+                            data-idpay="{{ id }}"
+                            class="pay-action"
+                        >
                             <i class="fas fa-times-circle"></i>
                         </p>
-                    {{/status}} 
-                        
+                        {{/status}}
                     </td>
-                    <td><a href="/fixed-edit?id={{id}}" ><i class="fas fa-edit"></i></a></td>
+                    <td>
+                        <a href="/fixed-edit?id={{ id }}"
+                            ><i class="fas fa-edit"></i
+                        ></a>
+                    </td>
                 </tr>
-            {{/newFixed}} 
-            {{^newFixed}}
+                {{/newFixed}}
+                {{^newFixed}}
                 <tr>
                     <td colspan="6">Não encontramos registros</td>
                 </tr>
-            {{/newFixed}}
+                {{/newFixed}}
             </tbody>
         </table>
-        
-    </section>
+    </div>
+</section>
 {{>partials/footer}}
