@@ -67,108 +67,62 @@ a {
     box-shadow: 1px 2px 10px 1px rgba(0, 0, 0, 0.6);
 }
 
-/*MESSAGES*/
+/* ALERTA */
 
-.message {
-    color: #ffffff;
-    font-size: var(--font-normal);
-    font-weight: var(--weight-strong);
-    display: block;
-    width: 100%;
-    padding: 20px;
-    border: 2px solid #cccccc;
-    margin-bottom: var(--area-box);
-
-    -webkit-border-radius: var(--radius-normal);
-    -moz-border-radius: var(--radius-normal);
-    border-radius: var(--radius-normal);
-}
-
-.message.success {
-    --color: var(--color-green);
-    color: var(--color);
-    border-color: var(--color);
-}
-
-.message.info {
-    --color: var(--color-blue);
-    color: var(--color);
-    border-color: var(--color);
-}
-
-.message.warning {
-    --color: var(--color-yellow);
-    color: var(--color);
-    border-color: var(--color);
-}
-
-.message.error {
-    --color: var(--color-red);
-    color: var(--color);
-    border-color: var(--color);
-}
-/*AJAX RESPONSES MESSAGES*/
-
-.ajax_response {
+.alert .messageView {
+    padding: 19px 28px;
     position: fixed;
-    padding: 20px 20px 0 0;
-    z-index: 998;
-    top: 0;
-    right: 0;
-    width: 300px;
-    max-width: 100%;
-}
-
-.ajax_response .message {
-    color: #ffffff;
-    font-size: var(--font-min);
-    font-weight: var(--weight-normal);
-    overflow: hidden;
-    border: none;
-    display: flex;
-    align-items: center;
-    width: 100%;
-    padding: 15px 15px 20px 15px;
-    background: #333333;
-    margin-bottom: 15px;
-    position: relative;
-    -webkit-border-radius: var(--radius-normal);
-    -moz-border-radius: var(--radius-normal);
-    border-radius: var(--radius-normal);
-    cursor: pointer;
+    top: 20px;
+    right: 56px;
+    border-radius: 3px;
+    color: #fff;
+    font-size: 17px;
     animation: slide-in-right 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 }
 
-.ajax_response .message:before {
-    flex-basis: 0;
-    margin: -5px 15px 0 0 !important;
-    font-size: calc(var(--font-max) * 1.2);
-    color: rgba(0, 0, 0, 0.5);
-}
-
-.ajax_response .message_time {
-    content: "";
+.alert .messageView:before {
     position: absolute;
     left: 0;
     bottom: 0;
-    width: 4%;
+    content: "";
+    width: 0px;
     height: 5px;
-    background: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.5);
+    animation: time 3s forwards;
 }
 
-.ajax_response .message.success {
+@keyframes slide-in-right {
+    0% {
+        transform: translateX(1000px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+@keyframes time {
+    0% {
+        width: 0;
+    }
+    100% {
+        width: 100%;
+    }
+}
+
+.alert .messageView.success {
     background: var(--color-green);
 }
 
-.ajax_response .message.info {
+.alert .messageView.info {
     background: var(--color-blue);
 }
 
-.ajax_response .message.warning {
+.alert .messageView.warning {
     background: var(--color-yellow);
 }
 
-.ajax_response .message.error {
+.alert .messageView.error {
     background: var(--color-red);
 }
 /* MESSAGEM  REDIRECT WALLET E CATEGORY*/
