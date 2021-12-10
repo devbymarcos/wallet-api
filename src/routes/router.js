@@ -110,5 +110,6 @@ router.post(
 
 //user
 router.get("/perfil", Auth.privateRouter, UserController.viewPerfil);
+router.post("/user-save", UserController.save);
 
 export default router;
