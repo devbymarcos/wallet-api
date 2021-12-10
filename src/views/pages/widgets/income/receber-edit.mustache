@@ -1,74 +1,87 @@
 {{>partials/header}}
 <article class="header__section">
-        <div class="header__title">
-            <h4>Editar receitas</h4>
-            {{>pages/widgets/income/income-header}}
+    <div class="header__title">
+        <h4>Editar receitas</h4>
+        {{>pages/widgets/income/income-header}}
+    </div>
+</article>
+<section class="app__container">
+    <form class="app_form" action="/income/save" method="post">
+        <input type="hidden" name="action" value="update" />
+        <input type="hidden" name="id" value="{{ invoice.id }}" />
+        <div class="input-group">
+            <label for="description">Descrição</label>
+            <input
+                id="description"
+                name="description"
+                type="text"
+                class="input-control"
+                value="{{ invoice.description }}"
+            />
         </div>
-    </article>
-    <section class="app__container">
-        <form class="app_form" action="/income/save" method="post">
-            <input type="hidden" name="action" value="update">
-            <input type="hidden" name="id" value="{{invoice.id}}">
-            <div class="input-group">
-                <label for="description">Descrição</label>
-                <input  id="description" 
-                        name="description" 
-                        type="text" 
-                        class="input-control" 
-                        value="{{invoice.description}}" >
+        <div class="ds-flex">
+            <div class="input-group_g2">
+                <label for="price">Valor</label>
+                <input
+                    id="price"
+                    name="price"
+                    type="text"
+                    class="input-control mask-money"
+                    value="{{ priceBr }}"
+                />
             </div>
-            <div class="ds-flex">
-                <div class="input-group_g2">
-                    <label for="price">Valor</label>
-                    <input id="price" name="price" type="text" class="input-control" value="{{priceBr}}">
-                </div>
-                <div class="input-group_g2">
-                    <label for="date">data</label>
-                    <input id="date" name="date" type="date" class="input-control" value="{{invoice.due_at}}">
-                </div>
+            <div class="input-group_g2">
+                <label for="date">data</label>
+                <input
+                    id="date"
+                    name="date"
+                    type="date"
+                    class="input-control"
+                    value="{{ invoice.due_at }}"
+                />
             </div>
-            <div class="ds-flex">
-                <div class="input-group_g2">
-                    <label for="wallet">Carteira</label>
-                    <select id="wallet" class="input-control" name="wallet">
-                        {{#setWallet}}
-                            <option {{selAttr}}  value="{{id}}">
-                            {{name}}
-                            </option>
-                        {{/setWallet}}
-                    </select>
-                </div>
-                <div class="input-group_g2">
-                    <label for="category">Categoria</label>
-                    <select id="category" class="input-control" name="category">
-                        {{#setCategory}}
-                            <option {{selAttr}}  value="{{id}}">
-                            {{name}}
-                            </option>
-                        {{/setCategory}}
-                        
-                    </select>
-                </div>
-            </div>
-            <div class="input-group">
-                <label for="status">Status</label>
-                <select id="status" class="input-control" name="pay">
-                    <option {{status.selUnpaid}}  value="unpaid">Aberto</option>
-                    <option {{status.selPaid}}  value="paid">Pago</option>
+        </div>
+        <div class="ds-flex">
+            <div class="input-group_g2">
+                <label for="wallet">Carteira</label>
+                <select id="wallet" class="input-control" name="wallet">
+                    {{#setWallet}}
+                    <option {{selAttr}} value="{{ id }}">
+                        {{ name }}
+                    </option>
+                    {{/setWallet}}
                 </select>
             </div>
-           
-            
-            <button class="btn btn--blue">Atualizar</button>
-            <a href="/receitas" class="btn btn--yellow">Voltar</a>
-            <button class="btn btn--red " 
-                data-post="income/save" 
-                data-id="{{invoice.id}}" 
-                data-action="delete" 
-                data-confirm="Deseja apagar a Receita">
-                Delete
-            </button>
-        
-        </form>
-   </section>
+            <div class="input-group_g2">
+                <label for="category">Categoria</label>
+                <select id="category" class="input-control" name="category">
+                    {{#setCategory}}
+                    <option {{selAttr}} value="{{ id }}">
+                        {{ name }}
+                    </option>
+                    {{/setCategory}}
+                </select>
+            </div>
+        </div>
+        <div class="input-group">
+            <label for="status">Status</label>
+            <select id="status" class="input-control" name="pay">
+                <option {{status.selUnpaid}} value="unpaid">Aberto</option>
+                <option {{status.selPaid}} value="paid">Pago</option>
+            </select>
+        </div>
+
+        <button class="btn btn--blue">Atualizar</button>
+        <a href="/receitas" class="btn btn--yellow">Voltar</a>
+        <button
+            class="btn btn--red"
+            data-post="income/save"
+            data-id="{{ invoice.id }}"
+            data-action="delete"
+            data-confirm="Deseja apagar a Receita"
+        >
+            Delete
+        </button>
+    </form>
+</section>
 {{>partials/footer}}

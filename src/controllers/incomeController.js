@@ -177,7 +177,8 @@ export const save = async (req, res) => {
         } else if (!req.body.date) {
             res.json({ message: "É necessario a data", type: "warning" });
         }
-
+        //remove o ponto da mascara do input
+        const priceReplace = req.body.price.replace(".", "");
         if (req.body.repeat_when === "installments") {
             const date = req.body.date;
             const dateArr1 = date.split("-");
@@ -213,7 +214,7 @@ export const save = async (req, res) => {
                         p +
                         "/" +
                         req.body.installments,
-                    price: parseFloat(req.body.price.replace(",", ".")),
+                    price: parseFloat(priceReplace.replace(",", ".")),
                     due_at: dataDb,
                     type: req.body.type,
                     repeat_when: req.body.repeat_when,
@@ -230,7 +231,7 @@ export const save = async (req, res) => {
             wallet_id: req.body.wallet,
             category_id: req.body.category,
             description: req.body.description,
-            price: parseFloat(req.body.price.replace(",", ".")),
+            price: parseFloat(priceReplace.replace(",", ".")),
             due_at: req.body.date,
             type:
                 req.body.repeat_when === "fixed"
@@ -288,13 +289,14 @@ export const save = async (req, res) => {
             } else if (!req.body.date) {
                 res.json({ message: "É necessario a data", type: "warning" });
             }
-
+            //remove o ponto da mascara do input
+            const priceReplace = req.body.price.replace(".", "");
             const incomeUpdate = await Invoice.update(
                 {
                     wallet_id: req.body.wallet,
                     category_id: req.body.category,
                     description: req.body.description,
-                    price: parseFloat(req.body.price.replace(",", ".")),
+                    price: parseFloat(priceReplace.replace(",", ".")),
                     due_at: req.body.date,
                     type: "income",
                     pay: req.body.pay,

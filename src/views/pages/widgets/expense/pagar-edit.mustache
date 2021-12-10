@@ -1,77 +1,100 @@
 {{>partials/header}}
-    <article class="header__section">
-        <div class="header__title">
-            <h4>Editar despesas</h4>
-            {{>pages/widgets/expense/expense-header}}
-        </div>
-       
-    </article>
-    <section class="app__container">
-        <form class="app_form" action="/expense/save" method="post">
-            <!-- ACTION SPOOFING-->
-            <input type="hidden"  name="action" value="update">
-            <input type="hidden"  name="id" value="{{invoice.id}}">
+<article class="header__section">
+    <div class="header__title">
+        <h4>Editar despesas</h4>
+        {{>pages/widgets/expense/expense-header}}
+    </div>
+</article>
+<section class="app__container">
+    <form class="app_form" action="/expense/save" method="post">
+        <!-- ACTION SPOOFING-->
+        <input type="hidden" name="action" value="update" />
+        <input type="hidden" name="id" value="{{ invoice.id }}" />
 
-            <div class="input-group">
-                <label for="description">Descrição</label>
-                <input id="description" name="description" type="text" class="input-control" value="{{invoice.description}}">
+        <div class="input-group">
+            <label for="description">Descrição</label>
+            <input
+                id="description"
+                name="description"
+                type="text"
+                class="input-control"
+                value="{{ invoice.description }}"
+            />
+        </div>
+        <div class="ds-flex">
+            <div class="input-group_g2">
+                <label for="price">Valor</label>
+                <input
+                    id="price"
+                    name="price"
+                    type="text"
+                    class="input-control mask-money"
+                    value="{{ priceBr }}"
+                />
             </div>
-            <div class="ds-flex">
-                <div class="input-group_g2">
-                    <label for="price">Valor</label>
-                    <input id="price" name="price" type="text" class="input-control" value="{{priceBr}}">
-                </div>
-                <div class="input-group_g2">
-                    <label for="date">data</label>
-                    <input id="date" name="date" type="date" class="input-control" value="{{invoice.due_at}}">
-                </div>
+            <div class="input-group_g2">
+                <label for="date">data</label>
+                <input
+                    id="date"
+                    name="date"
+                    type="date"
+                    class="input-control"
+                    value="{{ invoice.due_at }}"
+                />
             </div>
-            <div class="ds-flex">
-                <div class="input-group_g2">
-                    <label for="wallet">Carteira</label>
-                    <select id="wallet" class="input-control" name="wallet">
-                        {{#setWallet}}
-                            <option {{selAttr}}  value="{{id}}">
-                            {{name}}
-                            </option>
-                        {{/setWallet}}
-                    </select>
-                </div>
-                <div class="input-group_g2">
-                    <label for="category">Categoria</label>
-                    <select id="category" class="input-control"name="category">
-                        {{#setCategory}}
-                            <option {{selAttr}}  value="{{id}}">
-                                &ofcir;&nbsp;{{name}}
-                            </option>
-                        {{/setCategory}}
-                    </select>
-                </div>
-            </div>
-            <div class="input-group">
-                <label>Status</label>
-                <select class="input-control" name="pay">
-                    <option {{status.selUnpaid}}  value="unpaid">Aberto</option>
-                    <option {{status.selPaid}}  value="paid">Pago</option>
+        </div>
+        <div class="ds-flex">
+            <div class="input-group_g2">
+                <label for="wallet">Carteira</label>
+                <select id="wallet" class="input-control" name="wallet">
+                    {{#setWallet}}
+                    <option {{selAttr}} value="{{ id }}">
+                        {{ name }}
+                    </option>
+                    {{/setWallet}}
                 </select>
             </div>
-                    
-            <div class="input-group">
-                <input type="hidden" class="input-control"name="type" value="expense">
+            <div class="input-group_g2">
+                <label for="category">Categoria</label>
+                <select id="category" class="input-control" name="category">
+                    {{#setCategory}}
+                    <option {{selAttr}} value="{{ id }}">
+                        &ofcir;&nbsp;{{ name }}
+                    </option>
+                    {{/setCategory}}
+                </select>
             </div>
-            <div class="flex">
-                <button  class="btn  btn--blue ">Atualizar</button>
-                <button
-                    data-id="{{invoice.id}}"
-                    data-action="delete"
-                    data-post="/expense/save"
-                    data-confirm="Tem certeza que deseja deletar o pagamento?"
-                    class="btn btn--red">Excluir</button>
-                    <a class="btn btn--yellow" href="/despesas">Voltar</a>
-            </div>
-        </form>
-   
-       
-    </section>
-    
+        </div>
+        <div class="input-group">
+            <label>Status</label>
+            <select class="input-control" name="pay">
+                <option {{status.selUnpaid}} value="unpaid">Aberto</option>
+                <option {{status.selPaid}} value="paid">Pago</option>
+            </select>
+        </div>
+
+        <div class="input-group">
+            <input
+                type="hidden"
+                class="input-control"
+                name="type"
+                value="expense"
+            />
+        </div>
+        <div class="flex">
+            <button class="btn btn--blue">Atualizar</button>
+            <button
+                data-id="{{ invoice.id }}"
+                data-action="delete"
+                data-post="/expense/save"
+                data-confirm="Tem certeza que deseja deletar o pagamento?"
+                class="btn btn--red"
+            >
+                Excluir
+            </button>
+            <a class="btn btn--yellow" href="/despesas">Voltar</a>
+        </div>
+    </form>
+</section>
+
 {{>partials/footer}}
