@@ -74,7 +74,6 @@
                 name="files"
                 placeholder="Imagem de perfil"
             />
-            <input type="hidden" name="file_dir" value="{{ findUser.photo }}" />
         </div>
 
         <div class="ds-flex flex-column">
@@ -109,7 +108,12 @@
             </div>
             <div class="input-group_g2">
                 <label>Senha</label>
-                <input type="password" class="input-control" name="passwd" />
+                <input
+                    type="password"
+                    class="input-control"
+                    name="passwd"
+                    placeholder="Digite uma senha caso deseje realizar alteração"
+                />
             </div>
         </div>
 

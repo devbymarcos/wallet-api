@@ -1,5 +1,7 @@
 import { User } from "../models/User.js";
 import sharp from "sharp";
+import { unlink } from "fs/promises";
+import bcryptjs from "bcryptjs";
 
 export const viewRegister = (req, res) => {
     res.render("pages/widgets/user/user-create");
@@ -25,21 +27,32 @@ export const viewPerfil = async (req, res) => {
 };
 
 export const save = async (req, res) => {
-    console.log(req.files);
-
     if (req.body.action && req.body.action === "update") {
+        const findUser = await User.findByPk(req.body.user_id);
+
+        //cria has de senha se existir uma nova senha insrida pelo user
+        let passwordCrypt = false;
+        if (req.body.passwd) {
+            passwordCrypt = await bcryptjs.hash(req.body.passwd, 10);
+        }
+        //upload de imagen avatar
         let urlImage = "";
+
         if (req.files.length > 0) {
+            if (findUser.photo) {
+                await unlink(`./public/${findUser.photo}`);
+            }
             await sharp(req.files[0].path)
                 .resize(300)
                 .toFormat("jpeg")
                 .toFile(`./public/storage/${req.files[0].filename}`);
             urlImage = `storage/${req.files[0].filename}`;
+            await unlink(req.files[0].path);
         } else {
-            urlImage = req.body.file_dir;
+            urlImage = findUser.photo;
         }
-
-        const userCreate = User.update(
+        // End upload de imagen avatar
+        const userCreate = await User.update(
             {
                 first_name: req.body.first_name,
                 last_name: req.body.last_name,
@@ -48,6 +61,7 @@ export const save = async (req, res) => {
                 datebirth: req.body.datebirth,
                 document: req.body.document,
                 photo: urlImage,
+                password: passwordCrypt ? passwordCrypt : findUser.password,
             },
             {
                 where: {
@@ -56,7 +70,7 @@ export const save = async (req, res) => {
             }
         );
 
-        res.json({ message: "Registro atualizado", type: "success" });
+        res.json({ message: " registro atualizado", type: "success" });
         return;
     }
 };
