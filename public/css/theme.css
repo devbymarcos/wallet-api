@@ -232,7 +232,7 @@ body {
 
 @media (max-width: 590px) {
     .dash-grid {
-        grid-template-columns: 250px;
+        grid-template-columns: 291px;
     }
 }
 .dash-user {
