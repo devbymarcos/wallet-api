@@ -204,12 +204,6 @@ body {
     background-color: #fff;
 }
 
-@media (max-width: 900px) {
-    .nav-top {
-        /* position:absolute; */
-        /* z-index:200; */
-    }
-}
 /*
 ###################
 #### DASHBOARD ####
