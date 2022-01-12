@@ -24,7 +24,12 @@
 
     <div class="dash-panels">
         <div class="dash-user">
-            <img src="images/user.png" />
+            {{#userCover}}
+                <img class="rounded" src="/{{userCover}}" />
+            {{/userCover}}
+            {{^userCover}}
+                <img class="rounded" src="images/user.png" />
+            {{/userCover}}
             <p>Bem vindo</p>
             <a href="/perfil">{{ userName }}</a>
         </div>

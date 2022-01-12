@@ -1,5 +1,6 @@
 import { Invoice } from "../models/Invoice.js";
 import { Wallet } from "../models/Wallet.js";
+import { User } from "../models/User.js";
 import pkg from "sequelize";
 import { sequelize } from "../instances/mysql.js";
 const { QueryTypes } = pkg;
@@ -7,6 +8,9 @@ const { QueryTypes } = pkg;
 export const home = async (req, res) => {
     const userName = req.session.fullName;
     const userSession = req.session.user;
+
+    const user = await User.findByPk(req.session.user);
+    console.log(user);
 
     //INCOME && EXPENSE
 
@@ -72,6 +76,7 @@ export const home = async (req, res) => {
         openInvoice,
         setWallet,
         userName,
+        userCover: user.photo,
     });
 };
 
