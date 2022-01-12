@@ -1,84 +1,125 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Wallet</title>
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>My Wallet</title>
 
-   <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
-    <link rel="manifest" href="/favicon/site.webmanifest">
-    <link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#5bbad5">  
-    
-    <link href="css/boot.css" rel="stylesheet">
-    <link href="css/theme.css" rel="stylesheet">
+        <link
+            rel="apple-touch-icon"
+            sizes="180x180"
+            href="/favicon/apple-touch-icon.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="/favicon/favicon-32x32.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="/favicon/favicon-16x16.png"
+        />
+        <link rel="manifest" href="/favicon/site.webmanifest" />
+        <link
+            rel="mask-icon"
+            href="/favicon/safari-pinned-tab.svg"
+            color="#5bbad5"
+        />
 
-    <script src="https://kit.fontawesome.com/4ac3a9c276.js" crossorigin="anonymous"></script>
-    <script src="https://code.highcharts.com/highcharts.js"></script>
-    
-</head>
-<body>
-<base id="basepath" path="" >
+        <link href="css/boot.css" rel="stylesheet" />
+        <link href="css/theme.css" rel="stylesheet" />
 
-<!-- Ajax load -->
-<div class="ajax_load" style="z-index: 999;">
-    <div class="ajax_load_box">
-        <div class="ajax_load_box_circle"></div>
-        <p class="ajax_load_box_title">Aguarde, carregando...</p>
-    </div>
-</div>
-<!-- Ajax load -->
+        <script
+            src="https://kit.fontawesome.com/4ac3a9c276.js"
+            crossorigin="anonymous"
+        ></script>
+        <script src="https://code.highcharts.com/highcharts.js"></script>
+    </head>
+    <body>
+        <base id="basepath" path="" />
 
-<!-- Ajax respsonse -->
-<div class="alert"></div>
-<!-- Ajax respsonse -->
-
-<main class="app-main">
-    <aside data-sidebar class="sidebar">
-        <div class="sidebar-content">
-            <div class="sidebar-box-nav">
-                <div class="sidebar-logo">
-                    <img  src="/images/logo-mycontrol-white.png">
-                </div>
-                <nav class="sidebar-nav">
-                <ul>
-                <li class="nm__item">
-                    <a href="/painel"><i class="fas fa-tachometer-alt"></i>Dash</a>
-                </li>
-                <li class="nm__item">
-                    <a href="/carteiras"><i class="fas fa-wallet"></i>Carteira</a></li>
-                <li class="nm__item">
-                    <a href="/categorias"><i class="fas fa-tag"></i>Categorias</a>
-                </li>
-                <li class="nm__item">
-                    <a href="/receitas"><i class="fas fa-hand-holding-usd"></i>Receitas</a>
-                </li>
-                <li class="nm__item">
-                    <a href="/despesas"><i class="fas fa-shopping-cart"></i>Despesas</a>
-                </li>
-                <li class="nm__item">
-                    <a href="/fixo"><i class="fas fa-funnel-dollar"></i> Fixo</a>
-                </li>
-                <li class="nm__item">
-                    <a href="/perfil"><i class="fas fa-user"></i> Perfil</a>
-                </li>
-                <li class="nm__item"><a href="">
-                    <a href="/logout"><i class="fas fa-sign-out-alt"></i>Logout</a>
-                 </li>
-                </ul>
-        
-            </nav>
+        <!-- Ajax load -->
+        <div class="ajax_load" style="z-index: 999">
+            <div class="ajax_load_box">
+                <div class="ajax_load_box_circle"></div>
+                <p class="ajax_load_box_title">Aguarde, carregando...</p>
             </div>
-              
         </div>
-    </aside>
-      <section data-app="content" class="app-content">
-        <nav class="nav-top">
-          <div data-btn="sidebar" class="btn-menu-mobile">
-            <span></span>
-          </div>  
-          
-        </nav>
-        <div class="dash-content">
+        <!-- Ajax load -->
+
+        <!-- Ajax respsonse -->
+        <div class="alert"></div>
+        <!-- Ajax respsonse -->
+
+        <main class="app-main">
+            <aside data-sidebar class="sidebar">
+                <div class="sidebar-content">
+                    <div class="sidebar-box-nav">
+                        <div class="sidebar-logo">
+                            <img src="/images/logo-mycontrol.png" />
+                        </div>
+                        <nav class="sidebar-nav">
+                            <ul>
+                                <li class="nm__item">
+                                    <a href="/painel"
+                                        ><i class="fas fa-tachometer-alt"></i
+                                        >Dash</a
+                                    >
+                                </li>
+                                <li class="nm__item">
+                                    <a href="/carteiras"
+                                        ><i class="fas fa-wallet"></i
+                                        >Carteira</a
+                                    >
+                                </li>
+                                <li class="nm__item">
+                                    <a href="/categorias"
+                                        ><i class="fas fa-tag"></i>Categorias</a
+                                    >
+                                </li>
+                                <li class="nm__item">
+                                    <a href="/receitas"
+                                        ><i class="fas fa-hand-holding-usd"></i
+                                        >Receitas</a
+                                    >
+                                </li>
+                                <li class="nm__item">
+                                    <a href="/despesas"
+                                        ><i class="fas fa-shopping-cart"></i
+                                        >Despesas</a
+                                    >
+                                </li>
+                                <li class="nm__item">
+                                    <a href="/fixo"
+                                        ><i class="fas fa-funnel-dollar"></i>
+                                        Fixo</a
+                                    >
+                                </li>
+                                <li class="nm__item">
+                                    <a href="/perfil"
+                                        ><i class="fas fa-user"></i> Perfil</a
+                                    >
+                                </li>
+                                <li class="nm__item">
+                                    <a href="/logout"
+                                        ><i class="fas fa-sign-out-alt"></i
+                                        >Logout</a
+                                    >
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </aside>
+            <section data-app="content" class="app-content">
+                <nav class="nav-top">
+                    <div data-btn="sidebar" class="btn-menu-mobile">
+                        <span></span>
+                    </div>
+                </nav>
+                <div class="dash-content">
+
