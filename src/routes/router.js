@@ -12,6 +12,7 @@ import * as Iscategory from "../middlewares/IsCategory.js";
 import * as IsWallet from "../middlewares/IsWallet.js";
 import * as InvoiceFixed from "../middlewares/InvoiceFixed.js";
 import * as SiteController from "../controllers/siteController.js";
+import * as Investment from "../controllers/investmentController.js"
 
 const router = Router();
 
@@ -108,6 +109,8 @@ router.post(
     InvoiceFixedController.fixedUpdate
 );
 
+//
+router.get("/investimentos",Auth.privateRouter,Investment.create)
 //user
 router.get("/perfil", Auth.privateRouter, UserController.viewPerfil);
 router.post("/user-save", UserController.save);
