@@ -391,6 +391,11 @@ body {
     margin-bottom: 30px;
 }
 .form__filter {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+.form__filter {
     margin-bottom: 2rem;
 }
 

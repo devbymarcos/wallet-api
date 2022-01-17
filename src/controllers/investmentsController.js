@@ -11,7 +11,7 @@ export const create = async (req, res) => {
     });
     let dataInvest = DataList.dataFormat(invest);
 
-    res.render("pages/widgets/reports/reports", {
+    res.render("pages/widgets/investment/investment", {
         dataInvest,
     });
 };

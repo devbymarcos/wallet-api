@@ -1,7 +1,7 @@
 {{>partials/header}}
     <article class="header__section">
         <div class="header__title">
-            <h4>Relatórios</h4>
+            <h4>Investimento</h4>
             {{>pages/widgets/expense/expense-header }}
         </div>
    
@@ -16,7 +16,8 @@
                     {{/months}}
                 </datalist>
                 <button class="btn btn--blue icon-normalize"><i class="fas fa-filter"></i></button>
-            </form>    
+            </form>  
+            <h2 data-result></h2>  
         </div>
         <div class="table-responsive">
         <table class="table">
@@ -34,7 +35,7 @@
                 <tr>
                     <td>{{date}}</td>
                     <td>{{description}}</td>
-                    <td data-type="{{type}}">{{value}}</td>
+                    <td data-register="{{type}}">{{value}}</td>
                     <td>
                         {{#status}}  
                             <p data-pay="unpaid" data-type="expense" data-idpay="{{id}}" class="pay-action">
