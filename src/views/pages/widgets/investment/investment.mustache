@@ -30,11 +30,11 @@
                 </tr>
             </thead>
             <tbody>
-                {{#dataExpense}}           
+                {{#dataInvest}}           
                 <tr>
                     <td>{{date}}</td>
                     <td>{{description}}</td>
-                    <td>{{value}}</td>
+                    <td data-type="{{type}}">{{value}}</td>
                     <td>
                         {{#status}}  
                             <p data-pay="unpaid" data-type="expense" data-idpay="{{id}}" class="pay-action">
@@ -49,12 +49,12 @@
                     </td>
                     <td><a href="/despesa-edit?id={{id}}"><i class="fas fa-edit"></i></a></td>
                 </tr>
-                {{/dataExpense}}
-                {{^dataExpense}}
+                {{/dataInvest}}
+                {{^dataInvest}}
                     <tr>
                         <td colspan="6">Não laçamentos para categoria investimentos</td>
                     </tr>
-               {{/dataExpense}}
+               {{/dataInvest}}
             </tbody>
         </table>
         </div>
