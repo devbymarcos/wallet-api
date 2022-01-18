@@ -10,7 +10,7 @@ export const create = async (req, res) => {
         order: [["due_at", "DESC"]],
     });
     let dataInvest = DataList.dataFormat(invest);
-
+    console.log(invest);
     res.render("pages/widgets/investment/investment", {
         dataInvest,
     });

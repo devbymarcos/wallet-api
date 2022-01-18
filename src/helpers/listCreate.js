@@ -24,6 +24,13 @@ export function dataFormat(data) {
         } else {
             statusPay = false;
         }
+
+        let router = "";
+        if (item.type === "expense") {
+            router = "despesa-edit";
+        } else {
+            router = "receita-edit";
+        }
         //cria novo objeto com dados formatado
         dataArr.push({
             id: item.id,
@@ -32,6 +39,7 @@ export function dataFormat(data) {
             status: statusPay,
             value: price,
             type: item.type,
+            router,
         });
     });
     return dataArr;
