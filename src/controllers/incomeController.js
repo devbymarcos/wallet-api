@@ -172,10 +172,13 @@ export const save = async (req, res) => {
             return;
         } else if (!req.body.category) {
             res.json({ message: "Escolha a categoria", type: "warning" });
+            return;
         } else if (!req.body.wallet) {
             res.json({ message: "Escolha a carteira", type: "warning" });
+            return;
         } else if (!req.body.date) {
             res.json({ message: "É necessario a data", type: "warning" });
+            return;
         }
         //remove o ponto da mascara do input
         const priceReplace = req.body.price.replace(".", "");
