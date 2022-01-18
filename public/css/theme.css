@@ -404,6 +404,7 @@ body {
 }
 .form__filter input {
     flex-basis: 200px;
+    margin-right: 10px;
 }
 .form__filter .btn {
     height: 39px;

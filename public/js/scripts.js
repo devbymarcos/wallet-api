@@ -15,4 +15,3 @@ initMenuMobile();
 initLogin();
 initUserLogin();
 TypeRegister.colorRegister();
-TypeRegister.sumInvestment();

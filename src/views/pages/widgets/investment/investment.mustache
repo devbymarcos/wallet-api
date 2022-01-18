@@ -8,13 +8,9 @@
     </article>
     <section class="app__container">
         <div class="form__filter">
-            <form action="/expense-filter" method="POST">
-                <input list="datelist" class="input-control "  name="date" placeholder="{{confirmedMonth}}">
-                <datalist id="datelist">
-                    {{#months}}
-                        <option value="{{month}}"/>
-                    {{/months}}
-                </datalist>
+            <form action="/investiment-filter" method="POST">
+                <input type="date"  class="input-control "  name="date1" >
+                <input type="date"  class="input-control "  name="date2">
                 <button class="btn btn--blue icon-normalize"><i class="fas fa-filter"></i></button>
             </form>  
             <h2 data-result></h2>  
