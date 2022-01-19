@@ -1,4 +1,4 @@
-export function formatData(data) {
+export function format(data) {
     let dataArr = [];
     data.forEach((item) => {
         //formata data

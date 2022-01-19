@@ -1,24 +1,31 @@
 import { Invoice } from "../models/Invoice.js";
-import * as FormatData from "../helpers/formatList.js";
+import { Wallet } from "../models/Wallet.js";
+import * as FormatData from "../helpers/formatData.js";
 
 export const create = async (req, res) => {
-    res.render("pages/widgets/extract/extract");
+    const wallet = await Wallet.findAll({
+        where: {
+            user_id: req.session.user,
+        },
+    });
+    res.render("pages/widgets/extract/extract", {
+        wallet,
+    });
 };
 
 export const extract = async (req, res) => {
     const extract = await Invoice.findAll({
         where: {
-            user_id: req.session.user,
-            wallet_id: 26,
+            wallet_id: req.body.wallet,
         },
         order: [["due_at", "DESC"]],
     });
 
-    let dataInvest = FormatData.dataFormat(invest);
+    let dataInvest = FormatData.format(extract);
     let totalIncome = 0;
     let totalExpense = 0;
 
-    invest.forEach((item) => {
+    extract.forEach((item) => {
         if (item.type === "income") {
             totalIncome += item.price;
         } else {
@@ -31,4 +38,5 @@ export const extract = async (req, res) => {
         total: total,
         result: dataInvest,
     };
+    res.json(data);
 };

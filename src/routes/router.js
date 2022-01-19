@@ -111,6 +111,7 @@ router.post(
 
 //
 router.get("/extrato", Auth.privateRouter, Extract.create);
+router.post("/extrato-filter", Extract.extract);
 //user
 router.get("/perfil", Auth.privateRouter, UserController.viewPerfil);
 router.post("/user-save", UserController.save);

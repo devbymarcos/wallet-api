@@ -8,11 +8,13 @@
     </article>
     <section class="app__container">
         <div class="form__filter">
-            <form action="/investiment-filter" method="POST">
+            <form action="/extrato-filter" method="POST">
                 <input type="date"  class="input-control "  name="date1" >
                 <input type="date"  class="input-control "  name="date2">
                 <select class="input-control " name="wallet">
-                    <option></option>
+                    {{#wallet}}
+                        <option value="{{id}}">{{name}}</option>
+                    {{/wallet}}
                 </select>
                 <button class="btn btn--blue icon-normalize"><i class="fas fa-filter"></i></button>
             </form>  
