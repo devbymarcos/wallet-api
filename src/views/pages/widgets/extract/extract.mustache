@@ -8,15 +8,16 @@
     </article>
     <section class="app__container">
         <div class="form__filter">
-            <form action="/extrato-filter" method="POST">
+            <form id="extract" class="ajax_off" action="/extrato-filter" method="POST">
                 <input type="date"  class="input-control "  name="date1" >
                 <input type="date"  class="input-control "  name="date2">
                 <select class="input-control " name="wallet">
+                    <option value="">Escolha...</option>
                     {{#wallet}}
                         <option value="{{id}}">{{name}}</option>
                     {{/wallet}}
                 </select>
-                <button class="btn btn--blue icon-normalize"><i class="fas fa-filter"></i></button>
+                <button id="extractBtn" class="btn btn--blue icon-normalize"><i class="fas fa-filter"></i></button>
             </form>  
            
         </div>
@@ -24,7 +25,7 @@
         <table class="table">
             <thead>
                 <tr>
-                   <th>Data</th>
+                    <th>Data</th>
                     <th>Descrição</th>
                     <th>Valor</th>
                     <th>Status</th>
@@ -32,31 +33,11 @@
                 </tr>
             </thead>
             <tbody>
-                {{#dataInvest}}           
+                
                 <tr>
-                    <td>{{date}}</td>
-                    <td>{{description}}</td>
-                    <td data-register="{{type}}">{{value}}</td>
-                    <td>
-                        {{#status}}  
-                            <p data-pay="unpaid" data-type="expense" data-idpay="{{id}}" class="pay-action">
-                                <i class="fas fa-check-circle"></i>
-                            </p>
-                        {{/status}}
-                        {{^status}}
-                            <p data-pay="paid" data-type="expense" data-idpay="{{id}}" class="pay-action">
-                                <i class="fas fa-times-circle"></i>
-                            </p>
-                        {{/status}} 
-                    </td>
-                    <td><a href="/{{router}}?id={{id}}"><i class="fas fa-edit"></i></a></td>
+                    <td colspan="6">Utilize o filtro para buscar os Dados da sua carteira</td>
                 </tr>
-                {{/dataInvest}}
-                {{^dataInvest}}
-                    <tr>
-                        <td colspan="6">Utilize o filtro para buscar os Dados da sua carteira</td>
-                    </tr>
-               {{/dataInvest}}
+               
             </tbody>
         </table>
         </div>
