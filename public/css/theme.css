@@ -401,9 +401,10 @@ body {
 
 .form__filter form {
     display: flex;
+    width: 100%;
 }
 .form__filter input {
-    flex-basis: 200px;
+    flex-basis: 96%;
     margin-right: 10px;
 }
 .form__filter .btn {

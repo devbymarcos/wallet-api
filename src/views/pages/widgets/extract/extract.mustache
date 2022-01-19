@@ -1,20 +1,22 @@
 {{>partials/header}}
     <article class="header__section">
         <div class="header__title">
-            <h4>Investimento</h4>
+            <h4>Extrato</h4>
             
         </div>
    
     </article>
     <section class="app__container">
         <div class="form__filter">
-            {{! <form action="/investiment-filter" method="POST">
+            <form action="/investiment-filter" method="POST">
                 <input type="date"  class="input-control "  name="date1" >
                 <input type="date"  class="input-control "  name="date2">
+                <select class="input-control " name="wallet">
+                    <option></option>
+                </select>
                 <button class="btn btn--blue icon-normalize"><i class="fas fa-filter"></i></button>
-            </form>   }}
-            <h3>Total da carteira</h3>
-            <h3 data-result>{{total}}</h3>  
+            </form>  
+           
         </div>
         <div class="table-responsive">
         <table class="table">
@@ -50,7 +52,7 @@
                 {{/dataInvest}}
                 {{^dataInvest}}
                     <tr>
-                        <td colspan="6">Não laçamentos para categoria investimentos</td>
+                        <td colspan="6">Utilize o filtro para buscar os Dados da sua carteira</td>
                     </tr>
                {{/dataInvest}}
             </tbody>

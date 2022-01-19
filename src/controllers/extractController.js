@@ -1,16 +1,20 @@
 import { Invoice } from "../models/Invoice.js";
-import * as DataList from "../helpers/listCreate.js";
+import * as FormatData from "../helpers/formatList.js";
 
 export const create = async (req, res) => {
-    const invest = await Invoice.findAll({
+    res.render("pages/widgets/extract/extract");
+};
+
+export const extract = async (req, res) => {
+    const extract = await Invoice.findAll({
         where: {
             user_id: req.session.user,
             wallet_id: 26,
         },
         order: [["due_at", "DESC"]],
     });
-    let dataInvest = DataList.dataFormat(invest);
 
+    let dataInvest = FormatData.dataFormat(invest);
     let totalIncome = 0;
     let totalExpense = 0;
 
@@ -21,14 +25,10 @@ export const create = async (req, res) => {
             totalExpense += item.price;
         }
     });
-
     const total = totalIncome - totalExpense;
 
-    res.render("pages/widgets/investment/investment", {
-        dataInvest,
-        total: total.toLocaleString("pt-br", {
-            style: "currency",
-            currency: "BRL",
-        }),
-    });
+    const data = {
+        total: total,
+        result: dataInvest,
+    };
 };
