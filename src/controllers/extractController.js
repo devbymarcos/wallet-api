@@ -3,7 +3,7 @@ import { Wallet } from "../models/Wallet.js";
 import * as FormatData from "../helpers/formatData.js";
 import pkg from "sequelize";
 
-const { Op }  = pkg;
+const { Op } = pkg;
 
 export const create = async (req, res) => {
     const wallet = await Wallet.findAll({
@@ -17,18 +17,15 @@ export const create = async (req, res) => {
 };
 
 export const extract = async (req, res) => {
-
-     const extract = await Invoice.findAll({
+    const extract = await Invoice.findAll({
         where: {
             wallet_id: req.body.wallet,
-            pay:"paid",
-            due_at:{
-                [Op.between]: [req.body.date1,req.body.date2],
+            due_at: {
+                [Op.between]: [req.body.date1, req.body.date2],
             },
         },
         order: [["due_at", "DESC"]],
     });
-
 
     let dataInvest = FormatData.format(extract);
     let totalIncome = 0;
