@@ -2,6 +2,7 @@ import { Invoice } from "../models/Invoice.js";
 import { Wallet } from "../models/Wallet.js";
 import { User } from "../models/User.js";
 import pkg from "sequelize";
+
 import { sequelize } from "../instances/mysql.js";
 const { QueryTypes } = pkg;
 
