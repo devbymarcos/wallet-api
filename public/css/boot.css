@@ -69,16 +69,21 @@ a {
 
 /* ALERTA */
 
-.alert .messageView {
-    padding: 19px 28px;
+.alert {
+    width: 300px;
     position: fixed;
     top: 20px;
     right: 56px;
+    z-index: 999;
+}
+
+.alert .messageView {
+    padding: 19px 28px;
     border-radius: 3px;
     color: #fff;
     font-size: 17px;
+    margin-bottom: 15px;
     animation: slide-in-right 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
-    z-index: 999;
 }
 
 .alert .messageView:before {

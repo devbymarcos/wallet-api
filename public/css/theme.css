@@ -145,7 +145,7 @@ body {
 @media (max-width: 920px) {
     .btn-menu-mobile {
         display: block;
-        position: fixed;
+/*         position: fixed; */
     }
 }
 .nav-top {
@@ -221,7 +221,10 @@ body {
 
 @media (max-width: 590px) {
     .dash-grid {
-        grid-template-columns: 291px;
+        grid-template-columns: 100%;
+    }
+    .dash-content{
+        padding:6px 6px 10px 6px;
     }
 }
 .dash-user {
@@ -278,7 +281,7 @@ body {
 }
 
 .dash__balance {
-    height: 90%;
+    padding: 23px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -393,8 +396,11 @@ body {
 .form__filter {
     display: flex;
     justify-content: space-between;
-    flex-wrap: wrap;
+   
 }
+
+
+
 .form__filter {
     margin-bottom: 2rem;
 }
@@ -403,6 +409,13 @@ body {
     display: flex;
     width: 100%;
 }
+@media (max-width: 620px) {
+    .form__filter form {
+        flex-direction:column;
+        height: 100%;
+    }
+}
+
 .form__filter input {
     flex-basis: 96%;
     margin-right: 10px;
@@ -600,7 +613,7 @@ body {
 }
 .btn {
     display: inline-block;
-    padding: 5px 10px;
+    padding: 6px 10px;
     background: #555555;
     border: none;
     cursor: pointer;

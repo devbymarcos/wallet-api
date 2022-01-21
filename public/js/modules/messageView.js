@@ -4,7 +4,7 @@ export default function messageView(msg, type) {
     let message = document.createElement("div");
     message.classList.add("messageView", type);
     message.innerText = msg;
-    divMessage.appendChild(message);
+    divMessage.prepend(message);
 
     setTimeout(() => {
         message.style.display = "none";
