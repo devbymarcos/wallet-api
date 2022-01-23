@@ -83,6 +83,11 @@ export default function initGetExtract() {
                             currency: "BRL",
                         }
                     );
+                    if (data.total < 0) {
+                        totalExtract.style.color = "red";
+                    } else {
+                        totalExtract.style.color = "blue";
+                    }
                 })
                 .catch((error) => {
                     console.log(error);
