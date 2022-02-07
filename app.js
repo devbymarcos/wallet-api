@@ -59,10 +59,6 @@ app.set("view engine", "mustache");
 app.set("views", path.join(__dirname, "./src/views"));
 app.engine("mustache", mustache());
 
-const options = {
-    cert: fs.readFileSync(path.join(__dirname, "ssl", "localhost.crt")),
-    key: fs.readFileSync(path.join(__dirname, "ssl", "localhost.key")),
-};
 // for parsing multipart/form-data
 app.use(upload.array("files"));
 

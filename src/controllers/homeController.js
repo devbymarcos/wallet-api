@@ -27,6 +27,7 @@ export const home = async (req, res) => {
             user_id: userSession,
         },
     });
+
     let openInvoice = invoice.map((item) => {
         let obj = {};
 
@@ -55,7 +56,14 @@ export const home = async (req, res) => {
         });
         obj.pay = statusPay;
         obj.due_at = dateFormat;
-
+        // criando a rota para edicão
+        let r = "";
+        if (item.type === "expense") {
+            r = "despesa-edit";
+        } else {
+            r = "receita-edit";
+        }
+        obj.router = r;
         return obj;
     });
 
