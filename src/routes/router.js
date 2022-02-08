@@ -11,6 +11,7 @@ import * as Auth from "../middlewares/Auth.js";
 import * as Iscategory from "../middlewares/IsCategory.js";
 import * as IsWallet from "../middlewares/IsWallet.js";
 import * as InvoiceFixed from "../middlewares/InvoiceFixed.js";
+import * as Visitor from "../middlewares/Visitor.js";
 import * as SiteController from "../controllers/siteController.js";
 import * as Extract from "../controllers/extractController.js";
 
@@ -109,11 +110,16 @@ router.post(
     InvoiceFixedController.fixedUpdate
 );
 
-//
+//extrato
 router.get("/extrato", Auth.privateRouter, Extract.create);
-router.post("/extrato-filter", Extract.extract);
+router.post("/extrato-filter", Auth.privateRouter, Extract.extract);
 //user
-router.get("/perfil", Auth.privateRouter, UserController.viewPerfil);
-router.post("/user-save", UserController.save);
+router.get(
+    "/perfil",
+    Auth.privateRouter,
+    Visitor.isVisitor,
+    UserController.viewPerfil
+);
+router.post("/user-save", Auth.privateRouter, UserController.save);
 
 export default router;
