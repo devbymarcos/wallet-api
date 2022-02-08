@@ -6,5 +6,5 @@ export const isVisitor = async (req, res, next) => {
     if (visitor.level === 0) {
         res.render("pages/widgets/notpermission/notpermission");
     }
-    next();
+    return next();
 };
