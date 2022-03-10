@@ -186,6 +186,7 @@ a {
 .ajax_load_flex {
     display: flex;
 }
+
 @keyframes spin {
     0% {
         transform: rotate(0deg);
