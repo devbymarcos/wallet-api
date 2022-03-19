@@ -5,34 +5,34 @@ const { verify } = jwt;
 dotenv.config();
 
 export const privateRouter = async (req, res, next) => {
-    // if (!req.session.tokenUser) {
-    //     res.redirect("/login");
-    //     return;
-    // }
-    // let decode = "";
-    // try {
-    //     decode = verify(
-    //         req.session.tokenUser,
-    //         String(process.env.SECRET_KEY_JWT)
-    //     );
-    // } catch (err) {
-    //     console.log("Token não aceito");
-    //     res.redirect("/login");
-    // }
+    if (!req.session.tokenUser) {
+        res.redirect("/login");
+        return;
+    }
+    let decode = "";
+    try {
+        decode = verify(
+            req.session.tokenUser,
+            String(process.env.SECRET_KEY_JWT)
+        );
+    } catch (err) {
+        console.log("Token não aceito");
+        res.redirect("/login");
+    }
 
-    // const user = await User.findOne({
-    //     where: {
-    //         id: decode.id,
-    //         email: decode.email,
-    //     },
-    // });
+    const user = await User.findOne({
+        where: {
+            id: decode.id,
+            email: decode.email,
+        },
+    });
 
-    // if (!user) {
-    //     res.redirect("/login");
-    //     return;
-    // }
+    if (!user) {
+        res.redirect("/login");
+        return;
+    }
 
-    req.session.user = 4; // user.id;
-    req.session.fullName = "visitor"; //user.full_name;
+    req.session.user = user.id; //4;
+    req.session.fullName = user.full_name; //Em manutencao;
     return next();
 };
