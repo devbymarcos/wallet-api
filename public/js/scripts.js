@@ -1,3 +1,4 @@
+import css from "../css/theme.css";
 import initJquery from "./modules/jquery.js";
 import initChart from "./modules/highchart.js";
 import initPanels from "./modules/dash-panels.js";

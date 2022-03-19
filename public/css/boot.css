@@ -1,6 +1,9 @@
 a {
     text-decoration: none;
 }
+img {
+    max-width: 100%;
+}
 
 :root {
     /*medidas*/
@@ -27,7 +30,7 @@ a {
     --color-blue: #3498db;
     --color-white: #fff;
     --color-tag: #fff;
-    --color-bg-dash: #222;
+    --color-bg-dash: #e8e9eb;
 
     --hover-color-green: #218c74;
     --hover-color-blue: #2980b9;

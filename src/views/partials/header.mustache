@@ -29,9 +29,8 @@
             href="/favicon/safari-pinned-tab.svg"
             color="#5bbad5"
         />
-
-        <link href="/css/boot.css" rel="stylesheet" />
-        <link href="/css/theme.css" rel="stylesheet" />
+       
+        <link href="/bundle/bundle.css" rel="stylesheet" />
 
         <script
             src="https://kit.fontawesome.com/4ac3a9c276.js"
@@ -54,13 +53,19 @@
         <!-- Ajax respsonse -->
         <div class="alert"></div>
         <!-- Ajax respsonse -->
+        <header class="header">
+            <div data-btn="sidebar"  class="btn-mobile">
+                <i class="fas fa-bars"></i>
+            </div>
+            <div class="header-logo">
+                <img src="/images/appmoney-logo.svg"/>
+            </div>
+        </header>
         <main class="app-main">
             <aside data-sidebar class="sidebar">
                 <div class="sidebar-content">
                     <div class="sidebar-box-nav">
-                        <div class="sidebar-logo">
-                            <img src="/images/appmoney-logo.svg"/>
-                        </div>
+                        
                         <nav class="sidebar-nav">
                             <ul>
                                 <li class="nm__item">
@@ -120,10 +125,5 @@
                 </div>
             </aside>
             <section data-app="content" class="app-content">
-                <nav class="nav-top">
-                    <div data-btn="sidebar" class="btn-menu-mobile">
-                        <span></span>
-                    </div>
-                </nav>
                 <div class="dash-content">
 
