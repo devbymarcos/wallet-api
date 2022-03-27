@@ -3,6 +3,7 @@
     height: 32px;
     margin: 0px 10px;
     cursor: pointer;
+    display: none;
 }
 
 .btn-mobile span {
@@ -48,4 +49,9 @@
 .btn-mobile.active span::after {
     transform: rotate(45deg);
     top: 0;
+}
+@media (max-width: 920px) {
+    .btn-mobile {
+        display: block;
+    }
 }

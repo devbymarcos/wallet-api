@@ -88,9 +88,6 @@ body {
         width: 100%;
         left: 0;
     }
-    .btn-mobile {
-        display: block;
-    }
 }
 .sidebar-content {
     padding: 0.1px;
