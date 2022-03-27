@@ -16,7 +16,6 @@ export default function initPanels() {
                 return response.json();
             })
             .then((data) => {
-                console.log(data);
                 if (!data.balance) {
                     balance.innerHTML = "R$ 0,00";
                 } else {

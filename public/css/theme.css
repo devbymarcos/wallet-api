@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Maven+Pro:wght@400;700&display=swap");
 @import url("./boot.css");
+@import url("./btn-mobile.css");
 * {
     margin: 0;
     padding: 0;
@@ -40,15 +41,6 @@ body {
 .header-logo img {
     width: 150px;
 }
-.btn-mobile {
-    display: none;
-    margin-left: 1rem;
-    cursor: pointer;
-}
-.btn-mobile i {
-    font-size: 1.5rem;
-    color: #666687;
-}
 
 .app-main {
     width: 100%;
@@ -86,6 +78,7 @@ body {
 .app-content.active {
     width: calc(100% - 250px);
     left: 250px;
+    opacity: 0.1;
 }
 @media (max-width: 920px) {
     .sidebar {

@@ -7,6 +7,7 @@ export default function initMenuMobile() {
         function openSidebar() {
             appContent.classList.toggle("active");
             sideBar.classList.toggle("active");
+            btnSidebar.classList.toggle("active");
         }
 
         btnSidebar.addEventListener("click", openSidebar);

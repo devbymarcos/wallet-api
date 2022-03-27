@@ -258,6 +258,61 @@ img {
     flex-flow: row wrap;
 }
 
+/*!*****************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./public/css/btn-mobile.css ***!
+  \*****************************************************************************/
+.btn-mobile {
+    width: 32px;
+    height: 32px;
+    margin: 0px 10px;
+    cursor: pointer;
+}
+
+.btn-mobile span {
+    width: 21px;
+    height: 3px;
+    display: inline-block;
+    background-color: #272727;
+    margin-left: 1rem;
+    position: relative;
+    transition: 0.2s;
+}
+
+.btn-mobile span::before {
+    content: "";
+    display: inline-block;
+    width: 21px;
+    height: 3px;
+    background-color: #272727;
+    position: absolute;
+    top: -7px;
+    left: 0;
+    transition: 0.2s;
+}
+.btn-mobile span::after {
+    content: "";
+    display: inline-block;
+    width: 21px;
+    height: 3px;
+    background-color: #272727;
+    position: absolute;
+    top: 7px;
+    left: 0;
+    transition: 0.2s;
+}
+
+.btn-mobile.active span {
+    background-color: transparent;
+}
+.btn-mobile.active span::before {
+    transform: rotate(-45deg);
+    top: 0;
+}
+.btn-mobile.active span::after {
+    transform: rotate(45deg);
+    top: 0;
+}
+
 /*!****************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js!./public/css/theme.css (1) ***!
   \****************************************************************************/
@@ -301,15 +356,6 @@ body {
 .header-logo img {
     width: 150px;
 }
-.btn-mobile {
-    display: none;
-    margin-left: 1rem;
-    cursor: pointer;
-}
-.btn-mobile i {
-    font-size: 1.5rem;
-    color: #666687;
-}
 
 .app-main {
     width: 100%;
@@ -347,6 +393,7 @@ body {
 .app-content.active {
     width: calc(100% - 250px);
     left: 250px;
+    opacity: 0.1;
 }
 @media (max-width: 920px) {
     .sidebar {

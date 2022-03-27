@@ -53,7 +53,3 @@ export const User = sequelize.define(
         timestamps: false,
     }
 );
-
-// User.sync({ force: false }).then(() => {
-//     console.log("create table: users");
-// });
