@@ -14,6 +14,7 @@ import * as InvoiceFixed from "../middlewares/InvoiceFixed.js";
 import * as Visitor from "../middlewares/Visitor.js";
 import * as SiteController from "../controllers/siteController.js";
 import * as Extract from "../controllers/extractController.js";
+import * as EntreCarteiraController from "../controllers/entreCarteiraController.js";
 
 const router = Router();
 
@@ -108,6 +109,19 @@ router.post(
     "/fixed/update",
     Auth.privateRouter,
     InvoiceFixedController.fixedUpdate
+);
+
+//Transcoes entre contas
+
+router.get(
+    "/entre-carteiras",
+    Auth.privateRouter,
+    EntreCarteiraController.createInvest
+);
+router.post(
+    "/between-wallet/save",
+    Auth.privateRouter,
+    EntreCarteiraController.save
 );
 
 //extrato
