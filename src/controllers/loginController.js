@@ -30,7 +30,9 @@ export const loginAuth = async (req, res) => {
     );
 
     req.session.tokenUser = token;
-    res.json({ redirect: "/painel" });
+    res.json({
+        redirect: "/painel",
+    });
 };
 
 export const logout = (req, res) => {

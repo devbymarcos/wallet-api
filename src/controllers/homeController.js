@@ -163,23 +163,28 @@ export const panelsData = async (req, res) => {
         );
 
         currentDate = new Date();
-
-        receivedMonth = await sequelize.query(
-            "SELECT  SUM(price) as incomeMonth FROM app_invoice WHERE user_id = :userId AND pay = 'paid' AND month(due_at) = :date AND type = 'income'",
-            {
-                replacements: {
-                    userId: userSession,
-                    date: currentDate.getMonth() + 1,
-                },
-                type: QueryTypes.SELECT,
-            }
-        );
+        try {
+            receivedMonth = await sequelize.query(
+                "SELECT  SUM(price) as incomeMonth FROM app_invoice WHERE user_id = :userId AND pay = 'paid' AND month(due_at) = :date AND year(due_at) = :year AND type = 'income'",
+                {
+                    replacements: {
+                        userId: userSession,
+                        date: currentDate.getMonth() + 1,
+                        year: currentDate.getFullYear(),
+                    },
+                    type: QueryTypes.SELECT,
+                }
+            );
+        } catch (error) {
+            console.log(error);
+        }
         paidMonth = await sequelize.query(
-            "SELECT  SUM(price) as expenseMonth FROM app_invoice WHERE user_id = :userId AND pay = 'paid' AND month(due_at) = :date AND type = 'expense'",
+            "SELECT  SUM(price) as expenseMonth FROM app_invoice WHERE user_id = :userId AND pay = 'paid' AND month(due_at) = :date AND year(due_at) = :year AND type = 'expense'",
             {
                 replacements: {
                     userId: userSession,
                     date: currentDate.getMonth() + 1,
+                    year: currentDate.getFullYear(),
                 },
                 type: QueryTypes.SELECT,
             }
@@ -194,25 +199,30 @@ export const panelsData = async (req, res) => {
         );
 
         currentDate = new Date();
-
-        receivedMonth = await sequelize.query(
-            "SELECT  SUM(price) as incomeMonth FROM app_invoice WHERE user_id = :userId AND pay = 'paid' AND month(due_at) = :date AND type = 'income' AND wallet_id = :w",
-            {
-                replacements: {
-                    userId: userSession,
-                    date: currentDate.getMonth() + 1,
-                    w: walletSearchId,
-                },
-                type: QueryTypes.SELECT,
-            }
-        );
+        try {
+            receivedMonth = await sequelize.query(
+                "SELECT  SUM(price) as incomeMonth FROM app_invoice WHERE user_id = :userId AND pay = 'paid' AND month(due_at) = :date AND year(due_at) = :year AND type = 'income' AND wallet_id = :w",
+                {
+                    replacements: {
+                        userId: userSession,
+                        date: currentDate.getMonth() + 1,
+                        w: walletSearchId,
+                        year: currentDate.getFullYear(),
+                    },
+                    type: QueryTypes.SELECT,
+                }
+            );
+        } catch (error) {
+            console.log(error);
+        }
         paidMonth = await sequelize.query(
-            "SELECT  SUM(price) as expenseMonth FROM app_invoice WHERE user_id = :userId AND pay = 'paid' AND month(due_at) = :date AND type = 'expense' AND wallet_id = :w",
+            "SELECT  SUM(price) as expenseMonth FROM app_invoice WHERE user_id = :userId AND pay = 'paid' AND month(due_at) = :date AND year(due_at) = :year AND type = 'expense' AND wallet_id = :w",
             {
                 replacements: {
                     userId: userSession,
                     date: currentDate.getMonth() + 1,
                     w: walletSearchId,
+                    year: currentDate.getFullYear(),
                 },
                 type: QueryTypes.SELECT,
             }
