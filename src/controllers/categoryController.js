@@ -3,43 +3,27 @@ import { Category } from "../models/Category.js";
 export const category = async (req, res) => {
     let categories = await Category.findAll({
         where: {
-            user_id: req.session.user,
+            user_id: "1",
         },
     });
 
-    let typeInvoice = () => {
-        let arr = [];
-        categories.forEach((item) => {
-            if (item.type === "expense") {
-                arr.push({
-                    id: item.id,
-                    user_id: item.user_id,
-                    name: item.name,
-                    description: item.description,
-                    type: "Despesas",
-                });
-            } else {
-                arr.push({
-                    id: item.id,
-                    user_id: item.user_id,
-                    name: item.name,
-                    description: item.description,
-                    type: "Receita",
-                });
-            }
-        });
+    let formatCategory = categories.map((item) => {
+        let obj = {};
+        obj.id = item.id;
+        obj.user_id = item.user_id;
+        obj.name = item.name;
+        obj.description = item.description;
+        if (item.type === "expense") {
+            obj.type = "Despesas";
+        } else {
+            obj.type = "Receita";
+        }
+        return obj;
+    });
 
-        return arr;
-    };
-    let activeMessage = "";
-    if (req.query.category && req.query.category === "not") {
-        activeMessage = true;
-    }
-    const userName = req.session.fullName;
-    res.render("pages/widgets/category/category", {
-        typeInvoice,
-        activeMessage,
-        userName,
+    console.log(formatCategory);
+    res.json({
+        data: formatCategory,
     });
 };
 export const categoryCreate = (req, res) => {

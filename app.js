@@ -4,7 +4,6 @@ import multer from "multer";
 import dotenv from "dotenv";
 import mainRoutes from "./src/routes/router.js";
 import morgan from "morgan";
-import session from "express-session";
 
 dotenv.config();
 const storage = multer.diskStorage({
