@@ -21,7 +21,6 @@ export const category = async (req, res) => {
         return obj;
     });
 
-    console.log(formatCategory);
     res.json({
         data: formatCategory,
     });

@@ -4,6 +4,7 @@ import multer from "multer";
 import dotenv from "dotenv";
 import mainRoutes from "./src/routes/router.js";
 import morgan from "morgan";
+import cors from "cors";
 
 dotenv.config();
 const storage = multer.diskStorage({
@@ -26,7 +27,7 @@ const upload = multer({
 
 const app = express();
 app.disable("x-powered-by");
-
+app.use(cors());
 const __dirname = path.resolve();
 
 // for parsing multipart/form-data
