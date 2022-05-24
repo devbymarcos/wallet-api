@@ -9,8 +9,6 @@ const { QueryTypes } = pkg;
 export const home = async (req, res) => {
     const userSession = "1";
 
-    const user = await User.findByPk(userSession);
-
     //INCOME && EXPENSE
 
     const invoice = await sequelize.query(
