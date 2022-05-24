@@ -7,7 +7,7 @@ export const category = async (req, res) => {
         },
     });
 
-    let formatCategory = categories.map((item) => {
+    let category = categories.map((item) => {
         let obj = {};
         obj.id = item.id;
         obj.user_id = item.user_id;
@@ -22,33 +22,10 @@ export const category = async (req, res) => {
     });
 
     res.json({
-        data: formatCategory,
-    });
-};
-export const categoryCreate = (req, res) => {
-    const userName = req.session.fullName;
-    res.render("pages/widgets/category/category-create", {
-        data: true,
-        categories: true,
-        userName,
-    });
-};
-export const categoryEdit = async (req, res) => {
-    const userName = req.session.fullName;
-    const category = await Category.findByPk(req.query.id);
-    const select = (type, value) => {
-        return type == value ? "selected" : "";
-    };
-
-    const selIcome = select(category.type, "income");
-    const selExpense = select(category.type, "expense");
-
-    res.render("pages/widgets/category/category-edit", {
         category,
-        selects: { selIcome, selExpense },
-        userName,
     });
 };
+
 export const save = async (req, res) => {
     if (req.body.action && req.body.action === "create") {
         const categoryCreate = Category.build({

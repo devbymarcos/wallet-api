@@ -1,16 +1,15 @@
-import { Invoice } from "../../models/Invoice.js";
-import { Wallet } from "../../models/Wallet.js";
-import { User } from "../../models/User.js";
+import { Invoice } from "../models/Invoice.js";
+import { Wallet } from "../models/Wallet.js";
+import { User } from "../models/User.js";
 import pkg from "sequelize";
 
-import { sequelize } from "../../instances/mysql.js";
+import { sequelize } from "../instances/mysql.js";
 const { QueryTypes } = pkg;
 
 export const home = async (req, res) => {
-    const userName = req.session.fullName;
-    const userSession = req.session.user;
+    const userSession = "1";
 
-    const user = await User.findByPk(req.session.user);
+    const user = await User.findByPk(userSession);
 
     //INCOME && EXPENSE
 
@@ -80,11 +79,9 @@ export const home = async (req, res) => {
         });
     });
 
-    res.render("pages/widgets/dash/home", {
+    res.json({
         openInvoice,
         setWallet,
-        userName,
-        userCover: user.photo,
     });
 };
 

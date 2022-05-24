@@ -14,7 +14,9 @@ export const loginAuth = async (req, res) => {
         res.json({ message: "Usuário não está registrado", type: "error" });
         return;
     }
+
     let passwdCheck = await bcryptjs.compare(req.body.passwd, user.password);
+
     if (!passwdCheck) {
         res.json({ message: "Usuário e senha não confere", type: "error" });
         return;
