@@ -1,6 +1,6 @@
-import { Category } from "../models/Category.js";
-import { Invoice } from "../models/Invoice.js";
-import { Wallet } from "../models/Wallet.js";
+import { Category } from "../../models/Category.js";
+import { Invoice } from "../../models/Invoice.js";
+import { Wallet } from "../../models/Wallet.js";
 
 export const createInvest = async (req, res) => {
     const userSession = req.session.user;

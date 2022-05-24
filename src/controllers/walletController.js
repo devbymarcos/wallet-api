@@ -1,45 +1,14 @@
 import { Wallet } from "../models/Wallet.js";
 
 export const wallet = async (req, res) => {
-    const userSession = req.session.user;
-    const userName = req.session.fullName;
     let wallet = await Wallet.findAll({
         where: {
-            user_id: userSession,
+            user_id: "1",
         },
     });
-    let activeMessage = "";
-    if (req.query.wallet && req.query.wallet === "not") {
-        activeMessage = true;
-    }
-    res.render("pages/widgets/wallet/wallet", {
+
+    res.json({
         wallet,
-        activeMessage,
-        userName,
-    });
-};
-
-export const walletCreate = (req, res) => {
-    const userName = req.session.fullName;
-    res.render("pages/widgets/wallet/wallet-create", {
-        userName,
-    });
-};
-export const walletEdit = async (req, res) => {
-    const userName = req.session.fullName;
-    let wallet = await Wallet.findByPk(req.query.id);
-
-    let select = (type, value) => {
-        return type === value ? "selected" : "";
-    };
-    const selFavoriteYes = select(wallet.option_wallet, 1);
-    const selFavoriteNo = select(wallet.option_wallet, 0);
-
-    res.render("pages/widgets/wallet/wallet-edit", {
-        wallet,
-        userName,
-        selFavoriteYes,
-        selFavoriteNo,
     });
 };
 

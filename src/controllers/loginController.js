@@ -7,10 +7,6 @@ const { sign, verify } = jwt;
 
 dotenv.config();
 
-export const viewLogin = (req, res) => {
-    res.render("pages/widgets/login/login");
-};
-
 export const loginAuth = async (req, res) => {
     const user = await User.findOne({ where: { email: req.body.email } });
 
@@ -29,15 +25,9 @@ export const loginAuth = async (req, res) => {
         String(process.env.SECRET_KEY_JWT)
     );
 
-    req.session.tokenUser = token;
     res.json({
-        redirect: "/painel",
+        token: token,
     });
-};
-
-export const logout = (req, res) => {
-    req.session.destroy();
-    res.redirect("/login");
 };
 
 export const forgetAction = async (req, res) => {
@@ -94,29 +84,4 @@ export const forgetAction = async (req, res) => {
     }
 
     res.json({ action: "processando" });
-};
-
-export const viewRecoveryPass = async (req, res) => {
-    const tokenRecoveryPass = req.query.token;
-    let decode = "";
-    try {
-        decode = verify(tokenRecoveryPass, String(process.env.SECRET_KEY_JWT));
-    } catch (err) {
-        console.log("erro:", err);
-        res.status(404);
-        res.send("Link expirado ou invalido solicite novamente");
-    }
-
-    const user = await User.findByPk(decode.id);
-    if (!user) {
-        res.status(404);
-        res.send("Link expirado ou invalido solicite novamente");
-    }
-
-    if (user.email != decode.email) {
-        res.status(404);
-        res.send("Link expirado ou invalido solicite novamente 3");
-    }
-
-    res.render("pages/widgets/login/recovery-passwd");
 };

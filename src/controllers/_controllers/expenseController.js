@@ -1,45 +1,44 @@
-import { Invoice } from "../models/Invoice.js";
-import { Category } from "../models/Category.js";
-import { Wallet } from "../models/Wallet.js";
+import { Invoice } from "../../models/Invoice.js";
+import { Category } from "../../models/Category.js";
+import { Wallet } from "../../models/Wallet.js";
 import pkg from "sequelize";
-import { sequelize } from "../instances/mysql.js";
+import { sequelize } from "../../instances/mysql.js";
 const { QueryTypes } = pkg;
 
-export const income = async (req, res) => {
-    const data = new Date();
-    const userSession = req.session.user;
+export const expense = async (req, res) => {
+    const userId = req.session.user;
     const userName = req.session.fullName;
+    let data = new Date();
+
     let dateInput = req.query.date;
     let dateArr = "";
     if (dateInput) {
         dateArr = dateInput.split("-");
     }
-    // gerar datalist
+
+    //gerar mes e ano para query
+    let due_month = dateArr[0] ? parseInt(dateArr[0]) : data.getMonth() + 1;
+    let due_year = dateArr[1] ? parseInt(dateArr[1]) : data.getFullYear();
+
+    const expense = await sequelize.query(
+        'SELECT * FROM app_invoice WHERE user_id= :userId AND type = "expense" AND year(due_at) = :year AND month(due_at) = :month ORDER BY day(due_at)',
+        {
+            replacements: { year: due_year, userId: userId, month: due_month },
+            type: QueryTypes.SELECT,
+        }
+    );
+
+    // gerar datalist para placeholder input
     let months = [];
     for (let range = -2; range <= 2; range++) {
         months.push({
             month: range + (data.getMonth() + 1) + "/" + data.getFullYear(),
         });
     }
-
-    let due_month = dateArr[0] ? parseInt(dateArr[0]) : data.getMonth() + 1;
-    let due_year = dateArr[1] ? parseInt(dateArr[1]) : data.getFullYear();
-
-    const income = await sequelize.query(
-        'SELECT * FROM app_invoice WHERE user_id= :userId AND type = "income" AND year(due_at) = :year AND month(due_at) = :month ORDER BY day(due_at)',
-        {
-            replacements: {
-                year: due_year,
-                userId: userSession,
-                month: due_month,
-            },
-            type: QueryTypes.SELECT,
-        }
-    );
-
-    let dataIncome = [];
-    income.forEach((item) => {
+    let dataExpense = [];
+    expense.forEach((item) => {
         //formata data
+
         let dateArr = item.due_at.split("-");
         let [year, month, day] = dateArr.map(Number);
 
@@ -50,6 +49,7 @@ export const income = async (req, res) => {
             (date.getMonth() + 1) +
             "/" +
             date.getFullYear();
+
         let price = item.price.toLocaleString("pt-br", {
             style: "currency",
             currency: "BRL",
@@ -62,7 +62,7 @@ export const income = async (req, res) => {
             statusPay = false;
         }
         //cria novo objto com dados formatado
-        dataIncome.push({
+        dataExpense.push({
             id: item.id,
             date: dateFormat,
             description: item.description,
@@ -77,14 +77,14 @@ export const income = async (req, res) => {
         confirmedMonth = req.query.date.replace("-", "/");
     }
 
-    res.render("pages/widgets/income/receber", {
-        dataIncome,
+    res.render("pages/widgets/expense/pagar", {
+        dataExpense,
         months,
         confirmedMonth,
         userName,
     });
 };
-export const incomeCreate = async (req, res) => {
+export const expenseCreate = async (req, res) => {
     const userSession = req.session.user;
     const userName = req.session.fullName;
     const wallet = await Wallet.findAll({
@@ -95,17 +95,17 @@ export const incomeCreate = async (req, res) => {
     const category = await Category.findAll({
         where: {
             user_id: userSession,
-            type: "income",
+            type: "expense",
         },
     });
 
-    res.render("pages/widgets/income/receber-create", {
+    res.render("pages/widgets/expense/pagar-create", {
         wallet,
         category,
         userName,
     });
 };
-export const incomeEdit = async (req, res) => {
+export const expenseEdit = async (req, res) => {
     const userSession = req.session.user;
     const userName = req.session.fullName;
     const invoice = await Invoice.findByPk(req.query.id);
@@ -117,7 +117,7 @@ export const incomeEdit = async (req, res) => {
     const category = await Category.findAll({
         where: {
             user_id: userSession,
-            type: "income",
+            type: "expense",
         },
     });
 
@@ -145,7 +145,8 @@ export const incomeEdit = async (req, res) => {
     const selPaid = select(invoice.pay, "paid");
 
     const priceBr = invoice.price.toFixed("2").replace(".", ",");
-    res.render("pages/widgets/income/receber-edit", {
+
+    res.render("pages/widgets/expense/pagar-edit", {
         invoice,
         priceBr,
         setWallet,
@@ -155,14 +156,15 @@ export const incomeEdit = async (req, res) => {
     });
 };
 
+// gera link para busca
 export const filterLink = (req, res) => {
     let dateLink = req.body.date.replace("/", "-");
-    res.json({ redirect: "/receitas?date=" + dateLink });
+
+    res.json({ redirect: "/despesas?date=" + dateLink });
 };
 
 export const save = async (req, res) => {
-    const userSession = req.session.user;
-
+    const userId = req.session.user;
     if (req.body.action && req.body.action === "create") {
         if (!req.body.description) {
             res.json({ message: "Preencha a descrição", type: "warning" });
@@ -182,6 +184,7 @@ export const save = async (req, res) => {
         }
         //remove o ponto da mascara do input
         const priceReplace = req.body.price.replace(".", "");
+
         if (req.body.repeat_when === "installments") {
             const date = req.body.date;
             const dateArr1 = date.split("-");
@@ -193,7 +196,7 @@ export const save = async (req, res) => {
             let mes = "";
             let ano = "";
             let p = 0;
-
+            let invoiceSave = "";
             for (let i = 0; i < req.body.installments; i++) {
                 p++;
                 if (i === 0) {
@@ -208,7 +211,7 @@ export const save = async (req, res) => {
                 dataDb = ano + "-" + mes + "-" + dia;
 
                 const expenseCreate = await Invoice.create({
-                    user_id: userSession,
+                    user_id: userId,
                     wallet_id: req.body.wallet,
                     category_id: req.body.category,
                     description:
@@ -224,13 +227,13 @@ export const save = async (req, res) => {
                 });
             }
 
-            res.json({ redirect: "/receitas" });
+            res.json({ redirect: "/despesas" });
             return;
         }
         //end parcelado
 
-        const incomeCreate = Invoice.build({
-            user_id: userSession,
+        const expenseCreate = Invoice.build({
+            user_id: userId,
             wallet_id: req.body.wallet,
             category_id: req.body.category,
             description: req.body.description,
@@ -245,21 +248,25 @@ export const save = async (req, res) => {
             period: !req.body.period ? "month" : req.body.period,
         });
 
-        await incomeCreate.save().catch((err) => {
-            console.log("linha:", err);
+        if (!(await expenseCreate.save())) {
             res.json({
                 message: "Ooops, algo deu errado, contate o admin",
                 type: "error",
             });
             return;
-        });
-
-        res.json({ redirect: "/receita-edit?id=" + incomeCreate.id });
+        }
+        if (req.body.repeat_when === "fixed") {
+            res.json({ redirect: "/fixo" });
+            return;
+        }
+        res.json({ redirect: "/despesa-edit?id=" + expenseCreate.id });
         return;
     }
+
     if (req.body.action && req.body.action === "update") {
+        // atualiza apenas o status de pagamento
         if (req.body.acao === "flash_list") {
-            const incomeUpdate = await Invoice.update(
+            const expenseUpdateFlash = await Invoice.update(
                 {
                     pay: req.body.pay,
                 },
@@ -269,7 +276,7 @@ export const save = async (req, res) => {
                     },
                 }
             );
-            if (!incomeUpdate) {
+            if (!expenseUpdateFlash) {
                 res.json({
                     message: "Ooops, algo deu errado, contate o admin",
                     type: "error",
@@ -294,14 +301,14 @@ export const save = async (req, res) => {
             }
             //remove o ponto da mascara do input
             const priceReplace = req.body.price.replace(".", "");
-            const incomeUpdate = await Invoice.update(
+            const expenseUpdate = await Invoice.update(
                 {
                     wallet_id: req.body.wallet,
                     category_id: req.body.category,
                     description: req.body.description,
                     price: parseFloat(priceReplace.replace(",", ".")),
                     due_at: req.body.date,
-                    type: "income",
+                    type: "expense",
                     pay: req.body.pay,
                     repeat_when: req.body.repeat_when,
                     period: !req.body.period ? "month" : req.body.period,
@@ -313,7 +320,7 @@ export const save = async (req, res) => {
                 }
             );
 
-            if (!incomeUpdate) {
+            if (!expenseUpdate) {
                 res.json({
                     message: "Ooops, algo deu errado, contate o admin",
                     type: "error",
@@ -324,22 +331,21 @@ export const save = async (req, res) => {
             res.json({ message: "Registro Atualizado", type: "success" });
         }
     }
-
     if (req.body.action && req.body.action === "delete") {
-        const incomeDelete = await Invoice.destroy({
+        const expenseDelete = await Invoice.destroy({
             where: {
                 id: req.body.id,
             },
         });
 
-        if (!incomeDelete) {
+        if (!expenseDelete) {
             res.json({
                 message: "Ooops, algo deu errado, contate o admin",
                 type: "error",
             });
             return;
         }
-        res.json({ redirect: "/receitas" });
+        res.json({ redirect: "/despesas" });
         return;
     }
 };
