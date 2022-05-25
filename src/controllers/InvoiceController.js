@@ -6,11 +6,9 @@ import pkg from "sequelize";
 import { sequelize } from "../instances/mysql.js";
 const { QueryTypes } = pkg;
 
-export const home = async (req, res) => {
+export const openInvoice = async (req, res) => {
     const userSession = "1";
-
     //INCOME && EXPENSE
-
     const invoice = await sequelize.query(
         "SELECT *  FROM app_invoice WHERE user_id= :userId AND pay = :p AND type IN('income','expense')  AND due_at < DATE(NOW())",
         {
@@ -19,13 +17,7 @@ export const home = async (req, res) => {
         }
     );
 
-    const wallet = await Wallet.findAll({
-        where: {
-            user_id: userSession,
-        },
-    });
-
-    let openInvoice = invoice.map((item) => {
+    let openInvoiceFormat = invoice.map((item) => {
         let obj = {};
 
         let dateArr = item.due_at.split("-");
@@ -64,22 +56,8 @@ export const home = async (req, res) => {
         return obj;
     });
 
-    const select = (type, value) => {
-        return type == value ? "selected" : "";
-    };
-
-    const setWallet = [];
-    wallet.forEach((wal) => {
-        setWallet.push({
-            id: wal.id,
-            name: wal.name,
-            selAttr: select(wal.option_wallet, "1"),
-        });
-    });
-
     res.json({
-        openInvoice,
-        setWallet,
+        openInvoice: openInvoiceFormat,
     });
 };
 
