@@ -62,7 +62,7 @@ export const openInvoice = async (req, res) => {
 };
 
 export const dataChart = async (req, res) => {
-    const userSession = req.session.user;
+    const userSession = req.body.user;
     const walletSearchId = req.body.wallet;
     let dateChart = new Date();
 
@@ -123,19 +123,19 @@ export const dataChart = async (req, res) => {
 };
 
 export const panelsData = async (req, res) => {
-    const userSession = req.session.user;
+    const userSession = req.body.user;
     const walletSearchId = req.body.wallet;
-    let wallet = "";
-    let currentDate = "";
+    let walletBalance = "";
+    let currentDate = new Date();
     let receivedMonth = "";
     let paidMonth = "";
+
     if (walletSearchId === "all") {
-        wallet = await sequelize.query(
+        walletBalance = await sequelize.query(
             "SELECT (SELECT SUM(price) FROM app_invoice WHERE user_id= :userId AND pay = 'paid' AND type = 'income') as income,(select SUM(price) FROM app_invoice WHERE user_id= :userId AND pay = 'paid' AND type = 'expense') as expense from app_invoice WHERE user_id = :userId and pay = 'paid' group by income,expense",
             { replacements: { userId: userSession }, type: QueryTypes.SELECT }
         );
 
-        currentDate = new Date();
         try {
             receivedMonth = await sequelize.query(
                 "SELECT  SUM(price) as incomeMonth FROM app_invoice WHERE user_id = :userId AND pay = 'paid' AND month(due_at) = :date AND year(due_at) = :year AND type = 'income'",
@@ -163,7 +163,7 @@ export const panelsData = async (req, res) => {
             }
         );
     } else {
-        wallet = await sequelize.query(
+        walletBalance = await sequelize.query(
             "SELECT (SELECT SUM(price) FROM app_invoice WHERE user_id= :userId AND pay = 'paid' AND type = 'income' AND wallet_id = :w) as income,(select SUM(price) FROM app_invoice WHERE user_id= :userId AND pay = 'paid' AND type = 'expense' AND wallet_id = :w) as expense from app_invoice WHERE user_id = :userId AND pay = 'paid' AND wallet_id = :w group by income,expense",
             {
                 replacements: { userId: userSession, w: walletSearchId },
@@ -171,7 +171,6 @@ export const panelsData = async (req, res) => {
             }
         );
 
-        currentDate = new Date();
         try {
             receivedMonth = await sequelize.query(
                 "SELECT  SUM(price) as incomeMonth FROM app_invoice WHERE user_id = :userId AND pay = 'paid' AND month(due_at) = :date AND year(due_at) = :year AND type = 'income' AND wallet_id = :w",
@@ -188,6 +187,7 @@ export const panelsData = async (req, res) => {
         } catch (error) {
             console.log(error);
         }
+
         paidMonth = await sequelize.query(
             "SELECT  SUM(price) as expenseMonth FROM app_invoice WHERE user_id = :userId AND pay = 'paid' AND month(due_at) = :date AND year(due_at) = :year AND type = 'expense' AND wallet_id = :w",
             {
@@ -202,19 +202,19 @@ export const panelsData = async (req, res) => {
         );
     }
 
-    let data = "";
-    if (wallet.length < 1) {
-        data = false;
-        res.json(data);
+    let panels = "";
+    if (walletBalance.length < 1) {
+        panels = false;
+        res.json(panels);
         return;
     }
 
-    data = {
-        balance: wallet[0].income - wallet[0].expense,
+    panels = {
+        balance: walletBalance[0].income - walletBalance[0].expense,
         received: receivedMonth[0].incomeMonth,
         paid: paidMonth[0].expenseMonth,
         balanceMonth: receivedMonth[0].incomeMonth - paidMonth[0].expenseMonth,
     };
 
-    res.json(data);
+    res.json(panels);
 };

@@ -1,25 +1,18 @@
-import { Invoice } from "../../models/Invoice.js";
-import { Category } from "../../models/Category.js";
-import { Wallet } from "../../models/Wallet.js";
+import { Invoice } from "../models/Invoice.js";
+import { Category } from "../models/Category.js";
+import { Wallet } from "../models/Wallet.js";
 import pkg from "sequelize";
-import { sequelize } from "../../instances/mysql.js";
+import { sequelize } from "../instances/mysql.js";
 const { QueryTypes } = pkg;
 
 export const income = async (req, res) => {
     const data = new Date();
-    const userSession = req.session.user;
-    const userName = req.session.fullName;
+    const userSession = "1";
+
     let dateInput = req.query.date;
     let dateArr = "";
     if (dateInput) {
         dateArr = dateInput.split("-");
-    }
-    // gerar datalist
-    let months = [];
-    for (let range = -2; range <= 2; range++) {
-        months.push({
-            month: range + (data.getMonth() + 1) + "/" + data.getFullYear(),
-        });
     }
 
     let due_month = dateArr[0] ? parseInt(dateArr[0]) : data.getMonth() + 1;
@@ -70,94 +63,8 @@ export const income = async (req, res) => {
             value: price,
         });
     });
-    let confirmedMonth = "";
-    if (!req.query.date) {
-        confirmedMonth = due_month + "/" + due_year;
-    } else {
-        confirmedMonth = req.query.date.replace("-", "/");
-    }
 
-    res.render("pages/widgets/income/receber", {
-        dataIncome,
-        months,
-        confirmedMonth,
-        userName,
-    });
-};
-export const incomeCreate = async (req, res) => {
-    const userSession = req.session.user;
-    const userName = req.session.fullName;
-    const wallet = await Wallet.findAll({
-        where: {
-            user_id: userSession,
-        },
-    });
-    const category = await Category.findAll({
-        where: {
-            user_id: userSession,
-            type: "income",
-        },
-    });
-
-    res.render("pages/widgets/income/receber-create", {
-        wallet,
-        category,
-        userName,
-    });
-};
-export const incomeEdit = async (req, res) => {
-    const userSession = req.session.user;
-    const userName = req.session.fullName;
-    const invoice = await Invoice.findByPk(req.query.id);
-    const wallet = await Wallet.findAll({
-        where: {
-            user_id: userSession,
-        },
-    });
-    const category = await Category.findAll({
-        where: {
-            user_id: userSession,
-            type: "income",
-        },
-    });
-
-    const select = (type, value) => {
-        return type == value ? "selected" : "";
-    };
-    const setWallet = [];
-    wallet.forEach((wal) => {
-        setWallet.push({
-            id: wal.id,
-            name: wal.name,
-            selAttr: select(wal.id, invoice.wallet_id),
-        });
-    });
-    const setCategory = [];
-    category.forEach((cate) => {
-        setCategory.push({
-            id: cate.id,
-            name: cate.name,
-            selAttr: select(cate.id, invoice.category_id),
-        });
-    });
-
-    const selUnpaid = select(invoice.pay, "unpaid");
-    const selPaid = select(invoice.pay, "paid");
-
-    const priceBr = invoice.price.toFixed("2").replace(".", ",");
-    res.render("pages/widgets/income/receber-edit", {
-        invoice,
-        priceBr,
-        setWallet,
-        setCategory,
-        status: { selUnpaid, selPaid },
-        userName,
-    });
-};
-
-export const filterLink = (req, res) => {
-    let dateLink = req.body.date.replace("/", "-");
-    res.json({ redirect: "/receitas?date=" + dateLink });
+    res.json({ dataIncome });
 };
 
 export const save = async (req, res) => {

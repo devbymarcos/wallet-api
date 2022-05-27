@@ -1,13 +1,13 @@
-import { Invoice } from "../../models/Invoice.js";
-import { Category } from "../../models/Category.js";
-import { Wallet } from "../../models/Wallet.js";
+import { Invoice } from "../models/Invoice.js";
+import { Category } from "../models/Category.js";
+import { Wallet } from "../models/Wallet.js";
 import pkg from "sequelize";
-import { sequelize } from "../../instances/mysql.js";
+import { sequelize } from "../instances/mysql.js";
 const { QueryTypes } = pkg;
 
 export const expense = async (req, res) => {
-    const userId = req.session.user;
-    const userName = req.session.fullName;
+    const userId = "1";
+
     let data = new Date();
 
     let dateInput = req.query.date;
@@ -28,13 +28,6 @@ export const expense = async (req, res) => {
         }
     );
 
-    // gerar datalist para placeholder input
-    let months = [];
-    for (let range = -2; range <= 2; range++) {
-        months.push({
-            month: range + (data.getMonth() + 1) + "/" + data.getFullYear(),
-        });
-    }
     let dataExpense = [];
     expense.forEach((item) => {
         //formata data
@@ -70,41 +63,10 @@ export const expense = async (req, res) => {
             value: price,
         });
     });
-    let confirmedMonth = "";
-    if (!req.query.date) {
-        confirmedMonth = due_month + "/" + due_year;
-    } else {
-        confirmedMonth = req.query.date.replace("-", "/");
-    }
 
-    res.render("pages/widgets/expense/pagar", {
-        dataExpense,
-        months,
-        confirmedMonth,
-        userName,
-    });
+    res.json({ dataExpense });
 };
-export const expenseCreate = async (req, res) => {
-    const userSession = req.session.user;
-    const userName = req.session.fullName;
-    const wallet = await Wallet.findAll({
-        where: {
-            user_id: userSession,
-        },
-    });
-    const category = await Category.findAll({
-        where: {
-            user_id: userSession,
-            type: "expense",
-        },
-    });
 
-    res.render("pages/widgets/expense/pagar-create", {
-        wallet,
-        category,
-        userName,
-    });
-};
 export const expenseEdit = async (req, res) => {
     const userSession = req.session.user;
     const userName = req.session.fullName;
@@ -154,13 +116,6 @@ export const expenseEdit = async (req, res) => {
         status: { selUnpaid, selPaid },
         userName,
     });
-};
-
-// gera link para busca
-export const filterLink = (req, res) => {
-    let dateLink = req.body.date.replace("/", "-");
-
-    res.json({ redirect: "/despesas?date=" + dateLink });
 };
 
 export const save = async (req, res) => {
