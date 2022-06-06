@@ -47,7 +47,7 @@ app.use("/", mainRoutes);
 //page 404
 app.use((req, res) => {
     res.status(404).json({
-        message: "Voce errou o caminho",
+        access: "not found",
     });
 });
 

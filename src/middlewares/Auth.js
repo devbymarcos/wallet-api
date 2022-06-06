@@ -1,38 +1,30 @@
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
-import { User } from "../models/User.js";
-const { verify } = jwt;
+
 dotenv.config();
 
 export const privateRouter = async (req, res, next) => {
-    if (!req.session.tokenUser) {
-        res.redirect("/login");
+    if (!req.header("authorization")) {
+        res.json({ authorization: "not authorized" });
         return;
     }
-    let decode = "";
-    try {
-        decode = verify(
-            req.session.tokenUser,
-            String(process.env.SECRET_KEY_JWT)
-        );
-    } catch (err) {
-        console.log("Token não aceito");
-        res.redirect("/login");
+    const [authType, token] = req.header("authorization").split(" ");
+
+    let success = false;
+    if (authType === "Bearer") {
+        try {
+            jwt.verify(token, String(process.env.SECRET_KEY_JWT));
+            success = true;
+        } catch (err) {
+            console.log(err);
+
+            res.json({ authorization: "not authorized" });
+        }
     }
 
-    const user = await User.findOne({
-        where: {
-            id: decode.id,
-            email: decode.email,
-        },
-    });
-
-    if (!user) {
-        res.redirect("/login");
-        return;
+    if (success) {
+        return next();
     }
 
-    req.session.user = user.id;
-    req.session.fullName = user.full_name;
-    return next();
+    res.json({ authorization: "not authorized" });
 };

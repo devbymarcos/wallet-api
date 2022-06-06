@@ -1,30 +1,12 @@
 import { User } from "../models/User.js";
 import sharp from "sharp";
+import dotenv from "dotenv";
 import { unlink } from "fs/promises";
 import bcryptjs from "bcryptjs";
+import jwt from "jsonwebtoken";
+dotenv.config();
 
-export const viewRegister = (req, res) => {
-    res.render("pages/widgets/user/user-create");
-};
-export const viewPerfil = async (req, res) => {
-    const userSession = req.session.user;
-    const findUser = await User.findByPk(userSession);
-
-    const cover = findUser.photo === "default" ? false : true;
-
-    const select = (type, value) => {
-        return type == value ? "selected" : "";
-    };
-
-    const selMale = select(findUser.genre, "male");
-    const selFemale = select(findUser.genre, "female");
-    res.render("pages/widgets/user/user-perfil", {
-        findUser,
-        cover,
-        selMale,
-        selFemale,
-    });
-};
+export const getUser = (req, res) => {};
 
 export const save = async (req, res) => {
     if (req.body.action && req.body.action === "update") {

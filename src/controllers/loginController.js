@@ -3,7 +3,6 @@ import bcryptjs from "bcryptjs";
 import dotenv from "dotenv";
 import nodemailer from "nodemailer";
 import jwt from "jsonwebtoken";
-const { sign, verify } = jwt;
 
 dotenv.config();
 
@@ -22,7 +21,7 @@ export const loginAuth = async (req, res) => {
         return;
     }
 
-    const token = sign(
+    const token = jwt.sign(
         { id: user.id, email: user.email },
         String(process.env.SECRET_KEY_JWT)
     );
