@@ -1,9 +1,10 @@
 import { Wallet } from "../models/Wallet.js";
 
 export const wallet = async (req, res) => {
+    const { id } = req.dataUser;
     let wallet = await Wallet.findAll({
         where: {
-            user_id: "1",
+            user_id: id,
         },
     });
 

@@ -1,9 +1,11 @@
 import { Category } from "../models/Category.js";
 
 export const category = async (req, res) => {
+    const { id } = req.dataUser;
+
     let categories = await Category.findAll({
         where: {
-            user_id: "1",
+            user_id: id,
         },
     });
 

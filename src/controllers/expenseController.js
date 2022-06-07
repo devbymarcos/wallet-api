@@ -6,7 +6,7 @@ import { sequelize } from "../instances/mysql.js";
 const { QueryTypes } = pkg;
 
 export const expense = async (req, res) => {
-    const userId = "1";
+    const { id } = req.dataUser;
 
     let data = new Date();
 
@@ -23,7 +23,7 @@ export const expense = async (req, res) => {
     const expense = await sequelize.query(
         'SELECT * FROM app_invoice WHERE user_id= :userId AND type = "expense" AND year(due_at) = :year AND month(due_at) = :month ORDER BY day(due_at)',
         {
-            replacements: { year: due_year, userId: userId, month: due_month },
+            replacements: { year: due_year, userId: id, month: due_month },
             type: QueryTypes.SELECT,
         }
     );
@@ -65,57 +65,6 @@ export const expense = async (req, res) => {
     });
 
     res.json({ dataExpense });
-};
-
-export const expenseEdit = async (req, res) => {
-    const userSession = req.session.user;
-    const userName = req.session.fullName;
-    const invoice = await Invoice.findByPk(req.query.id);
-    const wallet = await Wallet.findAll({
-        where: {
-            user_id: userSession,
-        },
-    });
-    const category = await Category.findAll({
-        where: {
-            user_id: userSession,
-            type: "expense",
-        },
-    });
-
-    const select = (type, value) => {
-        return type == value ? "selected" : "";
-    };
-    const setWallet = [];
-    wallet.forEach((wal) => {
-        setWallet.push({
-            id: wal.id,
-            name: wal.name,
-            selAttr: select(wal.id, invoice.wallet_id),
-        });
-    });
-    const setCategory = [];
-    category.forEach((cate) => {
-        setCategory.push({
-            id: cate.id,
-            name: cate.name,
-            selAttr: select(cate.id, invoice.category_id),
-        });
-    });
-
-    const selUnpaid = select(invoice.pay, "unpaid");
-    const selPaid = select(invoice.pay, "paid");
-
-    const priceBr = invoice.price.toFixed("2").replace(".", ",");
-
-    res.render("pages/widgets/expense/pagar-edit", {
-        invoice,
-        priceBr,
-        setWallet,
-        setCategory,
-        status: { selUnpaid, selPaid },
-        userName,
-    });
 };
 
 export const save = async (req, res) => {

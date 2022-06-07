@@ -7,12 +7,12 @@ import { sequelize } from "../instances/mysql.js";
 const { QueryTypes } = pkg;
 
 export const openInvoice = async (req, res) => {
-    const userSession = "1";
+    const { id } = req.dataUser;
     //INCOME && EXPENSE
     const invoice = await sequelize.query(
         "SELECT *  FROM app_invoice WHERE user_id= :userId AND pay = :p AND type IN('income','expense')  AND due_at < DATE(NOW())",
         {
-            replacements: { userId: userSession, p: "unpaid" },
+            replacements: { userId: id, p: "unpaid" },
             type: QueryTypes.SELECT,
         }
     );
@@ -62,7 +62,7 @@ export const openInvoice = async (req, res) => {
 };
 
 export const dataChart = async (req, res) => {
-    const userSession = req.body.user;
+    const { id } = req.dataUser;
     const walletSearchId = req.body.wallet;
     let dateChart = new Date();
 
@@ -82,13 +82,13 @@ export const dataChart = async (req, res) => {
     if (walletSearchId === "all") {
         chart = await sequelize.query(
             "SELECT year(due_at) as due_year,month(due_at) as due_month,DATE_FORMAT (due_at,'%m/%y') AS due_date,(SELECT SUM(price) FROM app_invoice WHERE user_id = :userId AND pay = 'paid' AND type = 'income' AND year(due_at) = due_year AND month(due_at) = due_month) as income,(SELECT SUM(price) FROM app_invoice WHERE user_id = :userId AND pay = 'paid' AND type = 'expense' AND year(due_at) = due_year AND month(due_at) = due_month) as expense FROM app_invoice WHERE user_id = :userId AND pay = 'paid' AND due_at >= date(now()- INTERVAL 4 MONTH) GROUP BY due_year, due_month, due_date ORDER BY due_year , due_month ASC  limit 5",
-            { replacements: { userId: userSession }, type: QueryTypes.SELECT }
+            { replacements: { userId: id }, type: QueryTypes.SELECT }
         );
     } else {
         chart = await sequelize.query(
             "SELECT year(due_at) as due_year,month(due_at) as due_month,DATE_FORMAT (due_at,'%m/%y') AS due_date,(SELECT SUM(price) FROM app_invoice WHERE user_id = :userId AND pay = 'paid' AND type = 'income' AND year(due_at) = due_year AND month(due_at) = due_month AND wallet_id = :w) as income,(SELECT SUM(price) FROM app_invoice WHERE user_id = :userId AND pay = 'paid' AND type = 'expense' AND year(due_at) = due_year AND month(due_at) = due_month AND wallet_id = :w) as expense FROM app_invoice WHERE user_id = :userId AND pay = 'paid'AND wallet_id = :w AND due_at >= date(now()- INTERVAL 4 MONTH) GROUP BY due_year , due_month ,due_date ORDER BY due_year , due_month ASC  limit 5",
             {
-                replacements: { userId: userSession, w: walletSearchId },
+                replacements: { userId: id, w: walletSearchId },
                 type: QueryTypes.SELECT,
             }
         );
@@ -123,7 +123,7 @@ export const dataChart = async (req, res) => {
 };
 
 export const panelsData = async (req, res) => {
-    const userSession = req.body.user;
+    const { id } = req.dataUser;
     const walletSearchId = req.body.wallet;
     let walletBalance = "";
     let currentDate = new Date();
@@ -133,7 +133,7 @@ export const panelsData = async (req, res) => {
     if (walletSearchId === "all") {
         walletBalance = await sequelize.query(
             "SELECT (SELECT SUM(price) FROM app_invoice WHERE user_id= :userId AND pay = 'paid' AND type = 'income') as income,(select SUM(price) FROM app_invoice WHERE user_id= :userId AND pay = 'paid' AND type = 'expense') as expense from app_invoice WHERE user_id = :userId and pay = 'paid' group by income,expense",
-            { replacements: { userId: userSession }, type: QueryTypes.SELECT }
+            { replacements: { userId: id }, type: QueryTypes.SELECT }
         );
 
         try {
@@ -141,7 +141,7 @@ export const panelsData = async (req, res) => {
                 "SELECT  SUM(price) as incomeMonth FROM app_invoice WHERE user_id = :userId AND pay = 'paid' AND month(due_at) = :date AND year(due_at) = :year AND type = 'income'",
                 {
                     replacements: {
-                        userId: userSession,
+                        userId: id,
                         date: currentDate.getMonth() + 1,
                         year: currentDate.getFullYear(),
                     },
@@ -155,7 +155,7 @@ export const panelsData = async (req, res) => {
             "SELECT  SUM(price) as expenseMonth FROM app_invoice WHERE user_id = :userId AND pay = 'paid' AND month(due_at) = :date AND year(due_at) = :year AND type = 'expense'",
             {
                 replacements: {
-                    userId: userSession,
+                    userId: id,
                     date: currentDate.getMonth() + 1,
                     year: currentDate.getFullYear(),
                 },
@@ -166,7 +166,7 @@ export const panelsData = async (req, res) => {
         walletBalance = await sequelize.query(
             "SELECT (SELECT SUM(price) FROM app_invoice WHERE user_id= :userId AND pay = 'paid' AND type = 'income' AND wallet_id = :w) as income,(select SUM(price) FROM app_invoice WHERE user_id= :userId AND pay = 'paid' AND type = 'expense' AND wallet_id = :w) as expense from app_invoice WHERE user_id = :userId AND pay = 'paid' AND wallet_id = :w group by income,expense",
             {
-                replacements: { userId: userSession, w: walletSearchId },
+                replacements: { userId: id, w: walletSearchId },
                 type: QueryTypes.SELECT,
             }
         );
@@ -176,7 +176,7 @@ export const panelsData = async (req, res) => {
                 "SELECT  SUM(price) as incomeMonth FROM app_invoice WHERE user_id = :userId AND pay = 'paid' AND month(due_at) = :date AND year(due_at) = :year AND type = 'income' AND wallet_id = :w",
                 {
                     replacements: {
-                        userId: userSession,
+                        userId: id,
                         date: currentDate.getMonth() + 1,
                         w: walletSearchId,
                         year: currentDate.getFullYear(),
@@ -192,7 +192,7 @@ export const panelsData = async (req, res) => {
             "SELECT  SUM(price) as expenseMonth FROM app_invoice WHERE user_id = :userId AND pay = 'paid' AND month(due_at) = :date AND year(due_at) = :year AND type = 'expense' AND wallet_id = :w",
             {
                 replacements: {
-                    userId: userSession,
+                    userId: id,
                     date: currentDate.getMonth() + 1,
                     w: walletSearchId,
                     year: currentDate.getFullYear(),

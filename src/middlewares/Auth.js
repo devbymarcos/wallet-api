@@ -11,9 +11,10 @@ export const privateRouter = async (req, res, next) => {
     const [authType, token] = req.header("authorization").split(" ");
 
     let success = false;
+    let userSession = "";
     if (authType === "Bearer") {
         try {
-            jwt.verify(token, String(process.env.SECRET_KEY_JWT));
+            userSession = jwt.verify(token, String(process.env.SECRET_KEY_JWT));
             success = true;
         } catch (err) {
             console.log(err);
@@ -23,6 +24,7 @@ export const privateRouter = async (req, res, next) => {
     }
 
     if (success) {
+        req.dataUser = userSession;
         return next();
     }
 

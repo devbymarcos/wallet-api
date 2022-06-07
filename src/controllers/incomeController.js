@@ -6,8 +6,8 @@ import { sequelize } from "../instances/mysql.js";
 const { QueryTypes } = pkg;
 
 export const income = async (req, res) => {
+    const { id } = req.dataUser;
     const data = new Date();
-    const userSession = "1";
 
     let dateInput = req.query.date;
     let dateArr = "";
@@ -23,7 +23,7 @@ export const income = async (req, res) => {
         {
             replacements: {
                 year: due_year,
-                userId: userSession,
+                userId: id,
                 month: due_month,
             },
             type: QueryTypes.SELECT,
@@ -68,7 +68,7 @@ export const income = async (req, res) => {
 };
 
 export const save = async (req, res) => {
-    const userSession = req.session.user;
+    const id = req.session.user;
 
     if (req.body.action && req.body.action === "create") {
         if (!req.body.description) {
@@ -115,7 +115,7 @@ export const save = async (req, res) => {
                 dataDb = ano + "-" + mes + "-" + dia;
 
                 const expenseCreate = await Invoice.create({
-                    user_id: userSession,
+                    user_id: id,
                     wallet_id: req.body.wallet,
                     category_id: req.body.category,
                     description:
@@ -137,7 +137,7 @@ export const save = async (req, res) => {
         //end parcelado
 
         const incomeCreate = Invoice.build({
-            user_id: userSession,
+            user_id: id,
             wallet_id: req.body.wallet,
             category_id: req.body.category,
             description: req.body.description,
