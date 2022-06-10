@@ -16,11 +16,11 @@ router.post("/panels", Auth.privateRouter, InvoiceController.panelsData);
 // CATEGORY
 router.get("/category", Auth.privateRouter, CategoryController.category);
 //WALLET
-router.get("/wallet", Auth.privateRouter, WalletController.wallet);
+// router.get("/wallet", Auth.privateRouter, WalletController.wallet);
 
-//EXPENSE
-router.get("/expense", Auth.privateRouter, ExpenseController.expense);
-//INCOME
-router.get("/income", Auth.privateRouter, IncomeController.income);
+// //EXPENSE
+// router.get("/expense", Auth.privateRouter, ExpenseController.expense);
+// //INCOME
+// router.get("/income", Auth.privateRouter, IncomeController.income);
 
 export default router;

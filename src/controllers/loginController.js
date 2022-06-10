@@ -1,4 +1,4 @@
-import { User } from "../models/User.js";
+import { prisma } from "../database/prismaClient.js";
 import bcryptjs from "bcryptjs";
 import dotenv from "dotenv";
 import nodemailer from "nodemailer";
@@ -7,7 +7,9 @@ import jwt from "jsonwebtoken";
 dotenv.config();
 
 export const loginAuth = async (req, res) => {
-    const user = await User.findOne({ where: { email: req.body.email } });
+    const user = await prisma.users.findUnique({
+        where: { email: req.body.email },
+    });
 
     if (!user) {
         res.json({ message: "Usuário não está registrado", type: "error" });
@@ -32,7 +34,7 @@ export const loginAuth = async (req, res) => {
 };
 
 export const forgetAction = async (req, res) => {
-    const user = await User.findOne({
+    const user = await prisma.users.findFirst({
         where: {
             email: req.body.email,
         },

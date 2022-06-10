@@ -1,9 +1,9 @@
-import { Category } from "../models/Category.js";
+import { prisma } from "../database/prismaClient.js";
 
 export const category = async (req, res) => {
     const { id } = req.dataUser;
 
-    let categories = await Category.findAll({
+    let categories = await prisma.app_categories.findMany({
         where: {
             user_id: id,
         },
