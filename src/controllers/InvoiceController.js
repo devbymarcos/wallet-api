@@ -1,4 +1,5 @@
 import { prisma } from "../database/prismaClient.js";
+import { formatDateView } from "../helpers/hooks.js";
 
 export const openInvoice = async (req, res) => {
     const { id } = req.dataUser;
@@ -11,10 +12,6 @@ export const openInvoice = async (req, res) => {
 
     let openInvoiceFormat = invoice.map((item) => {
         let obj = {};
-
-        const d = item.due_at.slice(0, 10);
-        const [year, month, day] = d.split("-");
-        const dateFormat = `${day}/${month}/${year}`;
 
         //formata status
         let statusPay = "";
@@ -30,7 +27,7 @@ export const openInvoice = async (req, res) => {
             currency: "BRL",
         });
         obj.pay = statusPay;
-        obj.due_at = dateFormat;
+        obj.due_at = formatDateView(item.due_at);
         // criando a rota para edicão
         let r = "";
         if (item.type === "expense") {

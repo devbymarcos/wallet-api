@@ -1,71 +1,48 @@
-// import { Invoice } from "../models/Invoice.js";
-// import { Category } from "../models/Category.js";
-// import { Wallet } from "../models/Wallet.js";
-// import pkg from "sequelize";
-// import { sequelize } from "../instances/mysql.js";
-// const { QueryTypes } = pkg;
+import { prisma } from "../database/prismaClient.js";
+import { formatDateView } from "../helpers/hooks.js";
 
-// export const income = async (req, res) => {
-//     const { id } = req.dataUser;
-//     const data = new Date();
+export const income = async (req, res) => {
+    const { id } = req.dataUser;
+    const data = new Date();
 
-//     let dateInput = req.query.date;
-//     let dateArr = "";
-//     if (dateInput) {
-//         dateArr = dateInput.split("-");
-//     }
+    let dateInput = req.query.date;
+    let dateArr = "";
+    if (dateInput) {
+        dateArr = dateInput.split("-");
+    }
 
-//     let due_month = dateArr[0] ? parseInt(dateArr[0]) : data.getMonth() + 1;
-//     let due_year = dateArr[1] ? parseInt(dateArr[1]) : data.getFullYear();
+    let due_month = dateArr[0] ? parseInt(dateArr[0]) : data.getMonth() + 1;
+    let due_year = dateArr[1] ? parseInt(dateArr[1]) : data.getFullYear();
 
-//     const income = await sequelize.query(
-//         'SELECT * FROM app_invoice WHERE user_id= :userId AND type = "income" AND year(due_at) = :year AND month(due_at) = :month ORDER BY day(due_at)',
-//         {
-//             replacements: {
-//                 year: due_year,
-//                 userId: id,
-//                 month: due_month,
-//             },
-//             type: QueryTypes.SELECT,
-//         }
-//     );
+    const income = await prisma.$queryRaw`
+        SELECT * FROM app_invoice WHERE user_id= ${id} AND type = "income" AND year(due_at) = ${due_year} AND month(due_at) = ${due_month} ORDER BY day(due_at)`;
 
-//     let dataIncome = [];
-//     income.forEach((item) => {
-//         //formata data
-//         let dateArr = item.due_at.split("-");
-//         let [year, month, day] = dateArr.map(Number);
-
-//         let date = new Date(year, month - 1, day);
-//         let dateFormat =
-//             date.getDate() +
-//             "/" +
-//             (date.getMonth() + 1) +
-//             "/" +
-//             date.getFullYear();
-//         let price = item.price.toLocaleString("pt-br", {
-//             style: "currency",
-//             currency: "BRL",
-//         });
-//         //formata status
-//         let statusPay = "";
-//         if (item.pay === "paid") {
-//             statusPay = true;
-//         } else {
-//             statusPay = false;
-//         }
-//         //cria novo objto com dados formatado
-//         dataIncome.push({
-//             id: item.id,
-//             date: dateFormat,
-//             description: item.description,
-//             status: statusPay,
-//             value: price,
-//         });
-//     });
-
-//     res.json({ dataIncome });
-// };
+    let dataIncome = [];
+    income.forEach((item) => {
+        // formata price
+        let price = item.price.toLocaleString("pt-br", {
+            style: "currency",
+            currency: "BRL",
+        });
+        //formata status
+        let statusPay = "";
+        if (item.pay === "paid") {
+            statusPay = true;
+        } else {
+            statusPay = false;
+        }
+        //cria novo objto com dados formatado
+        dataIncome.push({
+            id: item.id,
+            date: formatDateView(item.due_at),
+            description: item.description,
+            status: statusPay,
+            value: price,
+        });
+    });
+    console.log(income);
+    res.json({ dataIncome });
+};
 
 // export const save = async (req, res) => {
 //     const id = req.session.user;
