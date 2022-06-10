@@ -1,15 +1,17 @@
-// export const wallet = async (req, res) => {
-//     const { id } = req.dataUser;
-//     let wallet = await Wallet.findAll({
-//         where: {
-//             user_id: id,
-//         },
-//     });
+import { prisma } from "../database/prismaClient.js";
 
-//     res.json({
-//         wallet,
-//     });
-// };
+export const wallet = async (req, res) => {
+    const { id } = req.dataUser;
+    let wallet = await prisma.app_wallet.findMany({
+        where: {
+            user_id: id,
+        },
+    });
+
+    res.json({
+        wallet,
+    });
+};
 
 // export const save = async (req, res) => {
 //     const userSession = req.session.user;

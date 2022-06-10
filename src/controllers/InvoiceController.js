@@ -126,20 +126,20 @@ export const panelsData = async (req, res) => {
             currentDate.getMonth() + 1
         } AND year(due_at) = ${currentDate.getFullYear()} AND type = 'expense'"`;
     } else {
-        walletBalance = await prisma.$queryRaw`
-            "SELECT (SELECT SUM(price) FROM app_invoice WHERE user_id= ${id} AND pay = 'paid' AND type = 'income' AND wallet_id = :w) as income,(select SUM(price) FROM app_invoice WHERE user_id= ${id} AND pay = 'paid' AND type = 'expense' AND wallet_id = ${walletSearchId}) as expense from app_invoice WHERE user_id = ${id} AND pay = 'paid' AND wallet_id = ${walletSearchId} group by income,expense`;
+        walletBalance =
+            await prisma.$queryRaw`SELECT (SELECT SUM(price) FROM app_invoice WHERE user_id= ${id} AND pay = 'paid' AND type = 'income' AND wallet_id = ${walletSearchId}) as income,(select SUM(price) FROM app_invoice WHERE user_id= ${id} AND pay = 'paid' AND type = 'expense' AND wallet_id = ${walletSearchId}) as expense from app_invoice WHERE user_id = ${id} AND pay = 'paid' AND wallet_id = ${walletSearchId} group by income,expense`;
 
         try {
-            receivedMonth = await prisma.$queryRaw`
-                "SELECT  SUM(price) as incomeMonth FROM app_invoice WHERE user_id = :userId AND pay = 'paid' AND month(due_at) = ${
+            receivedMonth =
+                await prisma.$queryRaw`SELECT  SUM(price) as incomeMonth FROM app_invoice WHERE user_id = ${id} AND pay = 'paid' AND month(due_at) = ${
                     currentDate.getMonth() + 1
                 } AND year(due_at) = ${currentDate.getFullYear()} AND type = 'income' AND wallet_id = ${walletSearchId}`;
         } catch (error) {
             console.log(error);
         }
 
-        paidMonth = await prisma.$queryRaw`
-            "SELECT  SUM(price) as expenseMonth FROM app_invoice WHERE user_id = :userId AND pay = 'paid' AND month(due_at) = ${
+        paidMonth =
+            await prisma.$queryRaw`SELECT  SUM(price) as expenseMonth FROM app_invoice WHERE user_id = ${id} AND pay = 'paid' AND month(due_at) = ${
                 currentDate.getMonth() + 1
             } AND year(due_at) = ${currentDate.getFullYear()} AND type = 'expense' AND wallet_id = ${walletSearchId}`;
     }
@@ -153,8 +153,10 @@ export const panelsData = async (req, res) => {
 
     panels = {
         balance: walletBalance[0].income - walletBalance[0].expense,
-        received: receivedMonth[0].incomeMonth,
-        paid: paidMonth[0].expenseMonth,
+        received: receivedMonth[0].incomeMonth
+            ? receivedMonth[0].incomeMonth
+            : 0.0,
+        paid: paidMonth[0].expenseMonth ? paidMonth[0].expenseMonth : 0,
         balanceMonth: receivedMonth[0].incomeMonth - paidMonth[0].expenseMonth,
     };
 
