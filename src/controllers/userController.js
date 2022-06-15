@@ -1,12 +1,20 @@
-// import { User } from "../models/User.js";
-// import sharp from "sharp";
-// import dotenv from "dotenv";
-// import { unlink } from "fs/promises";
-// import bcryptjs from "bcryptjs";
-// import jwt from "jsonwebtoken";
-// dotenv.config();
+import { prisma } from "../database/prismaClient.js";
 
-// export const getUser = (req, res) => {};
+export const getUser = async (req, res) => {
+    const { id, email } = req.userSession;
+
+    const user = await prisma.users.findUnique({
+        where: {
+            email: email,
+        },
+    });
+
+    if (!user) return res.json({ message: "User not found" });
+    console.log(user);
+    res.json({
+        user,
+    });
+};
 
 // export const save = async (req, res) => {
 //     if (req.body.action && req.body.action === "update") {

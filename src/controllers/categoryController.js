@@ -1,52 +1,58 @@
 import { prisma } from "../database/prismaClient.js";
 
 export const category = async (req, res) => {
-    const { id } = req.dataUser;
+    const { id } = req.userSession;
 
-    let categories = await prisma.app_categories.findMany({
-        where: {
-            user_id: id,
-        },
-    });
-
-    let category = categories.map((item) => {
-        let obj = {};
-        obj.id = item.id;
-        obj.user_id = item.user_id;
-        obj.name = item.name;
-        obj.description = item.description;
-        if (item.type === "expense") {
-            obj.type = "Despesas";
-        } else {
-            obj.type = "Receita";
-        }
-        return obj;
-    });
-
-    res.json({
-        category,
-    });
+    try {
+        let categories = await prisma.app_categories.findMany({
+            where: {
+                user_id: id,
+            },
+        });
+        let category = categories.map((item) => {
+            let obj = {};
+            obj.id = item.id;
+            obj.user_id = item.user_id;
+            obj.name = item.name;
+            obj.description = item.description;
+            if (item.type === "expense") {
+                obj.type = "Despesas";
+            } else {
+                obj.type = "Receita";
+            }
+            return obj;
+        });
+        res.json({
+            category,
+        });
+    } catch (err) {
+        console.log(err);
+    }
 };
 
 export const save = async (req, res) => {
     if (req.body.action && req.body.action === "create") {
-        const categoryCreate = Category.build({
-            user_id: req.session.user,
-            name: req.body.name,
-            description: req.body.description,
-            type: req.body.type,
-        });
+        try {
+            const categoryCreate = await prisma.app_categories.create({
+                data: {
+                    user_id: req.userSession.id,
+                    name: req.body.name,
+                    description: req.body.description,
+                    type: req.body.type,
+                },
+            });
 
-        if (!(await categoryCreate.save())) {
+            console.log(categoryCreate);
+            res.json({ message: "registro criado", id: categoryCreate.id });
+        } catch (err) {
+            console.log(err);
             res.json({
                 message: "Ooops, algo deu errado, contate o admin",
                 type: "error",
             });
-            return;
+        } finally {
+            await prisma.$disconnect();
         }
-
-        res.json({ redirect: "/categoria-editar?id=" + categoryCreate.id });
-        return;
     }
 
     if (req.body.action && req.body.action === "update") {

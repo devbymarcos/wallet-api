@@ -2,7 +2,7 @@ import { prisma } from "../database/prismaClient.js";
 import { formatDateView } from "../helpers/hooks.js";
 
 export const expense = async (req, res) => {
-    const { id } = req.dataUser;
+    const { id } = req.userSession;
 
     let data = new Date();
     let dateInput = req.query.date;

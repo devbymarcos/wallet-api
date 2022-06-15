@@ -2,7 +2,7 @@ import { prisma } from "../database/prismaClient.js";
 import { formatDateView } from "../helpers/hooks.js";
 
 export const openInvoice = async (req, res) => {
-    const { id } = req.dataUser;
+    const { id } = req.userSession;
     //INCOME && EXPENSE
 
     const userId = id;

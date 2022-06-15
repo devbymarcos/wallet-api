@@ -1,7 +1,7 @@
 import { prisma } from "../database/prismaClient.js";
 
 export const wallet = async (req, res) => {
-    const { id } = req.dataUser;
+    const { id } = req.userSession;
     let wallet = await prisma.app_wallet.findMany({
         where: {
             user_id: id,
@@ -14,7 +14,7 @@ export const wallet = async (req, res) => {
 };
 
 // export const save = async (req, res) => {
-//     const userSession = req.session.user;
+//     const {id,email} = req.userSession;
 
 //     if (req.body.action && req.body.action === "create") {
 //         const wCreate = Wallet.build({

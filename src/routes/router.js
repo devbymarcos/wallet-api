@@ -6,6 +6,9 @@ import * as InvoiceController from "../controllers/InvoiceController.js";
 import * as ExpenseController from "../controllers/expenseController.js";
 import * as IncomeController from "../controllers/incomeController.js";
 import * as Auth from "../middlewares/Auth.js";
+import * as UserController from "../controllers/userController.js";
+import * as InvoiceFixedController from "../controllers/invoiceFixedController.js";
+
 const router = Router();
 
 router.post("/login", LoginController.loginAuth);
@@ -15,12 +18,20 @@ router.post("/chartdata", Auth.privateRouter, InvoiceController.dataChart);
 router.post("/panels", Auth.privateRouter, InvoiceController.panelsData);
 // CATEGORY
 router.get("/category", Auth.privateRouter, CategoryController.category);
+router.post("/category/save", Auth.privateRouter, CategoryController.save);
 //WALLET
 router.get("/wallet", Auth.privateRouter, WalletController.wallet);
 
 //EXPENSE
 router.get("/expense", Auth.privateRouter, ExpenseController.expense);
-// //INCOME
+//INCOME
 router.get("/income", Auth.privateRouter, IncomeController.income);
-
+//USER
+router.get("/user", Auth.privateRouter, UserController.getUser);
+// INVOICE
+router.get(
+    "/auto-create-fixed",
+    Auth.privateRouter,
+    InvoiceFixedController.autoFixedCreate
+);
 export default router;

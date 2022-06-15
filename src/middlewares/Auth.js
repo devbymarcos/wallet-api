@@ -24,7 +24,7 @@ export const privateRouter = async (req, res, next) => {
     }
 
     if (success) {
-        req.dataUser = userSession;
+        req.userSession = userSession;
         return next();
     }
 
