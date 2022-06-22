@@ -21,6 +21,7 @@ router.get("/category", Auth.privateRouter, CategoryController.category);
 router.post("/category/save", Auth.privateRouter, CategoryController.save);
 //WALLET
 router.get("/wallet", Auth.privateRouter, WalletController.wallet);
+router.post("wallet/save", Auth.privateRouter, WalletController.save);
 
 //EXPENSE
 router.get("/expense", Auth.privateRouter, ExpenseController.expense);

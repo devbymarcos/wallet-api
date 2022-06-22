@@ -28,6 +28,7 @@ const upload = multer({
 const app = express();
 app.disable("x-powered-by");
 app.use(cors());
+
 const __dirname = path.resolve();
 
 // for parsing multipart/form-data

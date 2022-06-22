@@ -27,6 +27,8 @@ export const category = async (req, res) => {
         });
     } catch (err) {
         console.log(err);
+    } finally {
+        await prisma.$disconnect();
     }
 };
 
@@ -42,7 +44,6 @@ export const save = async (req, res) => {
                 },
             });
 
-            console.log(categoryCreate);
             res.json({ message: "registro criado", id: categoryCreate.id });
         } catch (err) {
             console.log(err);

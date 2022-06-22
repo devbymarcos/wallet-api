@@ -40,7 +40,7 @@ export const income = async (req, res) => {
             value: price,
         });
     });
-    console.log(income);
+
     res.json({ dataIncome });
 };
 

@@ -5,10 +5,8 @@
     "main": "index.js",
     "type": "module",
     "scripts": {
-        "dev": "nodemon -e mustache,js,css app.js",
-        "start": "node app.js",
-        "webdev": "webpack --mode development --watch",
-        "webbuild": "webpack --mode production"
+        "dev": "nodemon -e js, app.js",
+        "start": "node app.js"
     },
     "keywords": [],
     "author": "",

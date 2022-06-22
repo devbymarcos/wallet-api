@@ -10,7 +10,7 @@ export const getUser = async (req, res) => {
     });
 
     if (!user) return res.json({ message: "User not found" });
-    console.log(user);
+
     res.json({
         user,
     });
