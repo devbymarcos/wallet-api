@@ -20,7 +20,7 @@ export const save = async (req, res) => {
         try {
             const wCreate = await prisma.app_wallet.create({
                 data: {
-                    user_id: userSession,
+                    user_id: id,
                     name: req.body.name,
                     description: req.body.description,
                     option_wallet: req.body.prefwallet,
@@ -38,43 +38,45 @@ export const save = async (req, res) => {
         }
     }
     if (req.body.action && req.body.action === "update") {
-        const wUpdate = await Wallet.update(
-            {
-                name: req.body.name,
-                description: req.body.description,
-                option_wallet: req.body.prefwallet,
-            },
-            {
+        try {
+            const wUpdate = await prisma.app_wallet.update({
                 where: {
                     id: req.body.wallet_id,
                 },
+                data: {
+                    name: req.body.name,
+                    description: req.body.description,
+                    option_wallet: req.body.prefwallet,
+                },
+            });
+            if (wUpdate.id) {
+                res.json({ message: "Registro atualizado", type: "success" });
             }
-        );
-        if (!wUpdate) {
+        } catch (err) {
+            console.log(err);
             res.json({
-                message: "Ooops, algo deu errado, contate o admin",
+                message: "Não foi possivel atualizar contate o admin",
                 type: "error",
             });
-            return;
+        } finally {
+            await prisma.$disconnect();
         }
-        res.json({ message: "Registro atualizado", type: "success" });
-        return;
     }
     if (req.body.action && req.body.action === "delete") {
-        const wDelete = await Wallet.destroy({
-            where: {
-                id: req.body.id,
-            },
-        });
-
-        if (!wDelete) {
-            res.json({
-                message: "Ooops, algo deu errado, contate o admin",
-                type: "error",
+        try {
+            const wDelete = await prisma.app_wallet.delete({
+                where: {
+                    id: req.body.id,
+                },
             });
-            return;
+            if (wDelete.id) return res.json({ message: "Carteira removida" });
+        } catch (err) {
+            console.log(err);
+            res.json({
+                message: "não foi possivel excluir o registro contate o admin",
+            });
+        } finally {
+            await prisma.$disconnect();
         }
-        res.json({ redirect: "/carteiras" });
-        return;
     }
 };
