@@ -15,6 +15,7 @@ export const wallet = async (req, res) => {
 
 export const save = async (req, res) => {
     const { id, email } = req.userSession;
+    console.log(req.body);
 
     if (req.body.action && req.body.action === "create") {
         try {
@@ -23,7 +24,7 @@ export const save = async (req, res) => {
                     user_id: id,
                     name: req.body.name,
                     description: req.body.description,
-                    option_wallet: req.body.prefwallet,
+                    option_wallet: parseInt(req.body.prefWallet),
                 },
             });
             res.json({ message: "registro criado", id: wCreate.id });
@@ -78,5 +79,28 @@ export const save = async (req, res) => {
         } finally {
             await prisma.$disconnect();
         }
+    }
+};
+
+export const walletUniq = async (req, res) => {
+    const { id } = req.userSession;
+    console.log(req.body.id);
+    try {
+        const wallet = await prisma.app_wallet.findUnique({
+            where: {
+                id: parseInt(req.body.id),
+            },
+        });
+
+        if (wallet.id) {
+            res.json({ wallet });
+            return;
+        }
+        console.log(wallet);
+    } catch (err) {
+        console.log(err);
+        res.json({ message: "Oops tivemos um erro contate o admin" });
+    } finally {
+        prisma.$disconnect();
     }
 };
