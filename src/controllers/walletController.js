@@ -15,7 +15,6 @@ export const wallet = async (req, res) => {
 
 export const save = async (req, res) => {
     const { id, email } = req.userSession;
-    console.log(req.body);
 
     if (req.body.action && req.body.action === "create") {
         try {
@@ -47,9 +46,10 @@ export const save = async (req, res) => {
                 data: {
                     name: req.body.name,
                     description: req.body.description,
-                    option_wallet: req.body.prefwallet,
+                    option_wallet: parseInt(req.body.prefWallet),
                 },
             });
+
             if (wUpdate.id) {
                 res.json({ message: "Registro atualizado", type: "success" });
             }
