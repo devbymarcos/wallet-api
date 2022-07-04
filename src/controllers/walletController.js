@@ -96,7 +96,6 @@ export const walletUniq = async (req, res) => {
             res.json({ wallet });
             return;
         }
-        console.log(wallet);
     } catch (err) {
         console.log(err);
         res.json({ message: "Oops tivemos um erro contate o admin" });
