@@ -57,43 +57,60 @@ export const save = async (req, res) => {
     }
 
     if (req.body.action && req.body.action === "update") {
-        const categoryUpdate = Category.update(
-            {
-                name: req.body.name,
-                description: req.body.description,
-                type: req.body.type,
-            },
-            {
-                where: {
-                    id: req.body.category_id,
+        try {
+            const categoryUpdate = prisma.app_categories.update(
+                {
+                    where: {
+                        id: req.body.category_id,
+                    },
                 },
-            }
-        );
-        if (!categoryUpdate) {
+                {
+                    name: req.body.name,
+                    description: req.body.description,
+                    type: req.body.type,
+                }
+            );
+
+            res.json({ message: "Registro atualizado", type: "success" });
+            return;
+        } catch (error) {
+            console.log(error);
             res.json({
                 message: "Ooops, algo deu errado, contate o admin",
                 type: "error",
             });
-            return;
+        } finally {
+            prisma.$disconnect();
         }
-        res.json({ message: "Registro atualizado", type: "success" });
-        return;
     }
 
     if (req.body.action && req.body.action === "delete") {
-        const categoryDelete = Category.destroy({
-            where: {
-                id: req.body.id,
-            },
-        });
-        if (!categoryDelete) {
+        try {
+            const categoryDelete = prisma.app_categories.delete({
+                where: {
+                    id: req.body.id,
+                },
+            });
+            if (!categoryDelete.id) {
+                res.json({
+                    message: "Ooops, algo deu errado, contate o admin",
+                    type: "error",
+                });
+                return;
+            }
+            res.json({
+                message: "Registro removido com sucesso",
+                type: "success",
+            });
+            return;
+        } catch (error) {
+            console.log(error);
             res.json({
                 message: "Ooops, algo deu errado, contate o admin",
                 type: "error",
             });
-            return;
+        } finally {
+            prisma.$disconnect();
         }
-        res.json({ redirect: "/categorias" });
-        return;
     }
 };
