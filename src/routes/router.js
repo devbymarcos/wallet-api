@@ -8,6 +8,7 @@ import * as IncomeController from "../controllers/incomeController.js";
 import * as Auth from "../middlewares/Auth.js";
 import * as UserController from "../controllers/userController.js";
 import * as InvoiceFixedController from "../controllers/invoiceFixedController.js";
+import * as BetweenWallet from "../controllers/betweenWalletController.js";
 
 const router = Router();
 
@@ -41,4 +42,5 @@ router.get(
     Auth.privateRouter,
     InvoiceFixedController.autoFixedCreate
 );
+router.post("/transfer", Auth.privateRouter, BetweenWallet.save);
 export default router;
