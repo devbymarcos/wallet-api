@@ -41,7 +41,7 @@ export const save = async (req, res) => {
         });
         if (transCreateDebito.id && transCreateCredito.id) {
             res.json({
-                message: "Transferecia realizada",
+                message: "Transferêcia realizada",
                 type: "success",
             });
         }
