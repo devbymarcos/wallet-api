@@ -16,7 +16,7 @@ export const expense = async (req, res) => {
     let due_year = dateArr[1] ? parseInt(dateArr[1]) : data.getFullYear();
 
     const expense = await prisma.$queryRaw`
-        SELECT * FROM app_invoice WHERE user_id= ${id} AND type = "expense" AND year(due_at) = ${due_year} AND month(due_at) = ${due_month} ORDER BY day(due_at)`;
+        SELECT * FROM app_invoice WHERE user_id= ${id} AND type IN("expense","transf-expense") AND year(due_at) = ${due_year} AND month(due_at) = ${due_month} ORDER BY day(due_at)`;
 
     let dataExpense = [];
     expense.forEach((item) => {

@@ -15,7 +15,7 @@ export const income = async (req, res) => {
     let due_year = dateArr[1] ? parseInt(dateArr[1]) : data.getFullYear();
 
     const income = await prisma.$queryRaw`
-        SELECT * FROM app_invoice WHERE user_id= ${id} AND type = "income" AND year(due_at) = ${due_year} AND month(due_at) = ${due_month} ORDER BY day(due_at)`;
+        SELECT * FROM app_invoice WHERE user_id= ${id} AND type IN("income","transf-income") AND year(due_at) = ${due_year} AND month(due_at) = ${due_month} ORDER BY day(due_at)`;
 
     let dataIncome = [];
     income.forEach((item) => {
