@@ -9,6 +9,7 @@ import * as Auth from "../middlewares/Auth.js";
 import * as UserController from "../controllers/userController.js";
 import * as InvoiceFixedController from "../controllers/invoiceFixedController.js";
 import * as BetweenWallet from "../controllers/betweenWalletController.js";
+import * as ExtractController from "../controllers/extractController.js";
 
 const router = Router();
 
@@ -43,4 +44,5 @@ router.get(
     InvoiceFixedController.autoFixedCreate
 );
 router.post("/transfer", Auth.privateRouter, BetweenWallet.save);
+router.post("/extract", Auth.privateRouter, ExtractController.extract);
 export default router;

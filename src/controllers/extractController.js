@@ -1,33 +1,53 @@
 import { prisma } from "../database/prismaClient.js";
+import { formatDateView } from "../helpers/hooks.js";
 
 export const extract = async (req, res) => {
-    const extractFilter = await prisma.app_invoice.findMany({
-        where: {
-            wallet_id: req.body.wallet,
-            due_at: {
-                lte: req.body.date1,
-                gte: req.body.date2,
-            },
-        },
-        orderBy: { due_at: "desc" },
+    // formatar a date para o prisma
+
+    const dateIni = req.body.date1;
+    const dateEnd = req.body.date2;
+    const wallet = req.body.wallet_id;
+
+    const extractFilter = await prisma.$queryRaw`
+    SELECT * FROM app_invoice WHERE due_at BETWEEN ${dateIni} AND ${dateEnd} AND wallet_id = ${wallet}  ORDER BY due_at DESC
+    `;
+
+    const extractData = extractFilter.map((item) => {
+        let obj = {};
+
+        obj.date = formatDateView(item.due_at);
+        obj.description = item.description;
+        obj.price = item.price;
+        obj.status = item.pay;
+        obj.id = item.id;
+        //formata status
+
+        if (item.pay === "paid") {
+            obj.type = true;
+        } else {
+            obj.type = false;
+        }
+
+        return obj;
     });
-    console.log(extractFilter);
-    // let dataInvest = FormatData.format(extract);
-    // let totalIncome = 0;
-    // let totalExpense = 0;
 
-    // extract.forEach((item) => {
-    //     if (item.type === "income") {
-    //         totalIncome += item.price;
-    //     } else {
-    //         totalExpense += item.price;
-    //     }
-    // });
-    // const total = totalIncome - totalExpense;
+    console.log(extractData);
 
-    // const data = {
-    //     total: total,
-    //     result: dataInvest,
-    // };
-    // res.json(data);
+    let totalIncome = 0;
+    let totalExpense = 0;
+
+    extractFilter.forEach((item) => {
+        if (item.type === "income") {
+            totalIncome += item.price;
+        } else {
+            totalExpense += item.price;
+        }
+    });
+    const total = totalIncome - totalExpense;
+
+    const data = {
+        total: total,
+        result: extractData,
+    };
+    res.json(data);
 };
