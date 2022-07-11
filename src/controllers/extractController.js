@@ -5,12 +5,18 @@ export const extract = async (req, res) => {
     // formatar a date para o prisma
 
     const dateIni = req.body.date1;
+    console.log(
+        "🚀 ~ file: extractController.js ~ line 8 ~ extract ~ dateIni",
+        dateIni
+    );
     const dateEnd = req.body.date2;
     const wallet = req.body.wallet_id;
 
     const extractFilter = await prisma.$queryRaw`
     SELECT * FROM app_invoice WHERE due_at BETWEEN ${dateIni} AND ${dateEnd} AND wallet_id = ${wallet}  ORDER BY due_at DESC
     `;
+
+    console.log(extractFilter);
 
     const extractData = extractFilter.map((item) => {
         let obj = {};
@@ -20,12 +26,13 @@ export const extract = async (req, res) => {
         obj.price = item.price;
         obj.status = item.pay;
         obj.id = item.id;
+        obj.type = item.type;
         //formata status
 
         if (item.pay === "paid") {
-            obj.type = true;
+            obj.status = true;
         } else {
-            obj.type = false;
+            obj.status = false;
         }
 
         return obj;
@@ -37,7 +44,7 @@ export const extract = async (req, res) => {
     let totalExpense = 0;
 
     extractFilter.forEach((item) => {
-        if (item.type === "income") {
+        if (item.type === "income" || item.type === "transf-income") {
             totalIncome += item.price;
         } else {
             totalExpense += item.price;
