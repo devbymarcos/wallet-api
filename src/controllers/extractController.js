@@ -5,10 +5,6 @@ export const extract = async (req, res) => {
     // formatar a date para o prisma
 
     const dateIni = req.body.date1;
-    console.log(
-        "🚀 ~ file: extractController.js ~ line 8 ~ extract ~ dateIni",
-        dateIni
-    );
     const dateEnd = req.body.date2;
     const wallet = req.body.wallet_id;
 
