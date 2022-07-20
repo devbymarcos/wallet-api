@@ -322,8 +322,9 @@ export const create = async (req, res) => {
                 data: dataPersist,
             });
 
-            console.log("registro", invoiceCreate);
-            res.json({ message: "Parcelas registradas" });
+            res.json({
+                message: "Parcelas registradas: " + invoiceCreate.count,
+            });
             return;
         } catch (err) {
             console.log(err);
