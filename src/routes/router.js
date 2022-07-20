@@ -3,8 +3,7 @@ import * as CategoryController from "../controllers/categoryController.js";
 import * as WalletController from "../controllers/walletController.js";
 import * as LoginController from "../controllers/loginController.js";
 import * as InvoiceController from "../controllers/InvoiceController.js";
-import * as ExpenseController from "../controllers/expenseController.js";
-import * as IncomeController from "../controllers/incomeController.js";
+
 import * as Auth from "../middlewares/Auth.js";
 import * as UserController from "../controllers/userController.js";
 import * as InvoiceFixedController from "../controllers/invoiceFixedController.js";
@@ -31,18 +30,18 @@ router.get("/wallet", Auth.privateRouter, WalletController.wallet);
 router.post("/wallet/save", Auth.privateRouter, WalletController.save);
 router.post("/wallet/uniq", Auth.privateRouter, WalletController.walletUniq);
 
-//EXPENSE
-router.get("/expense", Auth.privateRouter, ExpenseController.expense);
-//INCOME
-router.get("/income", Auth.privateRouter, IncomeController.income);
-//USER
-router.get("/user", Auth.privateRouter, UserController.getUser);
-// INVOICE
+//INVOICE
+router.get("/expense", Auth.privateRouter, InvoiceController.expense);
+router.get("/income", Auth.privateRouter, InvoiceController.income);
 router.get(
     "/auto-create-fixed",
     Auth.privateRouter,
     InvoiceFixedController.autoFixedCreate
 );
+router.post("/invoice/create", Auth.privateRouter, InvoiceController.create);
+//USER
+router.get("/user", Auth.privateRouter, UserController.getUser);
+
 router.post("/transfer", Auth.privateRouter, BetweenWallet.save);
 router.post("/extract", Auth.privateRouter, ExtractController.extract);
 export default router;

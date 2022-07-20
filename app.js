@@ -48,7 +48,7 @@ app.use("/", mainRoutes);
 //page 404
 app.use((req, res) => {
     res.status(404).json({
-        access: "not found",
+        router: "not found",
     });
 });
 
