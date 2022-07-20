@@ -357,8 +357,6 @@ export const create = async (req, res) => {
                     name: "invoice",
                 },
             });
-
-            console.log(invoiceCreate);
         } catch (err) {
             console.log(err);
             res.json({
