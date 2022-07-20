@@ -250,7 +250,7 @@ export const expense = async (req, res) => {
 };
 
 export const create = async (req, res) => {
-    const id = req.userSession;
+    const id = req.userSession.id;
 
     if (!req.body.description) {
         res.json({ message: "Preencha a descrição", type: "warning" });
@@ -296,11 +296,10 @@ export const create = async (req, res) => {
             mes = data.getMonth() + 1;
             ano = data.getFullYear();
             dataDb = new Date(ano, mes - 1, dia);
-
             dataPersist.push({
                 user_id: id,
-                wallet_id: req.body.wallet,
-                category_id: req.body.category,
+                wallet_id: parseInt(req.body.wallet),
+                category_id: parseInt(req.body.category),
                 description:
                     req.body.description +
                     " parcela " +
@@ -310,39 +309,64 @@ export const create = async (req, res) => {
                 price: parseFloat(req.body.price.replace(",", ".")),
                 due_at: dataDb,
                 type: req.body.type,
+                pay: "unpaid",
+                period: !req.body.period ? "month" : req.body.period,
                 repeat_when: req.body.repeat_when,
+                name: "invoice",
+            });
+        }
+        console.log("dados", dataPersist);
+
+        try {
+            const invoiceCreate = await prisma.app_invoice.createMany({
+                data: dataPersist,
             });
 
-            console.log(dataPersist);
+            console.log("registro", invoiceCreate);
+            res.json({ message: "Parcelas registradas" });
+            return;
+        } catch (err) {
+            console.log(err);
+        } finally {
+            prisma.$disconnect();
         }
+    } else {
+        //end parcelado
+        try {
+            const date = req.body.date;
+            const dateArr1 = date.split("-");
+            const [year, month, day] = dateArr1.map(Number);
+            const dateDB = new Date(year, month - 1, day);
 
-        res.json({ mode: "testando" });
-        return;
+            const invoiceCreate = await prisma.app_invoice.create({
+                data: {
+                    user_id: id,
+                    wallet_id: parseInt(req.body.wallet),
+                    category_id: parseInt(req.body.category),
+                    description: req.body.description,
+                    price: parseFloat(req.body.price.replace(",", ".")),
+                    due_at: dateDB,
+                    type:
+                        req.body.repeat_when === "fixed"
+                            ? "fixed_" + req.body.type
+                            : req.body.type,
+                    pay: req.body.repeat_when === "fixed" ? "paid" : "unpaid",
+                    repeat_when: req.body.repeat_when,
+                    period: !req.body.period ? "month" : req.body.period,
+                    name: "invoice",
+                },
+            });
+
+            console.log(invoiceCreate);
+        } catch (err) {
+            console.log(err);
+            res.json({
+                message: "Ooops não conseguimos salvar contate o Admin",
+            });
+        } finally {
+            prisma.$disconnect();
+        }
     }
-    //end parcelado
-
-    const date = req.body.date;
-    const dateArr1 = date.split("-");
-    const [year, month, day] = dateArr1.map(Number);
-    const dateDB = new Date(year, month, day);
-
-    const invoiceCreate = await prisma.app_invoice.create({
-        data: {
-            user_id: id,
-            wallet_id: req.body.wallet,
-            category_id: req.body.category,
-            description: req.body.description,
-            price: parseFloat(req.body.price.replace(",", ".")),
-            due_at: dateDB,
-            type:
-                req.body.repeat_when === "fixed"
-                    ? "fixed_" + req.body.type
-                    : req.body.type,
-            pay: req.body.repeat_when === "fixed" ? "paid" : "unpaid",
-            repeat_when: req.body.repeat_when,
-            period: !req.body.period ? "month" : req.body.period,
-        },
-    });
 };
 
 export const modify = async (req, res) => {
