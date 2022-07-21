@@ -39,6 +39,8 @@ router.get(
     InvoiceFixedController.autoFixedCreate
 );
 router.post("/invoice/create", Auth.privateRouter, InvoiceController.create);
+router.post("/invoice/modify", Auth.privateRouter, InvoiceController.modify);
+router.post("/invoice/drop", Auth.privateRouter, InvoiceController.drop);
 //USER
 router.get("/user", Auth.privateRouter, UserController.getUser);
 

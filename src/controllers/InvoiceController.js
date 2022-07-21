@@ -441,21 +441,19 @@ export const modify = async (req, res) => {
 };
 
 export const drop = async (req, res) => {
-    if (req.body.action && req.body.action === "delete") {
-        const incomeDelete = await Invoice.destroy({
+    try {
+        const incomeDelete = await prisma.app_invoice.delete({
             where: {
                 id: req.body.id,
             },
         });
-
-        if (!incomeDelete) {
-            res.json({
-                message: "Ooops, algo deu errado, contate o admin",
-                type: "error",
-            });
-            return;
-        }
-        res.json({ redirect: "/receitas" });
-        return;
+    } catch (err) {
+        console.log(err);
+        res.json({
+            message: "Ooops algo deu errado contate o admin",
+            type: "error",
+        });
+    } finally {
+        prisma.$disconnect();
     }
 };
