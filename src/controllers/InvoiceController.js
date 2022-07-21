@@ -324,6 +324,7 @@ export const create = async (req, res) => {
 
             res.json({
                 message: "Parcelas registradas: " + invoiceCreate.count,
+                type: "success",
             });
             return;
         } catch (err) {
@@ -361,6 +362,7 @@ export const create = async (req, res) => {
             console.log(err);
             res.json({
                 message: "Ooops não conseguimos salvar contate o Admin",
+                type: "warning",
             });
         } finally {
             prisma.$disconnect();
@@ -369,71 +371,71 @@ export const create = async (req, res) => {
 };
 
 export const modify = async (req, res) => {
-    if (req.body.action && req.body.action === "update") {
-        if (req.body.acao === "flash_list") {
-            const incomeUpdate = await prisma.app_invoice.update(
-                {
+    if (req.body.acao === "action_list") {
+        try {
+            const incomeUpdate = await prisma.app_invoice.update({
+                where: {
+                    id: req.body.id,
+                },
+                data: {
                     pay: req.body.pay,
                 },
-                {
-                    where: {
-                        id: req.body.id,
-                    },
-                }
-            );
+            });
             if (!incomeUpdate) {
-                res.json({
-                    message: "Ooops, algo deu errado, contate o admin",
-                    type: "error",
-                });
+                res.json({ message: "Registro Atualizado", type: "success" });
                 return;
             }
-
-            res.json({ message: "Registro Atualizado", type: "success" });
-        } else {
-            if (!req.body.description) {
-                res.json({ message: "Preencha a descrição", type: "warning" });
-                return;
-            } else if (!req.body.price) {
-                res.json({ message: "Preencha o valor", type: "warning" });
-                return;
-            } else if (!req.body.category) {
-                res.json({ message: "Escolha a categoria", type: "warning" });
-            } else if (!req.body.wallet) {
-                res.json({ message: "Escolha a carteira", type: "warning" });
-            } else if (!req.body.date) {
-                res.json({ message: "É necessario a data", type: "warning" });
-            }
-            //remove o ponto da mascara do input
-            const priceReplace = req.body.price.replace(".", "");
-            const incomeUpdate = await Invoice.update(
-                {
+        } catch (err) {
+            console.log(err);
+            res.json({
+                message: "Ooops, algo deu errado, contate o admin",
+                type: "error",
+            });
+        } finally {
+            prisma.$disconnect();
+        }
+    } else {
+        if (!req.body.description) {
+            res.json({ message: "Preencha a descrição", type: "warning" });
+            return;
+        } else if (!req.body.price) {
+            res.json({ message: "Preencha o valor", type: "warning" });
+            return;
+        } else if (!req.body.category) {
+            res.json({ message: "Escolha a categoria", type: "warning" });
+        } else if (!req.body.wallet) {
+            res.json({ message: "Escolha a carteira", type: "warning" });
+        } else if (!req.body.date) {
+            res.json({ message: "É necessario a data", type: "warning" });
+        }
+        //remove o ponto da mascara do input
+        try {
+            const incomeUpdate = await prisma.app_invoice.update({
+                where: {
+                    id: req.body.id,
+                },
+                data: {
                     wallet_id: req.body.wallet,
-                    category_id: req.body.category,
-                    description: req.body.description,
-                    price: parseFloat(priceReplace.replace(",", ".")),
+                    category_id: parseInt(req.body.category),
+                    description: parseInt(req.body.description),
+                    price: parseFloat(req.body.price.replace(",", ".")),
                     due_at: req.body.date,
                     type: "income",
                     pay: req.body.pay,
                     repeat_when: req.body.repeat_when,
                     period: !req.body.period ? "month" : req.body.period,
+                    name: "invoice",
                 },
-                {
-                    where: {
-                        id: req.body.id,
-                    },
-                }
-            );
-
-            if (!incomeUpdate) {
-                res.json({
-                    message: "Ooops, algo deu errado, contate o admin",
-                    type: "error",
-                });
-                return;
-            }
-
+            });
             res.json({ message: "Registro Atualizado", type: "success" });
+        } catch (err) {
+            console.log(err);
+            res.json({
+                message: "Ooops, algo deu errado, contate o admin",
+                type: "error",
+            });
+        } finally {
+            prisma.$disconnect();
         }
     }
 };
