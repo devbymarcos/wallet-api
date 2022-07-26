@@ -358,6 +358,11 @@ export const create = async (req, res) => {
                     name: "invoice",
                 },
             });
+            res.json({
+                message: "Ok",
+                type: "success",
+                id: invoiceCreate.id,
+            });
         } catch (err) {
             console.log(err);
             res.json({
