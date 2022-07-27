@@ -18,7 +18,8 @@ export const privateRouter = async (req, res, next) => {
             success = true;
         } catch (err) {
             console.log(err);
-            res.json({ Authorization: "not authorized" });
+            res.sendStatus(401);
+            return;
         }
     }
 
