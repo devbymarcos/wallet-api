@@ -26,16 +26,10 @@ export const openInvoice = async (req, res) => {
             style: "currency",
             currency: "BRL",
         });
-        obj.pay = statusPay;
+        obj.pay = item.pay;
+        obj.status = statusPay;
         obj.due_at = formatDateView(item.due_at);
-        // criando a rota para edicão
-        let r = "";
-        if (item.type === "expense") {
-            r = "despesa-edit";
-        } else {
-            r = "receita-edit";
-        }
-        obj.router = r;
+
         return obj;
     });
 
@@ -196,6 +190,7 @@ export const income = async (req, res) => {
             date: formatDateView(item.due_at),
             description: item.description,
             status: statusPay,
+            pay: item.pay,
             value: price,
         });
     });
@@ -242,6 +237,7 @@ export const expense = async (req, res) => {
             date: dateFormat,
             description: item.description,
             status: statusPay,
+            pay: item.pay,
             value: price,
         });
     });
@@ -376,19 +372,20 @@ export const create = async (req, res) => {
 };
 
 export const modify = async (req, res) => {
-    if (req.body.acao === "action_list") {
+    if (req.body.action === "modifyList") {
         try {
             const incomeUpdate = await prisma.app_invoice.update({
                 where: {
-                    id: req.body.id,
+                    id: parseInt(req.body.id),
                 },
                 data: {
-                    pay: req.body.pay,
+                    pay: req.body.pay === "unpaid" ? "paid" : "unpaid",
                 },
             });
-            if (!incomeUpdate) {
-                res.json({ message: "Registro Atualizado", type: "success" });
-                return;
+            if (incomeUpdate.id) {
+                res.json({ message: "Atualizado", type: "success" });
+            } else {
+                throw new Error("Ooops, algo deu errado, contate o admin");
             }
         } catch (err) {
             console.log(err);
