@@ -1,5 +1,5 @@
 import { prisma } from "../database/prismaClient.js";
-import { formatDateView } from "../helpers/hooks.js";
+import { formatDateView, formtaDatePrisma } from "../helpers/hooks.js";
 
 export const openInvoice = async (req, res) => {
     const { id } = req.userSession;
@@ -458,4 +458,36 @@ export const drop = async (req, res) => {
     } finally {
         prisma.$disconnect();
     }
+};
+
+export const invoiceSingle = async (req, res) => {
+    const { id } = req.userSession;
+
+    const getInvoiceSingle = await prisma.app_invoice.findUnique({
+        where: {
+            id: parseInt(req.body.id),
+        },
+    });
+    console.log(
+        "🚀 ~ file: InvoiceController.js ~ line 471 ~ invoiceSingle ~ getInvoiceSingle",
+        getInvoiceSingle
+    );
+
+    let dataInvoice = {
+        id: getInvoiceSingle.id,
+        categoryId: getInvoiceSingle.category_id,
+        walletId: getInvoiceSingle.wallet_id,
+        type: getInvoiceSingle.type,
+        date: getInvoiceSingle.due_at,
+        value: getInvoiceSingle.price.toLocaleString("pt-br", {
+            style: "currency",
+            currency: "BRL",
+        }),
+        statusPay: getInvoiceSingle.pay === "paid" ? true : false,
+        pay: getInvoiceSingle.pay,
+    };
+    console.log(
+        "🚀 ~ file: InvoiceController.js ~ line 477 ~ invoiceSingle ~ dataInvoice",
+        dataInvoice
+    );
 };

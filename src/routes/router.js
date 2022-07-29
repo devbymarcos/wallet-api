@@ -38,6 +38,11 @@ router.get(
     Auth.privateRouter,
     InvoiceFixedController.autoFixedCreate
 );
+router.post(
+    "/invoice/single",
+    Auth.privateRouter,
+    InvoiceController.invoiceSingle
+);
 router.post("/invoice/create", Auth.privateRouter, InvoiceController.create);
 router.post("/invoice/modify", Auth.privateRouter, InvoiceController.modify);
 router.post("/invoice/drop", Auth.privateRouter, InvoiceController.drop);
