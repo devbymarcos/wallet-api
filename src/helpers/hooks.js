@@ -4,7 +4,7 @@ export function formatDateView(date) {
     return `${day}/${month}/${year}`;
 }
 
-export function formtaDatePrisma(date) {
+export function formatDatePrisma(date) {
     const d = new Date(date);
     const day = d.getUTCDate();
     const year = d.getUTCFullYear();

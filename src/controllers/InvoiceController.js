@@ -1,5 +1,5 @@
 import { prisma } from "../database/prismaClient.js";
-import { formatDateView, formtaDatePrisma } from "../helpers/hooks.js";
+import { formatDateView, formatDatePrisma } from "../helpers/hooks.js";
 
 export const openInvoice = async (req, res) => {
     const { id } = req.userSession;
@@ -302,7 +302,7 @@ export const create = async (req, res) => {
                     p +
                     "/" +
                     req.body.installments,
-                price: parseFloat(req.body.price.replace(",", ".")),
+                price: parseFloat(req.body.price),
                 due_at: dataDb,
                 type: req.body.type,
                 pay: "unpaid",
@@ -342,7 +342,7 @@ export const create = async (req, res) => {
                     wallet_id: parseInt(req.body.wallet),
                     category_id: parseInt(req.body.category),
                     description: req.body.description,
-                    price: parseFloat(req.body.price.replace(",", ".")),
+                    price: parseFloat(req.body.price),
                     due_at: dateDB,
                     type:
                         req.body.repeat_when === "fixed"
@@ -414,19 +414,16 @@ export const modify = async (req, res) => {
         try {
             const incomeUpdate = await prisma.app_invoice.update({
                 where: {
-                    id: req.body.id,
+                    id: parseInt(req.body.id),
                 },
                 data: {
-                    wallet_id: req.body.wallet,
+                    wallet_id: parseInt(req.body.wallet),
                     category_id: parseInt(req.body.category),
-                    description: parseInt(req.body.description),
-                    price: parseFloat(req.body.price.replace(",", ".")),
-                    due_at: req.body.date,
-                    type: "income",
+                    description: req.body.description,
+                    price: parseFloat(req.body.price),
+                    due_at: new Date(req.body.date),
+                    type: req.body.type,
                     pay: req.body.pay,
-                    repeat_when: req.body.repeat_when,
-                    period: !req.body.period ? "month" : req.body.period,
-                    name: "invoice",
                 },
             });
             res.json({ message: "Registro Atualizado", type: "success" });
@@ -468,10 +465,6 @@ export const invoiceSingle = async (req, res) => {
             id: parseInt(req.body.id),
         },
     });
-    console.log(
-        "🚀 ~ file: InvoiceController.js ~ line 471 ~ invoiceSingle ~ getInvoiceSingle",
-        getInvoiceSingle
-    );
 
     let dataInvoice = {
         id: getInvoiceSingle.id,
@@ -479,15 +472,14 @@ export const invoiceSingle = async (req, res) => {
         walletId: getInvoiceSingle.wallet_id,
         type: getInvoiceSingle.type,
         date: getInvoiceSingle.due_at,
-        value: getInvoiceSingle.price.toLocaleString("pt-br", {
-            style: "currency",
-            currency: "BRL",
-        }),
+        value: getInvoiceSingle.price,
         statusPay: getInvoiceSingle.pay === "paid" ? true : false,
         pay: getInvoiceSingle.pay,
+        description: getInvoiceSingle.description,
     };
-    console.log(
-        "🚀 ~ file: InvoiceController.js ~ line 477 ~ invoiceSingle ~ dataInvoice",
-        dataInvoice
-    );
+
+    if (getInvoiceSingle.id) {
+        res.json(dataInvoice);
+        return;
+    }
 };

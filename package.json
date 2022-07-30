@@ -23,6 +23,7 @@
         "mysql2": "^2.3.0",
         "nodemailer": "^6.7.0",
         "nodemon": "^2.0.19",
+        "numeral": "^2.0.6",
         "sequelize": "^6.6.5",
         "serve-favicon": "^2.5.0",
         "sharp": "^0.30.6",
