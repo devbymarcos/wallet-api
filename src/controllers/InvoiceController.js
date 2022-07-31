@@ -246,7 +246,7 @@ export const expense = async (req, res) => {
 };
 
 export const create = async (req, res) => {
-    const id = req.userSession.id;
+    const { id } = req.userSession;
 
     if (!req.body.description) {
         res.json({ message: "Preencha a descrição", type: "warning" });
@@ -440,12 +440,17 @@ export const modify = async (req, res) => {
 };
 
 export const drop = async (req, res) => {
+    const { id } = req.userSession;
     try {
-        const incomeDelete = await prisma.app_invoice.delete({
+        const invoiceDelete = await prisma.app_invoice.delete({
             where: {
-                id: req.body.id,
+                id: parseInt(req.body.id),
             },
         });
+        if (invoiceDelete) {
+            throw new Error("Nao deu pra fazer");
+        }
+        res.json(incomeDelete);
     } catch (err) {
         console.log(err);
         res.json({
