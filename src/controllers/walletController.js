@@ -51,7 +51,11 @@ export const save = async (req, res) => {
             });
 
             if (wUpdate.id) {
-                res.json({ message: "Registro atualizado", type: "success" });
+                res.json({
+                    id: wUpdate.id,
+                    message: "Registro atualizado",
+                    type: "success",
+                });
             }
         } catch (err) {
             console.log(err);

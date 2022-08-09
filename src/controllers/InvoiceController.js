@@ -447,10 +447,10 @@ export const drop = async (req, res) => {
                 id: parseInt(req.body.id),
             },
         });
-        if (invoiceDelete) {
-            throw new Error("Nao deu pra fazer");
-        }
-        res.json(incomeDelete);
+        // if (invoiceDelete) {
+        //     throw new Error("Nao deu pra fazer");
+        // }
+        res.json(invoiceDelete);
     } catch (err) {
         console.log(err);
         res.json({
