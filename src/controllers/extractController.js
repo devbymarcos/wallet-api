@@ -12,8 +12,6 @@ export const extract = async (req, res) => {
     SELECT * FROM app_invoice WHERE due_at BETWEEN ${dateIni} AND ${dateEnd} AND wallet_id = ${wallet}  ORDER BY due_at DESC
     `;
 
-    console.log(extractFilter);
-
     const extractData = extractFilter.map((item) => {
         let obj = {};
 
