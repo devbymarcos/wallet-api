@@ -5,7 +5,7 @@
     "main": "index.js",
     "type": "module",
     "scripts": {
-        "dev": "nodemon -e js, app.js",
+        "dev": "nodemon --inspect -e js, app.js",
         "start": "node app.js"
     },
     "keywords": [],
