@@ -48,6 +48,7 @@ router.post("/invoice/modify", Auth.privateRouter, InvoiceController.modify);
 router.post("/invoice/drop", Auth.privateRouter, InvoiceController.drop);
 //USER
 router.get("/user", Auth.privateRouter, UserController.getUser);
+router.post("/user/update", Auth.privateRouter, UserController.save);
 
 router.post("/transfer", Auth.privateRouter, BetweenWallet.save);
 router.post("/extract", Auth.privateRouter, ExtractController.extract);

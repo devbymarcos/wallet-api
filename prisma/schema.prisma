@@ -81,21 +81,15 @@ model app_wallet {
 }
 
 model users {
-  id               Int       @id @default(autoincrement()) @db.UnsignedInt
-  first_name       String    @default("") @db.VarChar(255)
-  last_name        String    @default("") @db.VarChar(255)
-  email            String    @unique(map: "email") @default("") @db.VarChar(255)
-  password         String    @default("") @db.VarChar(255)
-  level            Int       @default(5)
-  forget           String?   @db.VarChar(255)
-  date_link_forget DateTime? @db.Date
-  genre            String?   @db.VarChar(10)
-  datebirth        DateTime? @db.Date
-  document         String?   @db.VarChar(14)
-  photo            String    @default("default") @db.VarChar(255)
-  status           String    @default("registered") @db.VarChar(50)
-  created_at       DateTime  @default(now()) @db.Timestamp(0)
-  updated_at       DateTime? @db.Timestamp(0)
+  id           Int       @id @default(autoincrement()) @db.UnsignedInt
+  first_name   String    @default("") @db.VarChar(255)
+  last_name    String    @default("") @db.VarChar(255)
+  email        String    @unique(map: "email") @default("") @db.VarChar(255)
+  password     String    @default("") @db.VarChar(255)
+  token_forget String?   @db.VarChar(255)
+  photo        String    @default("default") @db.VarChar(255)
+  created_at   DateTime  @default(now()) @db.Timestamp(0)
+  updated_at   DateTime? @db.Timestamp(0)
 
   @@index([first_name, last_name, email], map: "full_text")
 }
