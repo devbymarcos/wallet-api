@@ -5,13 +5,22 @@ import { unlink } from "fs/promises";
 
 export const getUser = async (req, res) => {
     const { id, email } = req.userSession;
-    const user = await prisma.users.findUnique({
+    const userDb = await prisma.users.findUnique({
         where: {
             email: email,
         },
     });
+    if (!userDb) return res.json({ message: "User not found" });
 
-    if (!user) return res.json({ message: "User not found" });
+    const user = {
+        first_name : userDb.first_name,
+        last_name : userDb.last_name,
+        email : userDb.email,
+        photo : userDb.photo
+    }
+
+
+
 
     res.json({
         user,
