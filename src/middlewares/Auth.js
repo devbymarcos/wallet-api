@@ -5,7 +5,7 @@ dotenv.config();
 
 export const privateRouter = async (req, res, next) => {
     if (!req.header("Authorization")) {
-        res.json({ authorization: "not authorized" });
+        res.sendStatus(401);
         return;
     }
     const [authType, token] = req.header("Authorization").split(" ");

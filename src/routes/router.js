@@ -3,7 +3,6 @@ import * as CategoryController from "../controllers/categoryController.js";
 import * as WalletController from "../controllers/walletController.js";
 import * as LoginController from "../controllers/loginController.js";
 import * as InvoiceController from "../controllers/InvoiceController.js";
-
 import * as Auth from "../middlewares/Auth.js";
 import * as UserController from "../controllers/userController.js";
 import * as InvoiceFixedController from "../controllers/invoiceFixedController.js";
