@@ -27,6 +27,6 @@ export const privateRouter = async (req, res, next) => {
         req.userSession = userSession;
         return next();
     }
-    console.log(success);
-    res.json({ authorization: "not authorized" });
+
+    res.sendStatus(401);
 };
