@@ -1,7 +1,15 @@
 export function formatDateView(date) {
-    const d = date.slice(0, 10);
-    const [year, month, day] = d.split("-");
-    return `${day}/${month}/${year}`;
+    if (typeof date != "string") {
+        const dview = new Date(date);
+        const day = dview.getUTCDate();
+        const year = dview.getUTCFullYear();
+        const month = dview.getUTCMonth();
+        return `${day}/${month}/${year}`;
+    } else {
+        const d = String(date).slice(0, 10);
+        const [year, month, day] = d.split("-");
+        return `${day}/${month}/${year}`;
+    }
 }
 
 export function formatDatePrisma(date) {
