@@ -158,13 +158,14 @@ export const income = async (req, res) => {
     const { id } = req.userSession;
     const data = new Date();
 
-    let dateInput = req.query.date;
+    let dateInput = req.body.date;
     let dateArr = "";
     if (dateInput) {
         dateArr = dateInput.split("-");
     }
 
     let due_month = dateArr[0] ? parseInt(dateArr[0]) : data.getMonth() + 1;
+
     let due_year = dateArr[1] ? parseInt(dateArr[1]) : data.getFullYear();
 
     const income = await prisma.$queryRaw`
