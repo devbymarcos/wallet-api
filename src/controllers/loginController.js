@@ -7,9 +7,11 @@ import jwt from "jsonwebtoken";
 dotenv.config();
 
 export const loginAuth = async (req, res) => {
+    console.log(req.body.email);
     const user = await prisma.users.findUnique({
         where: { email: req.body.email },
     });
+    console.log("🚀 ~ file: loginController.js:14 ~ loginAuth ~ user", user);
 
     if (!user) {
         res.json({ message: "Usuário não está registrado", type: "error" });
@@ -32,7 +34,13 @@ export const loginAuth = async (req, res) => {
     );
 
     res.json({
-        token: token,
+        user: {
+            first_name: user.first_name,
+            last_name: user.last_name,
+            email: user.email,
+            photo: user.photo,
+            token: token,
+        },
     });
 };
 
