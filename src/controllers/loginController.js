@@ -11,8 +11,6 @@ export const loginAuth = async (req, res) => {
     const user = await prisma.users.findUnique({
         where: { email: req.body.email },
     });
-    console.log("🚀 ~ file: loginController.js:14 ~ loginAuth ~ user", user);
-
     if (!user) {
         res.json({ message: "Usuário não está registrado", type: "error" });
         return;
