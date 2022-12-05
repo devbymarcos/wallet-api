@@ -198,7 +198,7 @@ export const expense = async (req, res) => {
     const { id } = req.userSession;
 
     let data = new Date();
-    let dateInput = req.query.date;
+    let dateInput = req.body.date;
     let dateArr = "";
     if (dateInput) {
         dateArr = dateInput.split("-");
@@ -213,13 +213,6 @@ export const expense = async (req, res) => {
 
     let dataExpense = [];
     expense.forEach((item) => {
-        //formata data
-
-        let dateFormat = formatDateView(item.due_at);
-        let price = item.price.toLocaleString("pt-br", {
-            style: "currency",
-            currency: "BRL",
-        });
         //formata status
         let statusPay = "";
         if (item.pay === "paid") {
@@ -230,11 +223,11 @@ export const expense = async (req, res) => {
         //cria novo objto com dados formatado
         dataExpense.push({
             id: item.id,
-            date: dateFormat,
+            date: item.due_at,
             description: item.description,
             status: statusPay,
             pay: item.pay,
-            value: price,
+            value: item.price,
         });
     });
 
