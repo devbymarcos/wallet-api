@@ -307,7 +307,6 @@ export const create = async (req, res) => {
                 name: "invoice",
             });
         }
-        console.log("dados", dataPersist);
 
         try {
             const invoiceCreate = await prisma.app_invoice.createMany({
