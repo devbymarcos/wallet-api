@@ -1,5 +1,4 @@
 import { prisma } from "../database/prismaClient.js";
-import { formatDateView, formatDatePrisma } from "../helpers/hooks.js";
 
 export const openInvoice = async (req, res) => {
     const { id } = req.userSession;
@@ -170,14 +169,10 @@ export const income = async (req, res) => {
 
     const income = await prisma.$queryRaw`
         SELECT * FROM app_invoice WHERE user_id= ${id} AND type IN("income","transf-income") AND year(due_at) = ${due_year} AND month(due_at) = ${due_month} ORDER BY day(due_at)`;
-
     let dataIncome = [];
     income.forEach((item) => {
         // formata price
-        let price = item.price.toLocaleString("pt-br", {
-            style: "currency",
-            currency: "BRL",
-        });
+
         //formata status
         let statusPay = "";
         if (item.pay === "paid") {
@@ -188,11 +183,11 @@ export const income = async (req, res) => {
         //cria novo objto com dados formatado
         dataIncome.push({
             id: item.id,
-            date: formatDateView(item.due_at),
+            date: item.due_at,
             description: item.description,
             status: statusPay,
             pay: item.pay,
-            value: price,
+            value: item.price,
         });
     });
 

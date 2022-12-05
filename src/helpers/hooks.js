@@ -3,7 +3,7 @@ export function formatDateView(date) {
         const dview = new Date(date);
         const day = dview.getUTCDate();
         const year = dview.getUTCFullYear();
-        const month = dview.getUTCMonth();
+        const month = dview.getUTCMonth() + 1;
         return `${day}/${month}/${year}`;
     } else {
         const d = String(date).slice(0, 10);
