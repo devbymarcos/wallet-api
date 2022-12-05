@@ -12,7 +12,7 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
-        "@prisma/client": "^3.15.1",
+        "@prisma/client": "^4.7.1",
         "bcryptjs": "^2.4.3",
         "cors": "^2.8.5",
         "dotenv": "^10.0.0",
@@ -20,7 +20,7 @@
         "express-session": "^1.17.2",
         "jsonwebtoken": "^8.5.1",
         "multer": "^1.4.5-lts.1",
-        "mysql2": "^2.3.0",
+        "mysql2": "^2.3.3",
         "nodemailer": "^6.7.0",
         "nodemon": "^2.0.19",
         "numeral": "^2.0.6",
@@ -34,6 +34,6 @@
         "@types/jsonwebtoken": "^8.5.5",
         "@types/sequelize": "^4.28.10",
         "morgan": "^1.10.0",
-        "prisma": "^3.15.1"
+        "prisma": "^4.7.1"
     }
 }
