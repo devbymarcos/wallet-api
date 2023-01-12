@@ -13,14 +13,11 @@ export const getUser = async (req, res) => {
     if (!userDb) return res.json({ message: "User not found" });
 
     const user = {
-        first_name : userDb.first_name,
-        last_name : userDb.last_name,
-        email : userDb.email,
-        photo : userDb.photo
-    }
-
-
-
+        first_name: userDb.first_name,
+        last_name: userDb.last_name,
+        email: userDb.email,
+        photo: userDb.photo,
+    };
 
     res.json({
         user,
@@ -29,6 +26,7 @@ export const getUser = async (req, res) => {
 
 export const save = async (req, res) => {
     const { id, email } = req.userSession;
+    console.log(req.files);
 
     if (req.body.action && req.body.action === "update") {
         const findUser = await prisma.users.findUnique({
@@ -65,15 +63,26 @@ export const save = async (req, res) => {
                     id: id,
                 },
                 data: {
-                    first_name: req.body.first_name,
-                    last_name: req.body.last_name,
-                    email: req.body.email,
+                    first_name: req.body.first_name
+                        ? req.body.first_name
+                        : findUser.first_name,
+                    last_name: req.body.last_name
+                        ? req.body.last_name
+                        : findUser.last_name,
+                    email: req.body.email ? req.body.email : findUser.email,
                     photo: urlImage,
                     password: passwordCrypt ? passwordCrypt : findUser.password,
                 },
             });
 
-            res.json({ message: " registro atualizado", type: "success" });
+            res.json({
+                user: {
+                    first_name: userUpdate.first_name,
+                    last_name: userUpdate.last_name,
+                    email: userUpdate.email,
+                    photo: userUpdate.photo,
+                },
+            });
             return;
         } catch (err) {
             console.log(err);
