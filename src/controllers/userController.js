@@ -138,12 +138,8 @@ export const save = async (req, res) => {
             });
 
             res.json({
-                user: {
-                    first_name: userUpdate.first_name,
-                    last_name: userUpdate.last_name,
-                    email: userUpdate.email,
-                    photo: userUpdate.photo,
-                },
+                message: "upload ok",
+                type: "success",
             });
             return;
         } catch (err) {
