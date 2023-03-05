@@ -27,7 +27,7 @@ export const openInvoice = async (req, res) => {
         });
         obj.pay = item.pay;
         obj.status = statusPay;
-        obj.due_at = formatDateView(item.due_at);
+        obj.due_at = item.due_at;
 
         return obj;
     });
