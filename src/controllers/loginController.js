@@ -7,7 +7,6 @@ import jwt from "jsonwebtoken";
 dotenv.config();
 
 export const loginAuth = async (req, res) => {
-    console.log(req.body.email);
     const user = await prisma.users.findUnique({
         where: { email: req.body.email },
     });
