@@ -567,19 +567,19 @@ export const dashBord = async (req, res) => {
 
     chart.forEach((item) => {
         chartCategories.push(item.due_month + "/" + item.due_year);
-        chartExpense.push(item.expense);
-        chartIncome.push(item.income);
+        chartExpense.push(item.expense ? item.expense : 0);
+        chartIncome.push(item.income ? item.income : 0);
     });
 
-    let dataBase = "";
+    let chartBase = "";
     if (chart.length < 1) {
-        dataBase = {
+        chartBase = {
             months: chartMonths.reverse(),
             income: [0, 0, 0, 0],
             expense: [0, 0, 0, 0],
         };
     } else {
-        dataBase = {
+        chartBase = {
             months: chartCategories,
             income: chartIncome,
             expense: chartExpense,
@@ -587,7 +587,7 @@ export const dashBord = async (req, res) => {
     }
 
     return res.json({
+        chartBase,
         panels,
-        dataBase,
     });
 };
