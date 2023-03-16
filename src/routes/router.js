@@ -26,8 +26,8 @@ router.post(
 );
 //WALLET
 router.get("/wallet", Auth.privateRouter, WalletController.wallet);
+router.get("/wallet/uniq/:id", Auth.privateRouter, WalletController.walletUniq);
 router.post("/wallet/save", Auth.privateRouter, WalletController.save);
-router.post("/wallet/uniq", Auth.privateRouter, WalletController.walletUniq);
 
 //INVOICE
 router.get("/expense", Auth.privateRouter, InvoiceController.expense);

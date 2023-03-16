@@ -88,11 +88,11 @@ export const save = async (req, res) => {
 
 export const walletUniq = async (req, res) => {
     const { id } = req.userSession;
-    console.log(req.body.id);
+
     try {
         const wallet = await prisma.app_wallet.findUnique({
             where: {
-                id: parseInt(req.body.id),
+                id: parseInt(req.params.id),
             },
         });
 
