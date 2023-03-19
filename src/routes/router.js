@@ -14,8 +14,7 @@ const router = Router();
 router.post("/login", LoginController.loginAuth);
 // DASH
 router.get("/open-invoice", Auth.privateRouter, InvoiceController.openInvoice);
-router.post("/chartdata", Auth.privateRouter, InvoiceController.dataChart);
-router.post("/dash-info", Auth.privateRouter, InvoiceController.dashBord);
+router.get("/dash/:wId", Auth.privateRouter, InvoiceController.dashBord);
 // CATEGORY
 router.get("/category", Auth.privateRouter, CategoryController.category);
 router.post("/category/save", Auth.privateRouter, CategoryController.save);
@@ -26,7 +25,7 @@ router.post(
 );
 //WALLET
 router.get("/wallet", Auth.privateRouter, WalletController.wallet);
-router.get("/wallet/uniq/:id", Auth.privateRouter, WalletController.walletUniq);
+router.get("/wallet/:id", Auth.privateRouter, WalletController.walletUniq);
 router.post("/wallet/save", Auth.privateRouter, WalletController.save);
 
 //INVOICE
