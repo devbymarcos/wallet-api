@@ -36,6 +36,11 @@ router.get(
     Auth.privateRouter,
     InvoiceFixedController.autoFixedCreate
 );
+router.get(
+    "/fixed",
+    Auth.privateRouter,
+    InvoiceFixedController.invoiceFixedList
+);
 router.post(
     "/invoice/single",
     Auth.privateRouter,

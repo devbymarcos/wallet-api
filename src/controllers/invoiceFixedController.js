@@ -1,94 +1,107 @@
 import { prisma } from "../database/prismaClient.js";
 
-//  export const  invoiceFixedList = async (req,res)=>{
-//   const userId = req.session.user;
-//   const userName  = req.session.fullName;
-//   const fixed = await Invoice.findAll({
-//     where:{
-//       user_id:userId,
-//       type:['fixed_income','fixed_expense']
+export const invoiceFixedList = async (req, res) => {
+    const { id } = req.userSession;
 
-//     }
-//   })
+    try {
+        const fixed = await prisma.app_invoice.findMany({
+            where: {
+                user_id: id,
+                type: { in: ["fixed_income", "fixed_expense"] },
+            },
+        });
+        // console.log(fixed);
+        const newFixed = fixed.map((item) => {
+            const obj = {};
+            const date = new Date(item.due_at);
+            //formata status
+            let statusPay = "";
+            if (item.pay === "paid") {
+                statusPay = true;
+            } else {
+                statusPay = false;
+            }
+            obj.id = item.id;
+            obj.due_at =
+                date.getUTCDate() < 10
+                    ? "Dia 0" + date.getUTCDate()
+                    : "Dia " + date.getUTCDate();
+            obj.description =
+                item.type === "fixed_income"
+                    ? "Receita / " + item.description
+                    : "Despesa / " + item.description;
+            obj.price =
+                item.price.toLocaleString("pt-br", {
+                    style: "currency",
+                    currency: "BRL",
+                }) + " /mês";
+            obj.status = statusPay;
+            obj.type = item.type;
+            return obj;
+        });
 
-//   const newFixed = fixed.map((item)=>{
-//     const obj = {}
-//     const date1 = item.due_at.split('-');
-//     const [year,month,day] = date1.map(Number);
-//     const date = new Date(year,month,day);
-//     console.log(date)
-//     //formata status
-//     let statusPay = '';
-//     if(item.pay === 'paid'){
-//       statusPay = true;
-//     } else{
-//       statusPay = false;
-//     }
-//     obj.id = item.id;
-//     obj.due_at = (date.getDate() < 10 ? "Dia 0"+ date.getDate():"Dia "+date.getDate() );
-//     obj.description = (item.type ==='fixed_income' ? 'Receita / '+item.description: 'Despesa / '+item.description);
-//     obj.price = item.price.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})+" /mês";
-//     obj.status = statusPay;
-//     obj.type = item.type;
-//     return obj;
-//   })
+        res.json(newFixed);
+    } catch (err) {
+        console.log(err);
+    } finally {
+        prisma.$disconnect();
+    }
+};
+export const invoiceFixedEdit = async (req, res) => {
+    const userId = req.session.user;
+    const userName = req.session.fullName;
+    const invoice = await Invoice.findByPk(req.query.id);
+    const wallet = await Wallet.findAll({
+        where: {
+            user_id: userId,
+        },
+    });
+    const category = await Category.findAll({
+        where: {
+            user_id: userId,
+        },
+    });
 
-//     res.render('pages/widgets/invoice-fixed/fixed',{
-//       newFixed,
-//       userName
-//     });
+    const select = (type, value) => {
+        return type == value ? "selected" : "";
+    };
+    const setWallet = [];
+    wallet.forEach((wal) => {
+        setWallet.push({
+            id: wal.id,
+            name: wal.name,
+            selAttr: select(wal.id, invoice.wallet_id),
+        });
+    });
+    const setCategory = [];
+    category.forEach((cate) => {
+        setCategory.push({
+            id: cate.id,
+            name: cate.name,
+            selAttr: select(cate.id, invoice.category_id),
+        });
+    });
 
-// }
-//  export const invoiceFixedEdit = async(req,res)=>{
-//     const userId = req.session.user
-//     const userName  = req.session.fullName;
-//     const invoice =  await Invoice.findByPk(req.query.id)
-//     const wallet = await Wallet.findAll({
-//       where:{
-//         user_id:userId
-//       }
-//     })
-//     const category = await Category.findAll({
-//       where:{
-//         user_id:userId
-//       }
-//     })
+    const selUnpaid = select(invoice.pay, "unpaid");
+    const selPaid = select(invoice.pay, "paid");
 
-//     const select = (type,value)=>{
-//       return(type == value ? 'selected' : '');
-//     }
-//     const setWallet = [];
-//     wallet.forEach((wal)=>{
-//       setWallet .push({id:wal.id,name:wal.name,selAttr:select(wal.id,invoice.wallet_id)});
+    console.log(selPaid);
+    const classe =
+        invoice.type === "fixed_income" ? "text-color-green" : "text-color-red";
+    const typeName = invoice.type == "fixed_income" ? " RECEITA" : " DESPESA";
+    const priceBr = invoice.price.toFixed("2").replace(".", ",");
 
-//     })
-//     const setCategory = [];
-//     category.forEach((cate)=>{
-//       setCategory .push({id:cate.id,name:cate.name,selAttr:select(cate.id,invoice.category_id)});
-
-//     })
-
-//     const selUnpaid = select(invoice.pay,'unpaid');
-//     const selPaid = select(invoice.pay,'paid');
-
-//     console.log(selPaid)
-//     const classe = (invoice.type === "fixed_income" ? "text-color-green" : "text-color-red");
-//     const typeName = (invoice.type == "fixed_income" ? " RECEITA" : " DESPESA");
-//     const priceBr = invoice.price.toFixed('2').replace('.',',');
-
-//     res.render('pages/widgets/invoice-fixed/fixed-edit',{
-//       invoice,
-//       classe,
-//       typeName,
-//       priceBr,
-//       setWallet,
-//       setCategory,
-//       status:{selUnpaid,selPaid},
-//       userName
-
-//     });
-
-// }
+    res.render("pages/widgets/invoice-fixed/fixed-edit", {
+        invoice,
+        classe,
+        typeName,
+        priceBr,
+        setWallet,
+        setCategory,
+        status: { selUnpaid, selPaid },
+        userName,
+    });
+};
 
 // export const fixedUpdate = (req,res)=>{
 
