@@ -74,7 +74,8 @@ export const save = async (req, res) => {
                     id: req.body.id,
                 },
             });
-            if (wDelete.id) return res.json({ message: "Carteira removida" });
+            if (wDelete.id)
+                return res.json({ message: "Carteira removida", remove: true });
         } catch (err) {
             console.log(err);
             res.json({
