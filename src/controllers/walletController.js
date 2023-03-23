@@ -26,6 +26,7 @@ export const save = async (req, res) => {
                     option_wallet: parseInt(req.body.prefWallet),
                 },
             });
+
             res.json({ message: "registro criado", id: wCreate.id });
         } catch (err) {
             console.log(err);
