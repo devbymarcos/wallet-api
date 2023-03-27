@@ -14,7 +14,7 @@ const router = Router();
 router.post("/login", LoginController.loginAuth);
 // DASH
 router.get("/open-invoice", Auth.privateRouter, InvoiceController.openInvoice);
-router.get("/dash/:wId", Auth.privateRouter, InvoiceController.dashBord);
+router.get("/dash", Auth.privateRouter, InvoiceController.dashBord);
 // CATEGORY
 router.get("/category", Auth.privateRouter, CategoryController.category);
 router.post("/category/save", Auth.privateRouter, CategoryController.save);
