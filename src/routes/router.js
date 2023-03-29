@@ -13,7 +13,6 @@ const router = Router();
 
 router.post("/login", LoginController.loginAuth);
 // DASH
-router.get("/open-invoice", Auth.privateRouter, InvoiceController.openInvoice);
 router.get("/dash", Auth.privateRouter, InvoiceController.dashBoard);
 // CATEGORY
 router.get("/category", Auth.privateRouter, CategoryController.category);
