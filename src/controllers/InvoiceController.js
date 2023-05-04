@@ -372,19 +372,23 @@ export const dashBoard = async (req, res) => {
 
     let panels = "";
     if (walletBalance.length < 1) {
-        panels = false;
-        res.json(panels);
-        return;
+        panels = {
+            balance: 0,
+            received: 0,
+            paid: 0,
+            balanceMonth: 0,
+        };
+    } else {
+        panels = {
+            balance: walletBalance[0].income - walletBalance[0].expense,
+            received: receivedMonth[0].incomeMonth
+                ? receivedMonth[0].incomeMonth
+                : 0.0,
+            paid: paidMonth[0].expenseMonth ? paidMonth[0].expenseMonth : 0,
+            balanceMonth:
+                receivedMonth[0].incomeMonth - paidMonth[0].expenseMonth,
+        };
     }
-
-    panels = {
-        balance: walletBalance[0].income - walletBalance[0].expense,
-        received: receivedMonth[0].incomeMonth
-            ? receivedMonth[0].incomeMonth
-            : 0.0,
-        paid: paidMonth[0].expenseMonth ? paidMonth[0].expenseMonth : 0,
-        balanceMonth: receivedMonth[0].incomeMonth - paidMonth[0].expenseMonth,
-    };
 
     // chart
     let dateChart = new Date();
