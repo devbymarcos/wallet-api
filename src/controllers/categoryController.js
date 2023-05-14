@@ -110,7 +110,7 @@ export const categoryUniq = async (req, res) => {
     try {
         const category = await prisma.app_categories.findUnique({
             where: {
-                id: parseInt(req.body.id),
+                id: parseInt(req.params.id),
             },
         });
 

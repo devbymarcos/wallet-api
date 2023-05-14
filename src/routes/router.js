@@ -16,12 +16,12 @@ router.post("/login", LoginController.loginAuth);
 router.get("/dash", Auth.privateRouter, InvoiceController.dashBoard);
 // CATEGORY
 router.get("/category", Auth.privateRouter, CategoryController.category);
-router.post("/category/save", Auth.privateRouter, CategoryController.save);
-router.post(
-    "/category/uniq",
+router.get(
+    "/category/id/:id",
     Auth.privateRouter,
     CategoryController.categoryUniq
 );
+router.post("/category/save", Auth.privateRouter, CategoryController.save);
 //WALLET
 router.get("/wallet", Auth.privateRouter, WalletController.wallet);
 router.get("/wallet/:id", Auth.privateRouter, WalletController.walletUniq);
