@@ -85,13 +85,14 @@ export const save = async (req, res) => {
         try {
             const categoryDelete = await prisma.app_categories.delete({
                 where: {
-                    id: req.body.id,
+                    id: parseInt(req.body.id),
                 },
             });
 
             res.json({
                 message: "Registro removido com sucesso",
                 type: "success",
+                remove: true,
             });
             return;
         } catch (error) {
