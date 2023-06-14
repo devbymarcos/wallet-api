@@ -18,7 +18,7 @@ export const category = async (req, res) => {
             if (item.type === "expense") {
                 obj.type = "Despesas";
             } else {
-                obj.type = "Receita";
+                obj.type = "Receitas";
             }
             return obj;
         });
