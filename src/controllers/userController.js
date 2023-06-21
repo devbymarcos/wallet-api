@@ -3,6 +3,7 @@ import bcryptjs from "bcryptjs";
 import sharp from "sharp";
 import { unlink } from "fs/promises";
 import crypto from "crypto";
+import validator from "validator";
 
 export const getUser = async (req, res) => {
     const { id, email } = req.userSession;
@@ -45,7 +46,7 @@ export const save = async (req, res) => {
             },
         });
 
-        //cria has de senha se existir uma nova senha insrida pelo user
+        //cria hash de senha se existir uma nova senha insrida pelo user
         let passwordCrypt = false;
         if (req.body.passwd) {
             passwordCrypt = await bcryptjs.hash(req.body.passwd, 10);
@@ -154,26 +155,49 @@ export const save = async (req, res) => {
 };
 
 export const registerUser = async (req, res) => {
-    console.log(
-        "🚀 ~ file: userController.js:157 ~ registerUser ~ req:",
-        req.body
-    );
+    if (!validator.isEmail(req.body.email)) {
+        return res.json({
+            message: "Insira um email válido",
+        });
+    }
+    const option = { ignore_whitespace: false };
+    console.log(validator.isEmpty(req.body.first_name, option));
+    if (
+        validator.isEmpty(req.body.first_name, option) &&
+        validator.isEmpty(req.body.last_name, option)
+    ) {
+        return res.json({
+            message: "Dados incorretos",
+        });
+    }
 
-    // const characters =
-    //     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    // const buffer = crypto.randomBytes(8);
+    const characters =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    const buffer = crypto.randomBytes(8);
 
-    // let passwd = "";
-    // for (let i = 0; i < buffer.length; i++) {
-    //     const index = buffer[i] % characters.length;
-    //     passwd += characters[index];
-    // }
-    // const user = await prisma.users({
-    //     data: {
-    //         first_name: req.body.first_name,
-    //         last_name: req.body.last_name,
-    //         email: req.body.email,
-    //         password: passwd,
-    //     },
-    // });
+    let passwd = "";
+    for (let i = 0; i < buffer.length; i++) {
+        const index = buffer[i] % characters.length;
+        passwd += characters[index];
+    }
+
+    const passwordCrypt = await bcryptjs.hash(passwd, 10);
+    try {
+        const user = await prisma.users.create({
+            data: {
+                first_name: req.body.first_name,
+                last_name: req.body.last_name,
+                email: req.body.email,
+                password: passwordCrypt,
+            },
+        });
+
+        res.json({
+            passwor: passwd,
+        });
+    } catch (erro) {
+        console.log(erro);
+    } finally {
+        prisma.$disconnect();
+    }
 };
