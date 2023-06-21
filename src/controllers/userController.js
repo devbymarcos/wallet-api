@@ -2,6 +2,7 @@ import { prisma } from "../database/prismaClient.js";
 import bcryptjs from "bcryptjs";
 import sharp from "sharp";
 import { unlink } from "fs/promises";
+import crypto from "crypto";
 
 export const getUser = async (req, res) => {
     const { id, email } = req.userSession;
@@ -150,4 +151,29 @@ export const save = async (req, res) => {
             });
         }
     }
+};
+
+export const registerUser = async (req, res) => {
+    console.log(
+        "🚀 ~ file: userController.js:157 ~ registerUser ~ req:",
+        req.body
+    );
+
+    // const characters =
+    //     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    // const buffer = crypto.randomBytes(8);
+
+    // let passwd = "";
+    // for (let i = 0; i < buffer.length; i++) {
+    //     const index = buffer[i] % characters.length;
+    //     passwd += characters[index];
+    // }
+    // const user = await prisma.users({
+    //     data: {
+    //         first_name: req.body.first_name,
+    //         last_name: req.body.last_name,
+    //         email: req.body.email,
+    //         password: passwd,
+    //     },
+    // });
 };

@@ -49,6 +49,7 @@ router.post("/invoice/create", Auth.privateRouter, InvoiceController.create);
 router.post("/invoice/modify", Auth.privateRouter, InvoiceController.modify);
 router.post("/invoice/drop", Auth.privateRouter, InvoiceController.drop);
 //USER
+router.post("/user-create", UserController.registerUser);
 router.get("/user", Auth.privateRouter, UserController.getUser);
 router.post("/user/update", Auth.privateRouter, UserController.save);
 
