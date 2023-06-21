@@ -5,8 +5,18 @@ import dotenv from "dotenv";
 import mainRoutes from "./src/routes/router.js";
 import morgan from "morgan";
 import cors from "cors";
+import fs from "fs";
 
 dotenv.config();
+const __dirname = path.resolve();
+const storageDir = path.join(__dirname, "public", "storage");
+const tmpDir = path.join(__dirname, "tmp");
+
+if (!fs.existsSync(storageDir) && !fs.existsSync(tmpDir)) {
+    fs.mkdirSync(storageDir, { recursive: true });
+    fs.mkdirSync(tmpDir, { recursive: true });
+}
+
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, "./tmp");
@@ -28,8 +38,6 @@ const upload = multer({
 const app = express();
 app.disable("x-powered-by");
 app.use(cors());
-
-const __dirname = path.resolve();
 
 // for parsing multipart/form-data
 app.use(upload.array("files"));
