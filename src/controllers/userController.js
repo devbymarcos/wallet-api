@@ -193,7 +193,7 @@ export const registerUser = async (req, res) => {
         });
 
         res.json({
-            passwor: passwd,
+            password: passwd,
         });
     } catch (erro) {
         console.log(erro);
