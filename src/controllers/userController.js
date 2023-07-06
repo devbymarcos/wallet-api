@@ -161,7 +161,7 @@ export const registerUser = async (req, res) => {
         });
     }
     const option = { ignore_whitespace: false };
-    console.log(validator.isEmpty(req.body.first_name, option));
+
     if (
         validator.isEmpty(req.body.first_name, option) &&
         validator.isEmpty(req.body.last_name, option)
@@ -197,6 +197,7 @@ export const registerUser = async (req, res) => {
         });
     } catch (erro) {
         console.log(erro);
+        res.json({ message: "Nao foi possível contate o admin" });
     } finally {
         prisma.$disconnect();
     }
