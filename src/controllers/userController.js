@@ -171,17 +171,7 @@ export const registerUser = async (req, res) => {
         });
     }
 
-    const characters =
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    const buffer = crypto.randomBytes(12);
-
-    let passwd = "";
-    for (let i = 0; i < buffer.length; i++) {
-        const index = buffer[i] % characters.length;
-        passwd += characters[index];
-    }
-
-    const passwordCrypt = await bcryptjs.hash(passwd, 10);
+    const passwordCrypt = await bcryptjs.hash(req.body.passwd, 10);
     try {
         const user = await prisma.users.create({
             data: {
@@ -193,11 +183,14 @@ export const registerUser = async (req, res) => {
         });
 
         res.json({
-            password: passwd,
+            info: "ok",
         });
     } catch (erro) {
         console.log(erro);
-        res.json({ message: "Nao foi possível contate o admin" });
+        res.json({
+            message: "Nao foi possível contate o admin",
+            info: " A senha precisa pelo menos 8 caracteres, 1 letra e 1 número",
+        });
     } finally {
         prisma.$disconnect();
     }
