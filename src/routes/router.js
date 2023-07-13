@@ -40,8 +40,8 @@ router.get(
     Auth.privateRouter,
     InvoiceFixedController.invoiceFixedList
 );
-router.post(
-    "/invoice/single",
+router.get(
+    "/invoice/single/:id",
     Auth.privateRouter,
     InvoiceController.invoiceSingle
 );

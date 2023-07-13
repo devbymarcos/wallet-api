@@ -304,7 +304,7 @@ export const invoiceSingle = async (req, res) => {
 
     const getInvoiceSingle = await prisma.app_invoice.findUnique({
         where: {
-            id: parseInt(req.body.id),
+            id: parseInt(req.params.id),
         },
     });
 
