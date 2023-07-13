@@ -173,7 +173,7 @@ export const registerUser = async (req, res) => {
 
     const characters =
         "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    const buffer = crypto.randomBytes(8);
+    const buffer = crypto.randomBytes(12);
 
     let passwd = "";
     for (let i = 0; i < buffer.length; i++) {
