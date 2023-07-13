@@ -208,7 +208,7 @@ export const create = async (req, res) => {
     }
 };
 
-export const modify = async (req, res) => {
+export const update = async (req, res) => {
     if (req.body.action === "modifyList") {
         try {
             const incomeUpdate = await prisma.app_invoice.update({
