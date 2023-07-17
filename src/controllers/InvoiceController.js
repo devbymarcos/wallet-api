@@ -220,7 +220,7 @@ export const update = async (req, res) => {
                 },
             });
             if (incomeUpdate.id) {
-                res.json({ message: "Atualizado", type: "success" });
+                res.json({ incomeUpdate });
             } else {
                 throw new Error("Ooops, algo deu errado, contate o admin");
             }
