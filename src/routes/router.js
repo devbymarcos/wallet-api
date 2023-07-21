@@ -45,9 +45,9 @@ router.get(
     Auth.privateRouter,
     InvoiceController.invoiceSingle
 );
-router.post("/invoice/create", Auth.privateRouter, InvoiceController.create);
-router.put("/invoice/update", Auth.privateRouter, InvoiceController.update);
-router.post("/invoice/drop", Auth.privateRouter, InvoiceController.drop);
+router.post("/invoice", Auth.privateRouter, InvoiceController.create);
+router.put("/invoice", Auth.privateRouter, InvoiceController.update);
+router.delete("/invoice/:id", Auth.privateRouter, InvoiceController.drop);
 //USER
 router.post("/user-create", UserController.registerUser);
 router.get("/user", Auth.privateRouter, UserController.getUser);
