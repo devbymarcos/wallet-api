@@ -32,6 +32,7 @@ export const category = async (req, res) => {
     }
 };
 
+// TODO separar acoes para cada endpoint confomre docs restapi
 export const save = async (req, res) => {
     if (req.body.action && req.body.action === "create") {
         try {

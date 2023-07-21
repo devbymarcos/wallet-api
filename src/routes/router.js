@@ -21,7 +21,8 @@ router.get(
     Auth.privateRouter,
     CategoryController.categoryUniq
 );
-router.post("/category/save", Auth.privateRouter, CategoryController.save);
+router.post("/category", Auth.privateRouter, CategoryController.save);
+router.delete("/category", Auth.privateRouter, CategoryController.save);
 //WALLET
 router.get("/wallet", Auth.privateRouter, WalletController.wallet);
 router.get("/wallet/:id", Auth.privateRouter, WalletController.walletUniq);
