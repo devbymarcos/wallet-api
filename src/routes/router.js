@@ -23,6 +23,7 @@ router.get(
 );
 router.post("/category", Auth.privateRouter, CategoryController.save);
 router.delete("/category", Auth.privateRouter, CategoryController.save);
+router.put("/category", Auth.privateRouter, CategoryController.save);
 //WALLET
 router.get("/wallet", Auth.privateRouter, WalletController.wallet);
 router.get("/wallet/:id", Auth.privateRouter, WalletController.walletUniq);

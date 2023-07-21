@@ -61,7 +61,7 @@ export const save = async (req, res) => {
         try {
             const categoryUpdate = await prisma.app_categories.update({
                 where: {
-                    id: req.body.category_id,
+                    id: parseInt(req.body.id),
                 },
                 data: {
                     name: req.body.name,
@@ -70,7 +70,7 @@ export const save = async (req, res) => {
                 },
             });
 
-            res.json({ message: "Registro atualizado", type: "success" });
+            res.json({ categoryUpdate });
         } catch (error) {
             console.log(error);
             res.json({

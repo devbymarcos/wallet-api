@@ -27,7 +27,7 @@ export const save = async (req, res) => {
                 },
             });
 
-            res.json({ message: "registro criado", id: wCreate.id });
+            res.json({ wCreate });
         } catch (err) {
             console.log(err);
             res.json({
@@ -39,10 +39,11 @@ export const save = async (req, res) => {
         }
     }
     if (req.body.action && req.body.action === "update") {
+        console.log(req.body.wallet_id);
         try {
             const wUpdate = await prisma.app_wallet.update({
                 where: {
-                    id: req.body.wallet_id,
+                    id: parseInt(req.body.wallet_id),
                 },
                 data: {
                     name: req.body.name,
