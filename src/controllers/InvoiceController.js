@@ -4,7 +4,7 @@ export const income = async (req, res) => {
     const { id } = req.userSession;
     const data = new Date();
 
-    let dateInput = req.body.date;
+    let dateInput = req.query.date;
     let dateArr = "";
     if (dateInput) {
         dateArr = dateInput.split("-");
@@ -44,6 +44,8 @@ export const income = async (req, res) => {
 
 export const expense = async (req, res) => {
     const { id } = req.userSession;
+
+    console.log("aqui", req.query);
 
     let data = new Date();
     let dateInput = req.body.date;
@@ -191,11 +193,8 @@ export const create = async (req, res) => {
                     name: "invoice",
                 },
             });
-            res.json({
-                message: "Ok",
-                type: "success",
-                id: invoiceCreate.id,
-            });
+            console.log(invoiceCreate);
+            res.json({ invoiceCreate });
         } catch (err) {
             console.log(err);
             res.json({
@@ -281,7 +280,7 @@ export const drop = async (req, res) => {
     try {
         const invoiceDelete = await prisma.app_invoice.delete({
             where: {
-                id: parseInt(req.body.id),
+                id: parseInt(req.params.id),
             },
         });
         // if (invoiceDelete) {
