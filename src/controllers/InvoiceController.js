@@ -45,10 +45,8 @@ export const income = async (req, res) => {
 export const expense = async (req, res) => {
     const { id } = req.userSession;
 
-    console.log("aqui", req.query);
-
     let data = new Date();
-    let dateInput = req.body.date;
+    let dateInput = req.query.date;
     let dateArr = "";
     if (dateInput) {
         dateArr = dateInput.split("-");
