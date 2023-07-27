@@ -17,7 +17,7 @@ router.get("/dash", Auth.privateRouter, InvoiceController.dashBoard);
 // CATEGORY
 router.get("/category", Auth.privateRouter, CategoryController.category);
 router.get(
-    "/category/id/:id",
+    "/category/:id",
     Auth.privateRouter,
     CategoryController.categoryUniq
 );
