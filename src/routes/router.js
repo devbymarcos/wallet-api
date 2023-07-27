@@ -51,10 +51,11 @@ router.post("/invoice", Auth.privateRouter, InvoiceController.create);
 router.put("/invoice", Auth.privateRouter, InvoiceController.update);
 router.delete("/invoice/:id", Auth.privateRouter, InvoiceController.drop);
 //USER
-router.post("/user-create", UserController.registerUser);
+router.post("/user", UserController.registerUser);
 router.get("/user", Auth.privateRouter, UserController.getUser);
-router.post("/user/update", Auth.privateRouter, UserController.save);
+router.put("/user", Auth.privateRouter, UserController.save);
 
 router.post("/transfer", Auth.privateRouter, BetweenWallet.save);
-router.post("/extract", Auth.privateRouter, ExtractController.extract);
+//TODO CRIAR PARAMETROS PARA ESSA ROTA
+router.get("/extract", Auth.privateRouter, ExtractController.extract);
 export default router;
