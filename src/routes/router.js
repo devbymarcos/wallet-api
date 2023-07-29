@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { dataRouter } from "./dataRouter.js";
 import * as CategoryController from "../controllers/categoryController.js";
 import * as WalletController from "../controllers/walletController.js";
 import * as LoginController from "../controllers/loginController.js";
@@ -22,7 +23,7 @@ router.get(
     CategoryController.categoryUniq
 );
 router.post("/category", Auth.privateRouter, CategoryController.save);
-router.delete("/category", Auth.privateRouter, CategoryController.save);
+router.delete("/category", Auth.privateRouter, CategoryController.save); //TODO AJUSTAR PARA PASSAR NA ROTA
 router.put("/category", Auth.privateRouter, CategoryController.save);
 //WALLET
 router.get("/wallet", Auth.privateRouter, WalletController.wallet);

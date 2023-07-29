@@ -1,0 +1,16 @@
+{
+    "login": {
+        "POST": "/login"
+    },
+    "dash": {
+        "GET": "/dash"
+    },
+    "category": {
+        "GET": {
+            "All": "/category",
+            "Uniq": "/category/id"
+        },
+        "POST": "/category",
+        "DELETE": "/category"
+    }
+}
