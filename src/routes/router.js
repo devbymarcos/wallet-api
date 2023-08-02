@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { dataRouter } from "./dataRouter.js";
+
 import * as CategoryController from "../controllers/categoryController.js";
 import * as WalletController from "../controllers/walletController.js";
 import * as LoginController from "../controllers/loginController.js";
