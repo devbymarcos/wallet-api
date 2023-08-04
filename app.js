@@ -1,4 +1,5 @@
 import express from "express";
+import swaggerUI from "swagger-ui-express";
 import path from "path";
 import multer from "multer";
 import dotenv from "dotenv";
@@ -35,9 +36,12 @@ const upload = multer({
     limits: { fieldSize: 2000000 },
 });
 
+const swaggerDoc = JSON.parse(fs.readFileSync("./swagger.json", "utf8"));
+
 const app = express();
 app.disable("x-powered-by");
 app.use(cors());
+app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDoc));
 
 // for parsing multipart/form-data
 app.use(upload.array("files"));

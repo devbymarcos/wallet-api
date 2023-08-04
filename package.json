@@ -12,6 +12,7 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
+        "@openapi-contrib/json-schema-to-openapi-schema": "^2.2.5",
         "@prisma/client": "^4.7.1",
         "bcryptjs": "^2.4.3",
         "cors": "^2.8.5",
@@ -27,6 +28,7 @@
         "sequelize": "^6.6.5",
         "serve-favicon": "^2.5.0",
         "sharp": "^0.31.3",
+        "swagger-ui-express": "^5.0.0",
         "validator": "^13.6.0"
     },
     "devDependencies": {
