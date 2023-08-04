@@ -1,9 +1,92 @@
 {
-    "openapi": "3.0.0",
+    "openapi": "3.0.1",
     "info": {
         "title": "Wallet Control",
-        "description": "Documentação Wallet Control",
-        "version": "beta"
+        "description": "Documentando api",
+        "version": "Beta"
     },
-    "basePath": "/"
+    "basePath": "/",
+
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    },
+
+    "paths": {
+        "/login": {
+            "post": {
+                "description": "Rota para efetuar o login do usuário",
+                "sumary": "Login",
+                "tags": ["Login"],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "email",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "in": "body",
+                        "name": "passwd",
+                        "type": "string",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+
+        "/product": {
+            "post": {
+                "tags": ["Products"],
+                "security": [{ "bearerAuth": [] }],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "description": {
+                                        "type": "string"
+                                    },
+                                    "price": {
+                                        "type": "number"
+                                    }
+                                },
+                                "example": {
+                                    "name": "bicicleta",
+                                    "description": "bicicleta legal",
+                                    "price": 200
+                                }
+                            }
+                        }
+                    }
+                },
+
+                "responses": {
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "400": {
+                        "description": "this product already exist"
+                    },
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        }
+    }
 }
