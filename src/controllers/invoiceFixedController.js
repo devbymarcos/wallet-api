@@ -39,7 +39,7 @@ export const invoiceFixedList = async (req, res) => {
             obj.type = item.type;
             return obj;
         });
-        console.log(newFixed);
+
         res.json(newFixed);
     } catch (err) {
         console.log(err);
