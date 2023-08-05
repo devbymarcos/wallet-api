@@ -45,7 +45,7 @@ export const save = async (req, res) => {
                 },
             });
 
-            res.json({ message: "registro criado", id: categoryCreate.id });
+            res.json({ categoryCreate });
         } catch (err) {
             console.log(err);
             res.json({
