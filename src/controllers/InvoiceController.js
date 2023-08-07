@@ -460,6 +460,7 @@ export const dashBoard = async (req, res) => {
         obj.pay = item.pay;
         obj.status = statusPay;
         obj.due_at = item.due_at;
+        obj.type = item.type;
 
         return obj;
     });
