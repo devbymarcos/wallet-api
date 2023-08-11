@@ -3,8 +3,10 @@ import { prisma } from "../database/prismaClient.js";
 export const income = async (req, res) => {
     const { id } = req.userSession;
     const data = new Date();
+    const currentWallet = req.query.currentWallet;
 
     let dateInput = req.query.date;
+
     let dateArr = "";
     if (dateInput) {
         dateArr = dateInput.split("-");
@@ -14,38 +16,46 @@ export const income = async (req, res) => {
 
     let due_year = dateArr[1] ? parseInt(dateArr[1]) : data.getFullYear();
 
-    const income = await prisma.$queryRaw`
-        SELECT * FROM app_invoice WHERE user_id= ${id} AND type IN("income","transf-income") AND year(due_at) = ${due_year} AND month(due_at) = ${due_month} ORDER BY day(due_at)`;
-    let dataIncome = [];
+    try {
+        const income = await prisma.$queryRaw`
+        SELECT * FROM app_invoice WHERE user_id= ${id} AND type IN("income","transf-income") AND wallet_id=${currentWallet} AND year(due_at) = ${due_year} AND month(due_at) = ${due_month} ORDER BY day(due_at)`;
+        let dataIncome = [];
 
-    income.forEach((item) => {
-        // formata price
+        income.forEach((item) => {
+            // formata price
 
-        //formata status
-        let statusPay = "";
-        if (item.pay === "paid") {
-            statusPay = true;
-        } else {
-            statusPay = false;
-        }
-        //cria novo objeto com dados formatado
-        dataIncome.push({
-            id: item.id,
-            date: item.due_at,
-            description: item.description,
-            status: statusPay,
-            pay: item.pay,
-            value: item.price,
+            //formata status
+            let statusPay = "";
+            if (item.pay === "paid") {
+                statusPay = true;
+            } else {
+                statusPay = false;
+            }
+            //cria novo objeto com dados formatado
+            dataIncome.push({
+                id: item.id,
+                date: item.due_at,
+                description: item.description,
+                status: statusPay,
+                pay: item.pay,
+                value: item.price,
+            });
         });
-    });
 
-    res.json({ dataIncome });
+        res.json({ dataIncome });
+    } catch (error) {
+        res.status(500);
+        console.log(error);
+    } finally {
+        prisma.$disconnect();
+    }
 };
 
 export const expense = async (req, res) => {
     const { id } = req.userSession;
 
     let data = new Date();
+    const currentWallet = req.query.currentWallet;
     let dateInput = req.query.date;
     let dateArr = "";
     if (dateInput) {
@@ -55,31 +65,37 @@ export const expense = async (req, res) => {
     //gerar mes e ano para query
     let due_month = dateArr[0] ? parseInt(dateArr[0]) : data.getMonth() + 1;
     let due_year = dateArr[1] ? parseInt(dateArr[1]) : data.getFullYear();
+    try {
+        const expense = await prisma.$queryRaw`
+        SELECT * FROM app_invoice WHERE user_id= ${id} AND type IN("expense","transf-expense") AND wallet_id=${currentWallet} AND year(due_at) = ${due_year} AND month(due_at) = ${due_month} ORDER BY day(due_at)`;
 
-    const expense = await prisma.$queryRaw`
-        SELECT * FROM app_invoice WHERE user_id= ${id} AND type IN("expense","transf-expense") AND year(due_at) = ${due_year} AND month(due_at) = ${due_month} ORDER BY day(due_at)`;
-
-    let dataExpense = [];
-    expense.forEach((item) => {
-        //formata status
-        let statusPay = "";
-        if (item.pay === "paid") {
-            statusPay = true;
-        } else {
-            statusPay = false;
-        }
-        //cria novo objto com dados formatado
-        dataExpense.push({
-            id: item.id,
-            date: item.due_at,
-            description: item.description,
-            status: statusPay,
-            pay: item.pay,
-            value: item.price,
+        let dataExpense = [];
+        expense.forEach((item) => {
+            //formata status
+            let statusPay = "";
+            if (item.pay === "paid") {
+                statusPay = true;
+            } else {
+                statusPay = false;
+            }
+            //cria novo objto com dados formatado
+            dataExpense.push({
+                id: item.id,
+                date: item.due_at,
+                description: item.description,
+                status: statusPay,
+                pay: item.pay,
+                value: item.price,
+            });
         });
-    });
 
-    res.json({ dataExpense });
+        res.json({ dataExpense });
+    } catch (error) {
+        res.status(500);
+        console.log(error);
+    } finally {
+        prisma.$disconnect();
+    }
 };
 
 export const create = async (req, res) => {
