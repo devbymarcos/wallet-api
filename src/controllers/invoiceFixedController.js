@@ -10,7 +10,7 @@ export const invoiceFixedList = async (req, res) => {
                 type: { in: ["fixed_income", "fixed_expense"] },
             },
         });
-        console.log(fixed);
+
         const newFixed = fixed.map((item) => {
             const obj = {};
             const date = new Date(item.due_at);
