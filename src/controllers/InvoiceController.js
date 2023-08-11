@@ -6,6 +6,10 @@ export const income = async (req, res) => {
     const currentWallet = req.query.currentWallet;
 
     let dateInput = req.query.date;
+    console.log(
+        "🚀 ~ file: InvoiceController.js:9 ~ income ~ dateInput:",
+        dateInput
+    );
 
     let dateArr = "";
     if (dateInput) {
