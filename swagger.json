@@ -2,88 +2,161 @@
     "openapi": "3.0.1",
     "info": {
         "title": "Wallet Control",
-        "description": "Documentando api",
+        "description": "Esta api foi criada para o treinamento javascriptPlus",
+        "contact": {
+            "email": "marcoslopes.dev@gmail.com"
+        },
         "version": "Beta"
     },
-    "basePath": "/",
-
-    "components": {
-        "securitySchemes": {
-            "bearerAuth": {
-                "type": "http",
-                "scheme": "bearer",
-                "bearerFormat": "JWT"
-            }
+    "servers": [
+        {
+            "url": "http:localhost:3000/v1",
+            "description": "API localde teste"
         }
-    },
-
+    ],
     "paths": {
-        "/login": {
+        "/user": {
             "post": {
-                "description": "Rota para efetuar o login do usuário",
-                "sumary": "Login",
-                "tags": ["Login"],
-                "parameters": [
-                    {
-                        "in": "body",
-                        "name": "email",
-                        "type": "string",
-                        "required": true
-                    },
-                    {
-                        "in": "body",
-                        "name": "passwd",
-                        "type": "string",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                }
-            }
-        },
-
-        "/product": {
-            "post": {
-                "tags": ["Products"],
-                "security": [{ "bearerAuth": [] }],
+                "summary": "Cria um novo usuário",
+                "description": "Cria um novo usuário no sistema",
+                "tags": ["Usuario"],
                 "requestBody": {
                     "content": {
                         "application/json": {
                             "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "name": {
-                                        "type": "string"
-                                    },
-                                    "description": {
-                                        "type": "string"
-                                    },
-                                    "price": {
-                                        "type": "number"
-                                    }
-                                },
-                                "example": {
-                                    "name": "bicicleta",
-                                    "description": "bicicleta legal",
-                                    "price": 200
-                                }
+                                "$ref": "#/components/schemas/User"
                             }
                         }
                     }
                 },
-
                 "responses": {
-                    "401": {
-                        "description": "Unauthorized"
-                    },
                     "400": {
-                        "description": "this product already exist"
+                        "description": "Usuário nao encontrado ou não registrado"
                     },
                     "200": {
-                        "description": "OK"
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "first_name": {
+                                            "type": "string",
+                                            "examplo": "Marcia"
+                                        },
+                                        "last_name": {
+                                            "type": "string",
+                                            "examplo": "Silva"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "examplo": "marcia@teste.com.br"
+                                        },
+                                        "photo": {
+                                            "type": "string",
+                                            "examplo": "/storage/4564564.png"
+                                        },
+                                        "token": {
+                                            "type": "string",
+                                            "exemplo": "jwt-asdasdmlmd;oqweodncc897y987d987as98d7abcascduacb"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/login": {
+            "post": {
+                "summary": "Login de usuário",
+                "description": "Essa rota responsável pela autenticao do usuário no sistema, ela retorna um token",
+                "tags": ["Login"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Login"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "Usuário nao encontrado ou não registrado"
+                    },
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "first_name": {
+                                            "type": "string",
+                                            "examplo": "Marcia"
+                                        },
+                                        "last_name": {
+                                            "type": "string",
+                                            "examplo": "Silva"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "examplo": "marcia@teste.com.br"
+                                        },
+                                        "photo": {
+                                            "type": "string",
+                                            "examplo": "/storage/4564564.png"
+                                        },
+                                        "token": {
+                                            "type": "string",
+                                            "exemplo": "jwt-asdasdmlmd;oqweodncc897y987d987as98d7abcascduacb"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "User": {
+                "type": "object",
+                "properties": {
+                    "first_name": {
+                        "type": "string",
+                        "examplo": "Marcia"
+                    },
+                    "last_name": {
+                        "type": "string",
+                        "examplo": "Silva"
+                    },
+                    "email": {
+                        "type": "string",
+                        "examplo": "marcia@teste.com.br"
+                    },
+                    "photo": {
+                        "type": "string",
+                        "examplo": "/storage/4564564.png"
+                    },
+                    "token": {
+                        "type": "string",
+                        "exemplo": "jwt-asdasdmlmd;oqweodncc897y987d987as98d7abcascduacb"
+                    }
+                }
+            },
+            "Login": {
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "type": "string"
+                    },
+                    "passwd": {
+                        "type": "string"
                     }
                 }
             }
