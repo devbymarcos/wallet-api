@@ -1,10 +1,15 @@
 # Api de gerenciamento de Carteira
 
-**URL BASE**
+## Introdução
+
+O obejtivo da api é o gerenciamento de receitas e despesas financeiras. Todos os registros estão vinculados a uma carteira.
+Também é possivel criar categorias para vincular as depesas ou a receitas.
+
+### URL BASE
 
 A url base está definida no arquivo `env` na raiz do projeto.
 
-Ao baixar o projeto você terá na raiz um `env.exemplo` é um arquivo de modelo. Você deve copiar ele e criar um `env` com os dados de exemplo e substituir
+Ao baixar o projeto você terá na raiz um `.env.exemplo` é um arquivo de modelo. Você deve copiar ele e criar um `.env` com os dados de exemplo e substituir
 
 ```
 http://localhost:4000/v1
