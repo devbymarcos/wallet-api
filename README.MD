@@ -13,8 +13,10 @@ Também é possivel criar categorias para vincular as depesas ou a receitas.
 
 ## Sumário
 
--   [Criar novos usuários](#User)
--   [Efetuar Login](#login)
+Endpoints
+
+-   [/user](#User)
+-   [/login](#login)
 
 ### URL BASE
 
@@ -26,9 +28,7 @@ http://localhost:4000/v1
 
 ## User
 
-O objetivo do `login` é termos um token para poder validar na nossa api todas as outras requisições, durante o uso do nosso aplicativo.
-
-### Ponto de acesso / endPoint
+Cria um novo usuário
 
 `POST` **/login**
 
@@ -72,7 +72,7 @@ Tipo: `application/json`
 
 ## Login
 
-O objetivo do `login` é termos um token para poder validar na nossa api todas as outras requisições, durante o uso do nosso aplicativo.
+Verifica os dados e devolve o token
 
 Para realizar de fato o login você pode utilizar o **Insomnia** ou o **Postman**.
 
@@ -104,7 +104,8 @@ Você deve enviar os dados no corpo da requisição
 
 Você pode obter as seguintes respostas
 
-Code `200` description `ok`
+-   `200` description `ok`
+-   `204` usuário nao encontrado
 
 Tipo: `application/json`
 
