@@ -7,7 +7,7 @@ export const invoiceFixedList = async (req, res) => {
         const fixed = await prisma.app_invoice.findMany({
             where: {
                 user_id: id,
-                wallet_id: parseInt(req.params.wallet_id),
+                wallet_id: parseInt(req.query.wallet_id),
                 type: { in: ["fixed_income", "fixed_expense"] },
             },
         });
