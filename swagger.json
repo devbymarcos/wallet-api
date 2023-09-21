@@ -10,7 +10,7 @@
     },
     "servers": [
         {
-            "url": "http:localhost:3000/v1",
+            "url": "http:localhost:4000",
             "description": "API localde teste"
         }
     ],
@@ -24,7 +24,25 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/User"
+                                "type": "object",
+                                "properties": {
+                                    "first_name": {
+                                        "type": "string",
+                                        "example": "fulano"
+                                    },
+                                    "last_name": {
+                                        "type": "string",
+                                        "example": "Silva"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "fulana@teste.com.br"
+                                    },
+                                    "passwd": {
+                                        "type": "string",
+                                        "example": "aquivaiasenha"
+                                    }
+                                }
                             }
                         }
                     }

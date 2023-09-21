@@ -6,7 +6,7 @@
     "type": "module",
     "scripts": {
         "dev": "nodemon --inspect -e js,json, app.js",
-        "start": "node app.js"
+        "start": "nodemon app.js"
     },
     "keywords": [],
     "author": "",
@@ -32,9 +32,6 @@
         "validator": "^13.6.0"
     },
     "devDependencies": {
-        "@types/express": "^4.17.13",
-        "@types/jsonwebtoken": "^8.5.5",
-        "@types/sequelize": "^4.28.10",
         "morgan": "^1.10.0",
         "prisma": "^4.7.1"
     }
