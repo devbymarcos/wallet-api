@@ -2,15 +2,17 @@ import { prisma } from "../database/prismaClient.js";
 
 export const wallet = async (req, res) => {
     const { id } = req.userSession;
-    let wallet = await prisma.app_wallet.findMany({
+    let wallets = await prisma.app_wallet.findMany({
         where: {
             user_id: id,
         },
     });
 
-    res.json({
-        wallet,
-    });
+    if (!wallets.length > 0) {
+        res.json({ message: "Não existe dados" });
+    }
+
+    res.json({ wallets });
 };
 
 export const save = async (req, res) => {

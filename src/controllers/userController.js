@@ -6,7 +6,7 @@ import crypto from "crypto";
 import validator from "validator";
 
 export const getUser = async (req, res) => {
-    const { id, email } = req.userSession;
+    const { email } = req.userSession;
     const userDb = await prisma.users.findUnique({
         where: {
             email: email,
@@ -22,7 +22,9 @@ export const getUser = async (req, res) => {
     };
 
     res.json({
-        user,
+        data: {
+            user,
+        },
     });
 };
 
@@ -189,7 +191,7 @@ export const registerUser = async (req, res) => {
         console.log(erro);
         res.json({
             message: "Nao foi possível contate o admin",
-            info: " A senha precisa pelo menos 8 caracteres, 1 letra e 1 número",
+            info: "Pode ser que o user ja existe, ou a senha precisa pelo menos 8 caracteres, 1 letra e 1 número",
         });
     } finally {
         prisma.$disconnect();

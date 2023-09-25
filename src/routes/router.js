@@ -26,7 +26,7 @@ router.post("/category", Auth.privateRouter, CategoryController.save);
 router.delete("/category", Auth.privateRouter, CategoryController.save); //TODO AJUSTAR PARA PASSAR NA ROTA
 router.put("/category", Auth.privateRouter, CategoryController.save);
 //WALLET
-router.get("/wallet", Auth.privateRouter, WalletController.wallet);
+router.get("/wallets", Auth.privateRouter, WalletController.wallet);
 router.get("/wallet/:id", Auth.privateRouter, WalletController.walletUniq);
 router.post("/wallet/save", Auth.privateRouter, WalletController.save);
 

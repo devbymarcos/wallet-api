@@ -8,14 +8,47 @@
         },
         "version": "Beta"
     },
-    "servers": [
-        {
-            "url": "http:localhost:4000",
-            "description": "API localde teste"
-        }
-    ],
+
     "paths": {
         "/user": {
+            "get": {
+                "summary": "Busca usuário",
+                "description": "Retorna o user do sistema",
+                "tags": ["Usuario"],
+                "responses": {
+                    "400": {
+                        "description": "Usuário não encontrado ou não registrado"
+                    },
+                    "200": {
+                        "description": "ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "first_name": {
+                                            "type": "string",
+                                            "examplo": "Marcia"
+                                        },
+                                        "last_name": {
+                                            "type": "string",
+                                            "examplo": "Silva"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "examplo": "marcia@teste.com.br"
+                                        },
+                                        "photo": {
+                                            "type": "string",
+                                            "examplo": "/storage/4564564.png"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
             "post": {
                 "summary": "Cria um novo usuário",
                 "description": "Cria um novo usuário no sistema",
@@ -48,9 +81,6 @@
                     }
                 },
                 "responses": {
-                    "400": {
-                        "description": "Usuário nao encontrado ou não registrado"
-                    },
                     "200": {
                         "description": "OK",
                         "content": {
@@ -95,41 +125,51 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/Login"
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "example": "fulana@teste.com.br"
+                                    },
+                                    "passwd": {
+                                        "type": "string",
+                                        "example": "string"
+                                    }
+                                }
                             }
                         }
-                    }
-                },
-                "responses": {
-                    "204": {
-                        "description": "Usuário nao encontrado ou não registrado"
                     },
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "first_name": {
-                                            "type": "string",
-                                            "examplo": "Marcia"
-                                        },
-                                        "last_name": {
-                                            "type": "string",
-                                            "examplo": "Silva"
-                                        },
-                                        "email": {
-                                            "type": "string",
-                                            "examplo": "marcia@teste.com.br"
-                                        },
-                                        "photo": {
-                                            "type": "string",
-                                            "examplo": "/storage/4564564.png"
-                                        },
-                                        "token": {
-                                            "type": "string",
-                                            "exemplo": "jwt-asdasdmlmd;oqweodncc897y987d987as98d7abcascduacb"
+                    "responses": {
+                        "204": {
+                            "description": "Usuário nao encontrado ou não registrado"
+                        },
+                        "200": {
+                            "description": "OK",
+                            "content": {
+                                "application/json": {
+                                    "schema": {
+                                        "type": "object",
+                                        "properties": {
+                                            "first_name": {
+                                                "type": "string",
+                                                "examplo": "Marcia"
+                                            },
+                                            "last_name": {
+                                                "type": "string",
+                                                "examplo": "Silva"
+                                            },
+                                            "email": {
+                                                "type": "string",
+                                                "examplo": "marcia@teste.com.br"
+                                            },
+                                            "photo": {
+                                                "type": "string",
+                                                "examplo": "/storage/4564564.png"
+                                            },
+                                            "token": {
+                                                "type": "string",
+                                                "exemplo": "jwt-asdasdmlmd;oqweodncc897y987d987as98d7abcascduacb"
+                                            }
                                         }
                                     }
                                 }
@@ -138,45 +178,40 @@
                     }
                 }
             }
-        }
-    },
-    "components": {
-        "schemas": {
-            "User": {
-                "type": "object",
-                "properties": {
-                    "first_name": {
-                        "type": "string",
-                        "examplo": "Marcia"
-                    },
-                    "last_name": {
-                        "type": "string",
-                        "examplo": "Silva"
-                    },
-                    "email": {
-                        "type": "string",
-                        "examplo": "marcia@teste.com.br"
-                    },
-                    "photo": {
-                        "type": "string",
-                        "examplo": "/storage/4564564.png"
-                    },
-                    "token": {
-                        "type": "string",
-                        "exemplo": "jwt-asdasdmlmd;oqweodncc897y987d987as98d7abcascduacb"
+        },
+        "/wallet/{id}": {
+            "get": {
+                "summary": "Busca por 'id'",
+                "tags": ["Wallet"],
+                "description": "Essa rota retorna todas as carteiras registradas",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id da carteira",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {}
+                                }
+                            }
+                        }
                     }
                 }
-            },
-            "Login": {
-                "type": "object",
-                "properties": {
-                    "email": {
-                        "type": "string"
-                    },
-                    "passwd": {
-                        "type": "string"
-                    }
-                }
+            }
+        },
+        "/wallets": {
+            "get": {
+                "summary": "Retorna todas as carteiras",
+                "description": "Essa rota retorna todas as carteiras registradas",
+                "tags": ["Wallet"]
             }
         }
     }
