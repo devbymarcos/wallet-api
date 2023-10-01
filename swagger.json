@@ -122,24 +122,25 @@
                 "description": "Essa rota responsável pela autenticao do usuário no sistema, ela retorna um token",
                 "tags": ["Login"],
                 "requestBody": {
-                    "content": {
+                      "content": {
                         "application/json": {
                             "schema": {
                                 "type": "object",
                                 "properties": {
                                     "email": {
-                                        "type": "string",
-                                        "example": "fulana@teste.com.br"
+                                        "type": "string"
                                     },
-                                    "passwd": {
-                                        "type": "string",
-                                        "example": "string"
+                                    "password": {
+                                        "type": "string"
+                                        
                                     }
                                 }
                             }
                         }
-                    },
-                    "responses": {
+                    }
+                    
+                },
+                "responses": {
                         "204": {
                             "description": "Usuário nao encontrado ou não registrado"
                         },
@@ -176,7 +177,6 @@
                             }
                         }
                     }
-                }
             }
         },
         "/wallets": {
@@ -191,10 +191,41 @@
                             "application/json": {
                                 "schema": {
                                     "type": "object",
-                                    "properties": {}
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": "1"
+                                        },
+                                        "user_id": {
+                                            "type": "integer",
+                                            "example": "2"
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "name wallet"
+                                        },
+                                        "description": {
+                                            "type": "string",
+                                            "example": "description wallet"
+                                        },
+                                        "option_wallet": {
+                                            "type": "integer",
+                                            "example": "1 or 0 -significa ativo or inativo como preferencia do sistema"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "example": "2023-10-01T14:30:18.000Z"
+                                        }
+                                    }
                                 }
                             }
                         }
+                    },
+                    "404":{
+                      "description": "Não foi encontrado dados, faça um registro "
+                    },
+                    "401": {
+                      "description": "Unauthorized"
                     }
                 }
             }
@@ -209,7 +240,10 @@
                         "name": "id",
                         "in": "path",
                         "description": "Id da carteira",
-                        "required": true
+                        "required": true,
+                        "schema":{
+                          "type": "integer"
+                        }
                     }
                 ],
                 "responses": {
@@ -267,8 +301,47 @@
                             }
                         }
                     }
-                }
+                },
+                "responses":{
+              "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": "1"
+                                        },
+                                        "user_id": {
+                                            "type": "integer",
+                                            "example": "2"
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "name wallet"
+                                        },
+                                        "description": {
+                                            "type": "string",
+                                            "example": "description wallet"
+                                        },
+                                        "option_wallet": {
+                                            "type": "integer",
+                                            "example": "1 or 0 -significa ativo or inativo como preferencia do sistema"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "example": "2023-10-01T14:30:18.000Z"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
             }
+            }
+            
         }
     }
 }
