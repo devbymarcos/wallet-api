@@ -11,7 +11,7 @@ import * as BetweenWallet from "../controllers/betweenWalletController.js";
 import * as ExtractController from "../controllers/extractController.js";
 
 const router = Router();
-
+router.get("/", (req, res) => res.status(200).json({ message: "activate" }));
 router.post("/login", LoginController.loginAuth);
 // DASH
 router.get("/dash", Auth.privateRouter, InvoiceController.dashBoard);
