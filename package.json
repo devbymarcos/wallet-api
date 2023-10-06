@@ -6,7 +6,8 @@
     "type": "module",
     "scripts": {
         "dev": "nodemon --inspect -e js,json, app.js",
-        "start": "nodemon app.js"
+        "start": "nodemon app.js",
+        "test": "jest"
     },
     "keywords": [],
     "author": "",
@@ -14,6 +15,7 @@
     "dependencies": {
         "@openapi-contrib/json-schema-to-openapi-schema": "^2.2.5",
         "@prisma/client": "^4.7.1",
+        "@types/jest": "^29.5.5",
         "bcryptjs": "^2.4.3",
         "cors": "^2.8.5",
         "dotenv": "^10.0.0",
@@ -32,7 +34,9 @@
         "validator": "^13.6.0"
     },
     "devDependencies": {
+        "jest": "^29.7.0",
         "morgan": "^1.10.0",
-        "prisma": "^4.7.1"
+        "prisma": "^4.7.1",
+        "supertest": "^6.3.3"
     }
 }
