@@ -11,7 +11,7 @@ import * as BetweenWallet from "../controllers/betweenWalletController.js";
 import * as ExtractController from "../controllers/extractController.js";
 
 const router = Router();
-
+router.get("/", (req, res) => res.status(200).json({ message: "activate" }));
 router.post("/login", LoginController.loginAuth);
 // DASH
 router.get("/dash", Auth.privateRouter, InvoiceController.dashBoard);
@@ -28,7 +28,9 @@ router.put("/category", Auth.privateRouter, CategoryController.save);
 //WALLET
 router.get("/wallets", Auth.privateRouter, WalletController.wallet);
 router.get("/wallet/:id", Auth.privateRouter, WalletController.walletUniq);
-router.post("/wallet/save", Auth.privateRouter, WalletController.save);
+router.post("/wallet", Auth.privateRouter, WalletController.walletCreate);
+router.put("/wallet", Auth.privateRouter, WalletController.walletUpdate);
+router.delete("/wallet", Auth.privateRouter, WalletController.walletDelete);
 
 //INVOICE
 router.get("/expense", Auth.privateRouter, InvoiceController.expense);

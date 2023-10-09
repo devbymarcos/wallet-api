@@ -55,7 +55,8 @@ app.use(express.json());
 app.use(morgan("dev"));
 
 //rotas do site
-app.use("/", mainRoutes);
+
+app.use("/v1", mainRoutes);
 
 //page 404
 app.use((req, res) => {

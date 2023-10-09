@@ -122,24 +122,25 @@
                 "description": "Essa rota responsável pela autenticao do usuário no sistema, ela retorna um token",
                 "tags": ["Login"],
                 "requestBody": {
-                    "content": {
+                      "content": {
                         "application/json": {
                             "schema": {
                                 "type": "object",
                                 "properties": {
                                     "email": {
-                                        "type": "string",
-                                        "example": "fulana@teste.com.br"
+                                        "type": "string"
                                     },
-                                    "passwd": {
-                                        "type": "string",
-                                        "example": "string"
+                                    "password": {
+                                        "type": "string"
+                                        
                                     }
                                 }
                             }
                         }
-                    },
-                    "responses": {
+                    }
+                    
+                },
+                "responses": {
                         "204": {
                             "description": "Usuário nao encontrado ou não registrado"
                         },
@@ -152,29 +153,79 @@
                                         "properties": {
                                             "first_name": {
                                                 "type": "string",
-                                                "examplo": "Marcia"
+                                                "example": "Marcia"
                                             },
                                             "last_name": {
                                                 "type": "string",
-                                                "examplo": "Silva"
+                                                "example": "Silva"
                                             },
                                             "email": {
                                                 "type": "string",
-                                                "examplo": "marcia@teste.com.br"
+                                                "example": "marcia@teste.com.br"
                                             },
                                             "photo": {
                                                 "type": "string",
-                                                "examplo": "/storage/4564564.png"
+                                                "example": "/storage/4564564.png"
                                             },
                                             "token": {
                                                 "type": "string",
-                                                "exemplo": "jwt-asdasdmlmd;oqweodncc897y987d987as98d7abcascduacb"
+                                                "example": "jwt-asdasdmlmd;oqweodncc897y987d987as98d7abcascduacb"
                                             }
                                         }
                                     }
                                 }
                             }
                         }
+                    }
+            }
+        },
+        "/wallets": {
+            "get": {
+                "summary": "Retorna todas as carteiras",
+                "description": "Essa rota retorna todas as carteiras registradas",
+                "tags": ["Wallet"],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": "1"
+                                        },
+                                        "user_id": {
+                                            "type": "integer",
+                                            "example": "2"
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "name wallet"
+                                        },
+                                        "description": {
+                                            "type": "string",
+                                            "example": "description wallet"
+                                        },
+                                        "option_wallet": {
+                                            "type": "integer",
+                                            "example": "1 or 0 -significa ativo or inativo como preferencia do sistema"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "example": "2023-10-01T14:30:18.000Z"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404":{
+                      "description": "Não foi encontrado dados, faça um registro "
+                    },
+                    "401": {
+                      "description": "Unauthorized"
                     }
                 }
             }
@@ -189,17 +240,33 @@
                         "name": "id",
                         "in": "path",
                         "description": "Id da carteira",
-                        "required": true
+                        "required": true,
+                        "schema":{
+                          "type": "integer"
+                        }
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "name": {}
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "name": {
+                                            "type": "string",
+                                            "example": "minha Carteira"
+                                        },
+                                        "description": {
+                                            "type": "string",
+                                            "example": "carteira principal"
+                                        },
+                                        "option_wallet": {
+                                            "type": "integer",
+                                            "example": "1 or 0 -significa ativo or inativo como preferencia do sistema"
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -207,12 +274,89 @@
                 }
             }
         },
-        "/wallets": {
-            "get": {
-                "summary": "Retorna todas as carteiras",
-                "description": "Essa rota retorna todas as carteiras registradas",
-                "tags": ["Wallet"]
+        "/wallet": {
+            "post": {
+                "summary": "Cria uma nova carteira",
+                "tags": ["Wallet"],
+                "description": "Rota para criar uma nova carteira",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "minha Carteira"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "carteira principal"
+                                    },
+                                    "option_wallet": {
+                                        "type": "integer",
+                                        "example": "1 or 0 -significa ativo or inativo como preferencia do sistema"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                  "200": {
+                            "description": "OK",
+                            "content": {
+                                "application/json": {
+                                    "schema": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": "1"
+                                            },
+                                            "user_id": {
+                                                "type": "integer",
+                                                "example": "2"
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "example": "name wallet"
+                                            },
+                                            "description": {
+                                                "type": "string",
+                                                "example": "description wallet"
+                                            },
+                                            "option_wallet": {
+                                                "type": "integer",
+                                                "example": "1 or 0 -significa ativo or inativo como preferencia do sistema"
+                                            },
+                                            "created_at": {
+                                                "type": "string",
+                                                "example": "2023-10-01T14:30:18.000Z"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                }
+            },
+            "put":{
+              "summary": "Atualiza carteira",
+              "tags": ["Wallet"],
+              "responses":{
+              }
+            
+            },
+            "delete":{
+              "summary": "Remove carteira",
+              "tags": ["Wallet"],
+              "responses":{
+
+              }
             }
+            
         }
+        
     }
 }
