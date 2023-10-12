@@ -1,15 +1,15 @@
 import { prisma } from "../database/prismaClient.js";
 import bcryptjs from "bcryptjs";
-import sharp from "sharp";
+// import sharp from "sharp";
 import { unlink } from "fs/promises";
-import crypto from "crypto";
 import validator from "validator";
 
 export const getUser = async (req, res) => {
     const { email } = req.userSession;
+
     const userDb = await prisma.users.findUnique({
         where: {
-            email: email,
+            email: req.body.email,
         },
     });
     if (!userDb) return res.json({ message: "User not found" });
