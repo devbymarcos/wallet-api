@@ -9,12 +9,13 @@ export const getUser = async (req, res) => {
 
     const userDb = await prisma.users.findUnique({
         where: {
-            email: req.body.email,
+            email: email,
         },
     });
     if (!userDb) return res.json({ message: "User not found" });
 
     const user = {
+        id: userDb.id,
         first_name: userDb.first_name,
         last_name: userDb.last_name,
         email: userDb.email,

@@ -31,6 +31,7 @@
         "validator": "^13.6.0"
     },
     "devDependencies": {
+        "@types/supertest": "^2.0.14",
         "morgan": "^1.10.0",
         "prisma": "^4.7.1",
         "supertest": "^6.3.3",
