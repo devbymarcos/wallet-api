@@ -19,6 +19,64 @@
         }
     ],
     "paths": {
+        "/login": {
+            "post": {
+                "summary": "Login de usuário",
+                "description": "Essa rota responsável pela autenticao do usuário no sistema, ela retorna um token",
+                "tags": ["Login"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "first_name": {
+                                            "type": "string",
+                                            "example": "Marcia"
+                                        },
+                                        "last_name": {
+                                            "type": "string",
+                                            "example": "Silva"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "example": "marcia@teste.com.br"
+                                        },
+                                        "photo": {
+                                            "type": "string",
+                                            "example": "/storage/4564564.png"
+                                        },
+                                        "token": {
+                                            "type": "string",
+                                            "example": "jwt-asdasdmlmd;oqweodncc897y987d987as98d7abcascduacb"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/user": {
             "get": {
                 "summary": "Busca usuário",
@@ -35,6 +93,10 @@
                                 "schema": {
                                     "type": "object",
                                     "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
                                         "first_name": {
                                             "type": "string",
                                             "examplo": "Marcia"
@@ -123,24 +185,32 @@
                         }
                     }
                 }
-            }
-        },
-        "/login": {
-            "post": {
-                "summary": "Login de usuário",
-                "description": "Essa rota responsável pela autenticao do usuário no sistema, ela retorna um token",
-                "tags": ["Login"],
+            },
+            "put": {
+                "summary": "Cria um novo usuário",
+                "description": "Cria um novo usuário no sistema",
+                "tags": ["Usuario"],
                 "requestBody": {
                     "content": {
                         "application/json": {
                             "schema": {
                                 "type": "object",
                                 "properties": {
-                                    "email": {
-                                        "type": "string"
+                                    "first_name": {
+                                        "type": "string",
+                                        "example": "fulano"
                                     },
-                                    "password": {
-                                        "type": "string"
+                                    "last_name": {
+                                        "type": "string",
+                                        "example": "Silva"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "fulana@teste.com.br"
+                                    },
+                                    "passwd": {
+                                        "type": "string",
+                                        "example": "aquivaiasenha"
                                     }
                                 }
                             }
@@ -148,9 +218,6 @@
                     }
                 },
                 "responses": {
-                    "204": {
-                        "description": "Usuário nao encontrado ou não registrado"
-                    },
                     "200": {
                         "description": "OK",
                         "content": {
@@ -158,25 +225,25 @@
                                 "schema": {
                                     "type": "object",
                                     "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
                                         "first_name": {
                                             "type": "string",
-                                            "example": "Marcia"
+                                            "examplo": "Marcia"
                                         },
                                         "last_name": {
                                             "type": "string",
-                                            "example": "Silva"
+                                            "examplo": "Silva"
                                         },
                                         "email": {
                                             "type": "string",
-                                            "example": "marcia@teste.com.br"
+                                            "examplo": "marcia@teste.com.br"
                                         },
                                         "photo": {
                                             "type": "string",
-                                            "example": "/storage/4564564.png"
-                                        },
-                                        "token": {
-                                            "type": "string",
-                                            "example": "jwt-asdasdmlmd;oqweodncc897y987d987as98d7abcascduacb"
+                                            "examplo": "/storage/4564564.png"
                                         }
                                     }
                                 }
@@ -189,7 +256,7 @@
         "/dash": {
             "get": {
                 "summary": "dados para o painel",
-                "tags": ["DASH"],
+                "tags": ["Dash"],
                 "responses": {
                     "200": {
                         "description": "ok"

@@ -56,7 +56,7 @@ router.delete("/invoice/:id", Auth.privateRouter, InvoiceController.drop);
 //USER
 router.post("/user", UserController.registerUser);
 router.get("/user", Auth.privateRouter, UserController.getUser);
-router.put("/user", Auth.privateRouter, UserController.save);
+router.put("/user", Auth.privateRouter, UserController.updateUser);
 
 router.post("/transfer", Auth.privateRouter, BetweenWallet.save);
 //TODO CRIAR PARAMETROS PARA ESSA ROTA
