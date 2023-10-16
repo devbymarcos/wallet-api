@@ -82,8 +82,8 @@ export const updateUser = async (req, res) => {
     }
 
     let passwordCrypt;
-    if (req.body.passwd) {
-        passwordCrypt = await bcryptjs.hash(req.body.passwd, 10);
+    if (req.body.password) {
+        passwordCrypt = await bcryptjs.hash(req.body.password, 10);
     }
 
     try {
