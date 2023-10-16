@@ -1,7 +1,5 @@
 import { prisma } from "../database/prismaClient.js";
 import bcryptjs from "bcryptjs";
-import sharp from "sharp";
-import { unlink } from "fs/promises";
 import validator from "validator";
 
 export const getUser = async (req, res) => {
@@ -67,7 +65,6 @@ export const registerUser = async (req, res) => {
         prisma.$disconnect();
     }
 };
-
 export const updateUser = async (req, res) => {
     const { id } = req.userSession;
 

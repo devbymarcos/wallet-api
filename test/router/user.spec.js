@@ -6,7 +6,7 @@ describe("GET /user", () => {
     test("Espero ter um usuario para o token", async () => {
         const response = await request(app)
             .get("/v1/user")
-            .set("Authorization", `Bearer ${process.env.TOKEN}`);
+            .set("Authorization", `Bearer ${process.env.TOKEN_TEST}`);
         expect(response.body.user).toHaveProperty("id");
     });
 

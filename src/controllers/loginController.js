@@ -1,7 +1,6 @@
 import { prisma } from "../database/prismaClient.js";
 import bcryptjs from "bcryptjs";
 import dotenv from "dotenv";
-import nodemailer from "nodemailer";
 import jwt from "jsonwebtoken";
 
 dotenv.config();
