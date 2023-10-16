@@ -23,13 +23,28 @@ export const getUser = async (req, res) => {
     res.json(user);
 };
 export const registerUser = async (req, res) => {
-    console.log(req.body);
-
     if (!validator.isEmail(req.body.email)) {
         return res.json({
             message: "Insira um email válido",
         });
     }
+    // verifica se existe user ja cadastradop com esse email
+    try {
+        const hasUserEmail = await prisma.users.findUnique({
+            where: {
+                email: req.body.email,
+            },
+        });
+        if (hasUserEmail.id) {
+            res.json({ message: "Usuário ja cadastrado com este email" });
+        }
+    } catch (err) {
+        console.log(err);
+        res.json({ message: "não foi possível consultar usuário" });
+    } finally {
+        prisma.$disconnect();
+    }
+
     const option = { ignore_whitespace: false };
 
     if (
