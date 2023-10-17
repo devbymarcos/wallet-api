@@ -35,12 +35,12 @@ export const registerUser = async (req, res) => {
                 email: req.body.email,
             },
         });
+        console.log(hasUserEmail);
         if (hasUserEmail.id) {
             res.json({ message: "Usuário ja cadastrado com este email" });
         }
     } catch (err) {
         console.log(err);
-        res.json({ message: "não foi possível consultar usuário" });
     } finally {
         prisma.$disconnect();
     }
