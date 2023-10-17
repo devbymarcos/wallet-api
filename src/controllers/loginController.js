@@ -14,7 +14,7 @@ export const loginAuth = async (req, res) => {
         return;
     }
 
-    let passwdCheck = await bcryptjs.compare(req.body.passwd, user.password);
+    let passwdCheck = await bcryptjs.compare(req.body.password, user.password);
 
     if (!passwdCheck) {
         res.json({ message: "Usuário e senha não confere", type: "error" });
