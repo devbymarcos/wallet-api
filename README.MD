@@ -26,11 +26,11 @@ Ao baixar o projeto você terá na raiz um `.env.exemplo` é um arquivo de model
 http://localhost:4000/v1
 ```
 
-## User
+## User -
 
 Cria um novo usuário
 
-`POST` **/login**
+`POST` **/user**
 
 **Request body:**
 
@@ -38,8 +38,10 @@ Você deve enviar os dados no corpo da requisição
 
 ```
 {
-    "email": "email@alteraroemail.com",
-    "passwd" : "senha-aqui"
+  "first_name": "seu nome",
+  "last_name": "seu sobrenome",
+  "email": "email@email.com",
+
 }
 ```
 
@@ -47,12 +49,14 @@ Você deve enviar os dados no corpo da requisição
 
 ```
     {
-        "email": string,
-        "passwd" : string
+        "first_name": "string",
+        "last_name": "string",
+        "email": "string",
+
     }
 ```
 
-**Response:**
+### Response -
 
 Você pode obter as seguintes respostas
 
@@ -105,9 +109,7 @@ Você deve enviar os dados no corpo da requisição
 Você pode obter as seguintes respostas
 
 -   `200` description `ok`
--   `204` usuário nao encontrado
-
-Tipo: `application/json`
+    Tipo: `application/json`
 
 ```
 {
@@ -118,3 +120,5 @@ Tipo: `application/json`
   "token": "string"
 }
 ```
+
+-   `204` usuário nao encontrado

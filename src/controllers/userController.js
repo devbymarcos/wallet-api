@@ -28,7 +28,7 @@ export const registerUser = async (req, res) => {
             message: "Insira um email válido",
         });
     }
-    // verifica se existe user ja cadastradop com esse email
+    // verifica se existe user ja cadastrado com esse email
     try {
         const hasUserEmail = await prisma.users.findUnique({
             where: {
