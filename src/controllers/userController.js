@@ -1,10 +1,14 @@
 import validator from "validator";
 import User from "../class/User.js";
 
-export const getUser = (req, res) => {
+export const getUser = async (req, res) => {
     const { id } = req.userSession;
-    const dataUser = new User(id);
-    const response = dataUser.findById();
+    const user = {
+        id,
+    };
+    const dataUser = new User(user);
+    const response = await dataUser.findById();
+
     res.json(response);
 };
 export const registerUser = async (req, res) => {
