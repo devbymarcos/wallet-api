@@ -5,6 +5,7 @@ class User {
         this.last_name = user.last_name || null;
         this.email = user.email || null;
         this.password = user.password || null;
+        this.photo = user.photo || "default";
     }
 
     findById() {}
