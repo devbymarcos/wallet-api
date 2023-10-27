@@ -1,26 +1,11 @@
-import { prisma } from "../database/prismaClient.js";
-import bcryptjs from "bcryptjs";
 import validator from "validator";
+import User from "../class/User.js";
 
-export const getUser = async (req, res) => {
-    const { email } = req.userSession;
-
-    const userDb = await prisma.users.findUnique({
-        where: {
-            email: email,
-        },
-    });
-    if (!userDb) return res.json({ message: "User not found" });
-
-    const user = {
-        id: userDb.id,
-        first_name: userDb.first_name,
-        last_name: userDb.last_name,
-        email: userDb.email,
-        photo: userDb.photo,
-    };
-
-    res.json(user);
+export const getUser = (req, res) => {
+    const { id } = req.userSession;
+    const dataUser = new User(id);
+    const response = dataUser.findById();
+    res.json(response);
 };
 export const registerUser = async (req, res) => {
     if (!validator.isEmail(req.body.email)) {
