@@ -3,9 +3,8 @@
     "version": "1.0.0",
     "description": "",
     "main": "index.js",
-    "type": "module",
     "scripts": {
-        "dev": "nodemon --inspect -e js,json, server.js",
+        "dev": "tsx watch src/server.ts",
         "start": "nodemon server.js",
         "test": "vitest"
     },
@@ -15,6 +14,11 @@
     "dependencies": {
         "@openapi-contrib/json-schema-to-openapi-schema": "^2.2.5",
         "@prisma/client": "^4.7.1",
+        "@types/bcryptjs": "^2.4.5",
+        "@types/cors": "^2.8.15",
+        "@types/morgan": "^1.9.7",
+        "@types/multer": "^1.4.9",
+        "@types/validator": "^13.11.5",
         "bcryptjs": "^2.4.3",
         "cors": "^2.8.5",
         "dotenv": "^10.0.0",
@@ -35,6 +39,7 @@
         "morgan": "^1.10.0",
         "prisma": "^4.7.1",
         "supertest": "^6.3.3",
+        "tsx": "^3.14.0",
         "typescript": "^5.2.2",
         "vitest": "^0.34.6"
     }

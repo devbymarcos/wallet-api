@@ -2,8 +2,17 @@ import { prisma } from "../database/prismaClient.js";
 import bcryptjs from "bcryptjs";
 import validator from "validator";
 
+interface User {
+    id: number | null;
+    first_name: string | null;
+    last_name: string | null;
+    email: string | null;
+    password: string | null;
+    photo: string | null;
+}
+
 class User {
-    constructor(user) {
+    constructor(user: User) {
         this.id = user.id || null;
         this.first_name = user.first_name || null;
         this.last_name = user.last_name || null;
