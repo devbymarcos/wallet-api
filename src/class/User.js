@@ -38,10 +38,41 @@ class User {
         }
     }
 
-    findByEmail() {}
+    async findByEmail() {
+        try {
+            const userDb = await prisma.users.findUnique({
+                where: {
+                    email: this.email,
+                },
+            });
 
-    register() {
-        const existingUser = this.findByEmail();
+            if (!userDb) return { user: null };
+
+            const user = {
+                id: userDb.id,
+                first_name: userDb.first_name,
+                last_name: userDb.last_name,
+                email: userDb.email,
+                photo: userDb.photo,
+            };
+
+            return user;
+        } catch (err) {
+            console.log(err);
+        } finally {
+            prisma.$disconnect();
+        }
+    }
+
+    async register() {
+        const existingUser = await this.findByEmail();
+        console.log(
+            "🚀 ~ file: User.js:69 ~ User ~ register ~ existingUser:",
+            existingUser
+        );
+        if (!existingUser) {
+            return false;
+        }
     }
     update() {}
 
