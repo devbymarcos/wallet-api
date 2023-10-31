@@ -9,7 +9,7 @@ export const wallet = async (req, res) => {
     });
 
     if (!wallets.length > 0) {
-        res.json({ message: "Não existe dados" });
+        res.json({ wallets });
         return;
     }
 
