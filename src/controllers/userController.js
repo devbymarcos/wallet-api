@@ -15,9 +15,19 @@ export const registerUser = async (req, res) => {
         first_name: req.body.first_name,
         last_name: req.body.last_name,
         email: req.body.email,
+        password: req.body.password,
     };
-    const dataUser = new User(user);
-    const response = await dataUser.register();
+    const createUser = new User(user);
+    const response = await createUser.register();
+    if (!response) {
+        res.json({
+            message: "Não foi possivel criar, algo aconteceu contate o admin",
+            typeError: true,
+        });
+        return;
+    }
+
+    res.json(response);
 };
 export const updateUser = async (req, res) => {
     const { id } = req.userSession;

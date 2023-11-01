@@ -66,12 +66,33 @@ class User {
 
     async register() {
         const existingUser = await this.findByEmail();
-        console.log(
-            "🚀 ~ file: User.js:69 ~ User ~ register ~ existingUser:",
-            existingUser
-        );
+
         if (!existingUser) {
             return false;
+        }
+        try {
+            const userCreate = await prisma.users.create({
+                data: {
+                    first_name: this.first_name,
+                    last_name: this.last_name,
+                    email: this.email,
+                    password: await this.cryptpass(),
+                },
+            });
+
+            const user = {
+                id: userCreate.id,
+                first_name: userCreate.first_name,
+                last_name: userCreate.last_name,
+                email: userCreate.email,
+                photo: userCreate.photo,
+            };
+            return user;
+        } catch (err) {
+            console.log(err);
+            return false;
+        } finally {
+            prisma.$disconnect();
         }
     }
     update() {}
@@ -79,6 +100,7 @@ class User {
     async cryptpass() {
         if (this.password) {
             const passwordCrypt = await bcryptjs.hash(this.password, 10);
+            console.log(passwordCrypt);
             return passwordCrypt;
         }
     }
