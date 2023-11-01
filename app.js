@@ -41,7 +41,6 @@ const swaggerDoc = JSON.parse(fs.readFileSync("./swagger.json", "utf8"));
 const app = express();
 app.disable("x-powered-by");
 app.use(cors());
-app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDoc));
 
 // for parsing multipart/form-data
 app.use(upload.array("files"));
