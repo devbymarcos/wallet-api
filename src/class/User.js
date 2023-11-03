@@ -95,7 +95,35 @@ class User {
             prisma.$disconnect();
         }
     }
-    update() {}
+    async update() {
+        try {
+            const userCreate = await prisma.users.update({
+                where: {
+                    id: this.id,
+                },
+                data: {
+                    first_name: this.first_name,
+                    last_name: this.last_name,
+                    email: this.email,
+                    password: await this.cryptpass(),
+                },
+            });
+
+            const user = {
+                id: userCreate.id,
+                first_name: userCreate.first_name,
+                last_name: userCreate.last_name,
+                email: userCreate.email,
+                photo: userCreate.photo,
+            };
+            return user;
+        } catch (err) {
+            console.log(err);
+            return false;
+        } finally {
+            prisma.$disconnect();
+        }
+    }
 
     async cryptpass() {
         if (this.password) {
@@ -103,6 +131,8 @@ class User {
             console.log(passwordCrypt);
             return passwordCrypt;
         }
+
+        return false;
     }
 }
 

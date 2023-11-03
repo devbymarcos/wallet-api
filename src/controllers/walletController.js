@@ -1,19 +1,13 @@
 import { prisma } from "../database/prismaClient.js";
+import Wallet from "../class/Wallet.js";
 
 export const wallet = async (req, res) => {
     const { id } = req.userSession;
-    let wallets = await prisma.app_wallet.findMany({
-        where: {
-            user_id: id,
-        },
-    });
-
-    if (!wallets.length > 0) {
-        res.json({ wallets });
-        return;
-    }
-
-    res.json({ wallets });
+    const data = {
+        user_id: id,
+    };
+    const wallet = new Wallet(data);
+    res.json(await wallet.findyAll());
 };
 
 export const walletCreate = async (req, res) => {
