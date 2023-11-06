@@ -7,7 +7,8 @@ export const wallet = async (req, res) => {
         user_id: id,
     };
     const wallet = new Wallet(data);
-    res.json(await wallet.findyAll());
+    const wallets = await wallet.findyAll();
+    res.json({ wallets });
 };
 
 export const walletCreate = async (req, res) => {
