@@ -80,7 +80,7 @@
         "/user": {
             "get": {
                 "summary": "Busca usuário",
-                "description": "Retorna o user do sistema",
+                "description": "Retorna o user do sistema que está logado",
                 "tags": ["Usuario"],
                 "responses": {
                     "400": {
@@ -187,8 +187,8 @@
                 }
             },
             "put": {
-                "summary": "Cria um novo usuário",
-                "description": "Cria um novo usuário no sistema",
+                "summary": "Atualizar dados para do usuário",
+                "description": "Nessa rota é possível atualizar dados do usuário que esta logado",
                 "tags": ["Usuario"],
                 "requestBody": {
                     "content": {
@@ -477,6 +477,18 @@
                         "description": "ok"
                     }
                 }
+            }
+        },
+        "/invoice": {
+            "get": {
+                "summary": "Busca despesa",
+                "description": "Retorna um unico lançamento",
+                "tags": ["Invoice"]
+            }
+        },
+        "/invoices": {
+            "get": {
+                "summary": " retorna todos os lançamentos do mês"
             }
         }
     }
