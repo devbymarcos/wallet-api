@@ -54,7 +54,7 @@ app.use(express.json());
 app.use(morgan("dev"));
 
 //rotas do site
-
+app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDoc));
 app.use("/v1", mainRoutes);
 
 //page 404
