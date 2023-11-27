@@ -1,5 +1,5 @@
 import validator from "validator";
-import User from "../class/User.js";
+import User from "../models/User.js";
 
 export const getUser = async (req, res) => {
     const { id } = req.userSession;

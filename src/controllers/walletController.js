@@ -1,5 +1,5 @@
 import { prisma } from "../database/prismaClient.js";
-import Wallet from "../class/Wallet.js";
+import Wallet from "../models/Wallet.js";
 
 export const wallet = async (req, res) => {
     const { id } = req.userSession;
@@ -38,24 +38,13 @@ export const walletCreate = async (req, res) => {
 
 export const walletUniq = async (req, res) => {
     const { id } = req.userSession;
-
-    try {
-        const wallet = await prisma.app_wallet.findUnique({
-            where: {
-                id: parseInt(req.params.id),
-            },
-        });
-
-        if (wallet.id) {
-            res.json({ wallet });
-            return;
-        }
-    } catch (err) {
-        console.log(err);
-        res.json({ message: "Oops tivemos um erro contate o admin" });
-    } finally {
-        prisma.$disconnect();
-    }
+    const data = {
+        id: req.body.wallet_id,
+        user_id: id,
+    };
+    const walletModel = new Wallet(data);
+    const wallet = await walletModel.findyById();
+    res.json({ wallet });
 };
 
 export const walletUpdate = async (req, res) => {
