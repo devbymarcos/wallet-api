@@ -39,7 +39,7 @@ export const walletCreate = async (req, res) => {
 export const walletUniq = async (req, res) => {
     const { id } = req.userSession;
     const data = {
-        id: req.body.wallet_id,
+        id: req.params.id,
         user_id: id,
     };
     const walletModel = new Wallet(data);
