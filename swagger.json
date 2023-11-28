@@ -435,7 +435,26 @@
                 "responses": {}
             }
         },
-
+        "/category": {
+            "get": {
+                "summary": "Lista todas as categorias",
+                "tags": ["Category"],
+                "responses": {
+                    "200": {
+                        "description": "ok"
+                    }
+                }
+            },
+            "post": {
+                "summary": "Cria categoria",
+                "tags": ["Category"],
+                "responses": {
+                    "200": {
+                        "description": "ok"
+                    }
+                }
+            }
+        },
         "/category/{id}": {
             "get": {
                 "summary": "Lista categoria pelo id",
@@ -445,22 +464,9 @@
                         "description": "ok"
                     }
                 }
-            }
-        },
-        "/categories": {
-            "get": {
-                "summary": "Lista todas as categorias",
-                "tags": ["Category"],
-                "responses": {
-                    "200": {
-                        "description": "ok"
-                    }
-                }
-            }
-        },
-        "/category": {
-            "post": {
-                "summary": "Cria categoria",
+            },
+            "put": {
+                "summary": "Atualiza categoria",
                 "tags": ["Category"],
                 "responses": {
                     "200": {
@@ -468,8 +474,8 @@
                     }
                 }
             },
-            "put": {
-                "summary": "Atualiza categoria",
+            "delete": {
+                "summary": "Deleta a categoria ",
                 "tags": ["Category"],
                 "responses": {
                     "200": {

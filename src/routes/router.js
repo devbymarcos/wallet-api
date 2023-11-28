@@ -26,11 +26,13 @@ router.post("/category", Auth.privateRouter, CategoryController.save);
 router.delete("/category", Auth.privateRouter, CategoryController.save); //TODO AJUSTAR PARA PASSAR NA ROTA
 router.put("/category", Auth.privateRouter, CategoryController.save);
 //WALLET
-router.get("/wallets", Auth.privateRouter, WalletController.wallet);
+router.get("/wallet", Auth.privateRouter, WalletController.wallet);
 router.get("/wallet/:id", Auth.privateRouter, WalletController.walletUniq);
 router.post("/wallet", Auth.privateRouter, WalletController.walletCreate);
-router.put("/wallet", Auth.privateRouter, WalletController.walletUpdate);
-router.delete("/wallet", Auth.privateRouter, WalletController.walletDelete);
+//TODO implemetar essa rota para receber o id
+router.put("/wallet/:id", Auth.privateRouter, WalletController.walletUpdate);
+//TODO implemetar essa rota para receber o id
+router.delete("/wallet/:id", Auth.privateRouter, WalletController.walletDelete);
 
 //INVOICE
 router.get("/expense", Auth.privateRouter, InvoiceController.expense);
