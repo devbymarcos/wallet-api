@@ -31,7 +31,7 @@ class Wallet {
         try {
             const dataDB = await prisma.app_wallet.findUnique({
                 where: {
-                    id: this.id,
+                    id: parseInt(this.id),
                 },
             });
 
