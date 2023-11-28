@@ -16,7 +16,7 @@ class User {
         try {
             const userDb = await prisma.users.findUnique({
                 where: {
-                    id: this.id,
+                    id: parseInt(this.id),
                 },
             });
 
