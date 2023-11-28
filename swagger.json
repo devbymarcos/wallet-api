@@ -264,7 +264,7 @@
                 }
             }
         },
-        "/wallets": {
+        "/wallet": {
             "get": {
                 "summary": "Retorna todas as carteiras",
                 "description": "Essa rota retorna todas as carteiras registradas",
@@ -313,53 +313,7 @@
                         "description": "Unauthorized"
                     }
                 }
-            }
-        },
-        "/wallet/{id}": {
-            "get": {
-                "summary": "Busca por 'id'",
-                "tags": ["Wallet"],
-                "description": "Essa rota retorna todas as carteiras registradas",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Id da carteira",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "name": {
-                                            "type": "string",
-                                            "example": "minha Carteira"
-                                        },
-                                        "description": {
-                                            "type": "string",
-                                            "example": "carteira principal"
-                                        },
-                                        "option_wallet": {
-                                            "type": "integer",
-                                            "example": "1 or 0 -significa ativo or inativo como preferencia do sistema"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/wallet": {
+            },
             "post": {
                 "summary": "Cria uma nova carteira",
                 "tags": ["Wallet"],
@@ -425,6 +379,50 @@
                         }
                     }
                 }
+            }
+        },
+        "/wallet/{id}": {
+            "get": {
+                "summary": "Busca por 'id'",
+                "tags": ["Wallet"],
+                "description": "Essa rota retorna todas as carteiras registradas",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id da carteira",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "name": {
+                                            "type": "string",
+                                            "example": "minha Carteira"
+                                        },
+                                        "description": {
+                                            "type": "string",
+                                            "example": "carteira principal"
+                                        },
+                                        "option_wallet": {
+                                            "type": "integer",
+                                            "example": "1 or 0 -significa ativo or inativo como preferencia do sistema"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             },
             "put": {
                 "summary": "Atualiza carteira",
@@ -437,6 +435,7 @@
                 "responses": {}
             }
         },
+
         "/category/{id}": {
             "get": {
                 "summary": "Lista categoria pelo id",
