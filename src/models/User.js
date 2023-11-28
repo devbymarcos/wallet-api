@@ -19,18 +19,13 @@ class User {
                     id: parseInt(this.id),
                 },
             });
+            this.first_name = userDb.first_name;
 
-            if (!userDb) return { data: null };
-
-            const user = {
-                id: userDb.id,
-                first_name: userDb.first_name,
-                last_name: userDb.last_name,
-                email: userDb.email,
-                photo: userDb.photo,
-            };
-
-            return user;
+            console.log(this.first_name);
+            this.last_name = userDb.last_name;
+            this.email = userDb.email;
+            this.password = userDb.password;
+            this.photo = userDb.photo;
         } catch (err) {
             console.log(err);
         } finally {
@@ -97,9 +92,9 @@ class User {
     }
     async update() {
         try {
-            const userCreate = await prisma.users.update({
+            const userUpdate = await prisma.users.update({
                 where: {
-                    id: this.id,
+                    id: parseInt(this.id),
                 },
                 data: {
                     first_name: this.first_name,
@@ -108,15 +103,13 @@ class User {
                     password: await this.cryptpass(),
                 },
             });
+            console.log(userUpdate);
 
-            const user = {
-                id: userCreate.id,
-                first_name: userCreate.first_name,
-                last_name: userCreate.last_name,
-                email: userCreate.email,
-                photo: userCreate.photo,
-            };
-            return user;
+            this.id = userUpdate.id;
+            this.first_name = userUpdate.first_name;
+            this.last_name = userUpdate.last_name;
+            this.email = userUpdate.email;
+            this.photo = userUpdate.photo;
         } catch (err) {
             console.log(err);
             return false;
@@ -128,7 +121,7 @@ class User {
     async cryptpass() {
         if (this.password) {
             const passwordCrypt = await bcryptjs.hash(this.password, 10);
-            console.log(passwordCrypt);
+
             return passwordCrypt;
         }
 

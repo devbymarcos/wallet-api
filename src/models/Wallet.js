@@ -29,20 +29,11 @@ class Wallet {
     }
     async findyById() {
         try {
-            const dataDB = await prisma.app_wallet.findUnique({
+            const wallet = await prisma.app_wallet.findUnique({
                 where: {
                     id: parseInt(this.id),
                 },
             });
-
-            if (!dataDB) return { data: null, message: "Não existe dados" };
-
-            const wallet = {
-                id: dataDB.id,
-                name: dataDB.name,
-                description: dataDB.description,
-                option_wallet: dataDB.option_wallet,
-            };
 
             return wallet;
         } catch (err) {

@@ -8,9 +8,19 @@ export const getUser = async (req, res) => {
         id: id,
     };
     const dataUser = new User(props);
-    const user = await dataUser.findById();
-
-    res.json(user);
+    await dataUser.findById();
+    console.log(dataUser.email);
+    if (!dataUser.first_name) {
+        res.json({ message: "Usuário nao encontrado", data: null });
+    }
+    const data = {
+        id: dataUser.id,
+        first_name: dataUser.first_name,
+        last_name: dataUser.last_name,
+        email: dataUser.email,
+        photo: dataUser.photo,
+    };
+    res.json({ data });
 };
 export const registerUser = async (req, res) => {
     const props = {
@@ -31,60 +41,36 @@ export const registerUser = async (req, res) => {
 
     res.json(response);
 };
+//TODO Transferir acesso ao BD para o Model, criar métodos para realizaro update
 export const updateUser = async (req, res) => {
     const { id } = req.userSession;
+    const props = {
+        id: id,
+    };
+    const user = new User(props);
+    await user.findById();
 
-    const findUser = await prisma.users.findUnique({
-        where: {
-            id: id,
-        },
-    });
-
-    if (findUser.id != id) {
+    if (!user.first_name) {
         res.json({
-            maessage: "Este user não esta registrado, não pode ser alterado",
+            message: "Este user não esta registrado, não pode ser alterado",
+            data: null,
         });
         return;
     }
+    user.first_name = req.body.first_name;
+    user.last_name = req.body.last_name;
+    user.email = req.body.email;
+    user.password = req.body.password ? req.body.password : user.password;
 
-    let passwordCrypt;
-    if (req.body.password) {
-        passwordCrypt = await bcryptjs.hash(req.body.password, 10);
-    }
+    user.update();
 
-    try {
-        const userUpdate = await prisma.users.update({
-            where: {
-                id: id,
-            },
-            data: {
-                first_name: req.body.first_name
-                    ? req.body.first_name
-                    : findUser.first_name,
-                last_name: req.body.last_name
-                    ? req.body.last_name
-                    : findUser.last_name,
-                email: req.body.email ? req.body.email : findUser.email,
-                photo: "default",
-                password: passwordCrypt ? passwordCrypt : findUser.password,
-            },
-        });
+    const data = {
+        id: user.id,
+        first_name: user.first_name,
+        last_name: user.last_name,
+        email: user.email,
+        photo: user.photo,
+    };
 
-        res.json({
-            user: {
-                id: userUpdate.id,
-                first_name: userUpdate.first_name,
-                last_name: userUpdate.last_name,
-                email: userUpdate.email,
-                photo: userUpdate.photo,
-            },
-        });
-        return;
-    } catch (err) {
-        console.log(err);
-        res.json({
-            message: " Não foi possivel atualizar contate o admin",
-            type: "erro",
-        });
-    }
+    res.json({ data });
 };

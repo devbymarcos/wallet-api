@@ -38,13 +38,21 @@ export const walletCreate = async (req, res) => {
 
 export const walletUniq = async (req, res) => {
     const { id } = req.userSession;
-    const data = {
+    const dataParam = {
         id: req.params.id,
         user_id: id,
     };
-    const walletModel = new Wallet(data);
-    const wallet = await walletModel.findyById();
-    res.json({ wallet });
+    const walletModel = new Wallet(dataParam);
+    const data = await walletModel.findyById();
+    if (!wallet) {
+        res.json({
+            message: "Não econstramos a wallet solicitada",
+            data: null,
+        });
+        return;
+    }
+
+    res.json({ data });
 };
 
 export const walletUpdate = async (req, res) => {

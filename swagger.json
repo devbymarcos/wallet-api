@@ -307,7 +307,24 @@
                         }
                     },
                     "404": {
-                        "description": "Não foi encontrado dados, faça um registro "
+                        "description": "Não foi encontrado dados, faça um registro ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Não econstramos a wallet solicitada"
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "example": null
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     },
                     "401": {
                         "description": "Unauthorized"
