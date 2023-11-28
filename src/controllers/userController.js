@@ -3,21 +3,23 @@ import User from "../models/User.js";
 
 export const getUser = async (req, res) => {
     const { id } = req.userSession;
-    const user = {
-        id,
+
+    const props = {
+        id: id,
     };
-    const dataUser = new User(user);
-    const response = await dataUser.findById();
-    res.json(response);
+    const dataUser = new User(props);
+    const user = await dataUser.findById();
+
+    res.json(user);
 };
 export const registerUser = async (req, res) => {
-    const user = {
+    const props = {
         first_name: req.body.first_name,
         last_name: req.body.last_name,
         email: req.body.email,
         password: req.body.password,
     };
-    const createUser = new User(user);
+    const createUser = new User(props);
     const response = await createUser.register();
     if (!response) {
         res.json({
