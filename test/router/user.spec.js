@@ -7,7 +7,7 @@ describe("GET /user", () => {
         const response = await request(app)
             .get("/v1/user")
             .set("Authorization", `Bearer ${process.env.TOKEN_TEST_LOGIN}`);
-        expect(response.body).toHaveProperty("id");
+        expect(response.body.data).toHaveProperty("id");
     });
 
     test("Não deve ser possivel buscar usuário sem o token", async () => {

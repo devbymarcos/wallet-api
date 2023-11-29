@@ -3,13 +3,13 @@ import bcryptjs from "bcryptjs";
 import validator from "validator";
 
 class User {
-    constructor(user) {
-        this.id = user.id || null;
-        this.first_name = user.first_name || null;
-        this.last_name = user.last_name || null;
-        this.email = user.email || null;
-        this.password = user.password || null;
-        this.photo = user.photo || "default";
+    constructor({ id, first_name, last_name, email, password, photo }) {
+        this.id = id || null;
+        this.first_name = first_name || null;
+        this.last_name = last_name || null;
+        this.email = email || null;
+        this.password = password || null;
+        this.photo = photo || "default";
     }
 
     async findById() {
@@ -21,7 +21,6 @@ class User {
             });
             this.first_name = userDb.first_name;
 
-            console.log(this.first_name);
             this.last_name = userDb.last_name;
             this.email = userDb.email;
             this.password = userDb.password;
@@ -33,7 +32,7 @@ class User {
         }
     }
 
-    async findByEmail() {
+    async hasEmail() {
         try {
             const userDb = await prisma.users.findUnique({
                 where: {
@@ -41,17 +40,9 @@ class User {
                 },
             });
 
-            if (!userDb) return { user: null };
+            if (!userDb) return false;
 
-            const user = {
-                id: userDb.id,
-                first_name: userDb.first_name,
-                last_name: userDb.last_name,
-                email: userDb.email,
-                photo: userDb.photo,
-            };
-
-            return user;
+            return true;
         } catch (err) {
             console.log(err);
         } finally {
@@ -60,7 +51,7 @@ class User {
     }
 
     async register() {
-        const existingUser = await this.findByEmail();
+        const existingUser = await this.hasEmail();
 
         if (!existingUser) {
             return false;
