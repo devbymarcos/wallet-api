@@ -23,15 +23,15 @@ export const getUser = async (req, res) => {
     res.json({ data });
 };
 export const registerUser = async (req, res) => {
-    const props = {
+    const dataObj = {
         first_name: req.body.first_name,
         last_name: req.body.last_name,
         email: req.body.email,
         password: req.body.password,
     };
-    const createUser = new User(props);
-    const response = await createUser.register();
-    if (!response) {
+    const createUser = new User(dataObj);
+    const data = await createUser.register();
+    if (!data) {
         res.json({
             message: "Não foi possivel criar, algo aconteceu contate o admin",
             typeError: true,
@@ -39,7 +39,7 @@ export const registerUser = async (req, res) => {
         return;
     }
 
-    res.json(response);
+    res.json({ data });
 };
 //TODO Transferir acesso ao BD para o Model, criar métodos para realizaro update
 export const updateUser = async (req, res) => {
