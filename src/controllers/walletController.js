@@ -54,7 +54,7 @@ export const walletUniq = async (req, res) => {
 
     res.json({ wallet });
 };
-
+//TODO wallet-api #15
 export const walletUpdate = async (req, res) => {
     try {
         const wUpdate = await prisma.app_wallet.update({
@@ -85,7 +85,7 @@ export const walletUpdate = async (req, res) => {
         await prisma.$disconnect();
     }
 };
-
+//TODO wallet-api #16
 export const walletDelete = async (req, res) => {
     try {
         const wallet = await prisma.app_wallet.delete({
