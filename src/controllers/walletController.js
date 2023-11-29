@@ -43,7 +43,7 @@ export const walletUniq = async (req, res) => {
         user_id: id,
     };
     const walletModel = new Wallet(dataParam);
-    const data = await walletModel.findyById();
+    const wallet = await walletModel.findyById();
     if (!wallet) {
         res.json({
             message: "Não econstramos a wallet solicitada",
@@ -52,7 +52,7 @@ export const walletUniq = async (req, res) => {
         return;
     }
 
-    res.json({ data });
+    res.json({ wallet });
 };
 
 export const walletUpdate = async (req, res) => {

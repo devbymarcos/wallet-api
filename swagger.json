@@ -267,7 +267,7 @@
         "/wallet": {
             "get": {
                 "summary": "Retorna todas as carteiras",
-                "description": "Essa rota retorna todas as carteiras registradas",
+                "description": "Essa rota retorna todas as carteiras registradas baseado no usuário que esta logado",
                 "tags": ["Wallet"],
                 "responses": {
                     "200": {
@@ -402,7 +402,7 @@
             "get": {
                 "summary": "Busca por 'id'",
                 "tags": ["Wallet"],
-                "description": "Essa rota retorna todas as carteiras registradas",
+                "description": "Essa rota retorna cartaira para o id passado como parametro",
                 "parameters": [
                     {
                         "name": "id",
