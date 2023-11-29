@@ -41,13 +41,13 @@ export const registerUser = async (req, res) => {
 
     res.json({ data });
 };
-//TODO Transferir acesso ao BD para o Model, criar métodos para realizaro update
+
 export const updateUser = async (req, res) => {
     const { id } = req.userSession;
-    const props = {
+    const dataObj = {
         id: id,
     };
-    const user = new User(props);
+    const user = new User(dataObj);
     await user.findById();
 
     if (!user.first_name) {
