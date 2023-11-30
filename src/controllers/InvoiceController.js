@@ -340,7 +340,8 @@ export const invoiceSingle = async (req, res) => {
 export const dashBoard = async (req, res) => {
     const { id } = req.userSession;
 
-    const walletSearchId = req.query.id != "null" ? req.query.id : "all";
+    const walletSearchId =
+        req.query.wallet_id != "null" ? req.query.wallet_id : "all";
     let walletBalance = "";
     let currentDate = new Date();
     let receivedMonth = "";
