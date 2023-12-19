@@ -426,27 +426,24 @@ export const dashBoard = async (req, res) => {
     }
 
     let chartCategories = [];
-    let chartExpense = [];
-    let chartIncome = [];
+    let chartResult = [];
 
+    console.log(chart);
     chart.forEach((item) => {
         chartCategories.push(item.due_month + "/" + item.due_year);
-        chartExpense.push(item.expense ? item.expense : 0);
-        chartIncome.push(item.income ? item.income : 0);
+        chartResult.push(item.income - item.expense);
     });
 
     let chartBase = "";
     if (chart.length < 1) {
         chartBase = {
             months: chartMonths.reverse(),
-            income: [0, 0, 0, 0],
-            expense: [0, 0, 0, 0],
+            result: [0, 0, 0, 0],
         };
     } else {
         chartBase = {
             months: chartCategories,
-            income: chartIncome,
-            expense: chartExpense,
+            result: chartResult,
         };
     }
 
