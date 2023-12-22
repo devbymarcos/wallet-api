@@ -2,7 +2,7 @@ import validator from "validator";
 import User from "../models/User.js";
 
 export const getUser = async (req, res) => {
-    const { id } = req.userSession;
+    const { id } = req.userAuth;
 
     const props = {
         id: id,
@@ -43,7 +43,7 @@ export const registerUser = async (req, res) => {
 };
 
 export const updateUser = async (req, res) => {
-    const { id } = req.userSession;
+    const { id } = req.userAuth;
     const dataObj = {
         id: id,
     };

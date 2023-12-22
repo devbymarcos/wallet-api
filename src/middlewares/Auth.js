@@ -8,13 +8,18 @@ export const privateRouter = async (req, res, next) => {
         res.sendStatus(401);
         return;
     }
+
     const [authType, token] = req.header("Authorization").split(" ");
 
     let success = false;
-    let userSession = "";
+    let userAuthenticate = "";
+
     if (authType === "Bearer" && token) {
         try {
-            userSession = jwt.verify(token, String(process.env.SECRET_KEY_JWT));
+            userAuthenticate = jwt.verify(
+                token,
+                String(process.env.SECRET_KEY_JWT)
+            );
             success = true;
         } catch (err) {
             console.log(err);
@@ -24,7 +29,7 @@ export const privateRouter = async (req, res, next) => {
     }
 
     if (success) {
-        req.userSession = userSession;
+        req.userAuth = userAuthenticate;
         return next();
     }
 
