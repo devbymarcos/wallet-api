@@ -20,7 +20,11 @@ export const getUser = async (req, res) => {
         email: dataUser.email,
         photo: dataUser.photo,
     };
-    res.json({ data });
+    res.json({
+        data: data,
+        message: "",
+        request: "user",
+    });
 };
 export const registerUser = async (req, res) => {
     const dataObj = {
@@ -33,8 +37,9 @@ export const registerUser = async (req, res) => {
     const data = await createUser.register();
     if (!data) {
         res.json({
+            data: false,
             message: "Não foi possivel criar, algo aconteceu contate o admin",
-            typeError: true,
+            request: "user",
         });
         return;
     }
@@ -72,5 +77,9 @@ export const updateUser = async (req, res) => {
         photo: user.photo,
     };
 
-    res.json({ data });
+    res.json({
+        data: data,
+        message: "",
+        request: "user",
+    });
 };
