@@ -52,7 +52,7 @@ export const category = async (req, res) => {
 };
 
 export const categoryCreate = async (req, res) => {
-    //TODOS VALIDA DADOS
+    //TODO VALIDA DADOS
     const categoryObj = {
         user_id: req.userAuth.id,
         name: req.body.name,
