@@ -338,7 +338,7 @@ export const invoiceSingle = async (req, res) => {
 };
 
 export const dashBoard = async (req, res) => {
-    const { id } = req.userSession;
+    const { id } = req.userAuth;
 
     const walletSearchId =
         req.query.wallet_id != "null" ? req.query.wallet_id : "all";

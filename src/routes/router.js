@@ -16,17 +16,13 @@ router.post("/login", LoginController.loginAuth);
 // DASH
 router.get("/dash", Auth.privateRouter, InvoiceController.dashBoard);
 // CATEGORY
-router.get("/category", Auth.privateRouter, CategoryController.category);
-router.get(
-    "/category/:id",
-    Auth.privateRouter,
-    CategoryController.categoryUniq
-);
+router.get("/categories", Auth.privateRouter, CategoryController.categories);
+router.get("/category/:id", Auth.privateRouter, CategoryController.category);
 router.post("/category", Auth.privateRouter, CategoryController.save);
 router.delete("/category", Auth.privateRouter, CategoryController.save); //TODO AJUSTAR PARA PASSAR NA ROTA
 router.put("/category", Auth.privateRouter, CategoryController.save);
 //WALLET
-router.get("/wallet", Auth.privateRouter, WalletController.wallet);
+router.get("/wallets", Auth.privateRouter, WalletController.wallets);
 router.get("/wallet/:id", Auth.privateRouter, WalletController.walletUniq);
 router.post("/wallet", Auth.privateRouter, WalletController.walletCreate);
 //TODO implemetar essa rota para receber o id

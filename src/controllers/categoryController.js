@@ -1,35 +1,30 @@
 import { prisma } from "../database/prismaClient.js";
+import Category from "../models/Category.js";
 
-export const category = async (req, res) => {
-    const { id } = req.userSession;
+export const categories = async (req, res) => {
+    const { id } = req.userAuth;
+    const categoryObj = {
+        user_id: id,
+    };
+    const categories = new Category(categoryObj);
+    const data = await categories.findAll();
 
-    try {
-        let categories = await prisma.app_categories.findMany({
-            where: {
-                user_id: id,
-            },
-        });
-        let category = categories.map((item) => {
-            let obj = {};
-            obj.id = item.id;
-            obj.user_id = item.user_id;
-            obj.name = item.name;
-            obj.description = item.description;
-            if (item.type === "expense") {
-                obj.type = "Despesas";
-            } else {
-                obj.type = "Receitas";
-            }
-            return obj;
-        });
-        res.json({
-            category,
-        });
-    } catch (err) {
-        console.log(err);
-    } finally {
-        await prisma.$disconnect();
+    if (!data) {
+        res.json({ message: "Algo aconteceu contate o admin" });
     }
+    if (data.length <= 0) {
+        res.json({
+            data: null,
+            message: "não encontramos dados",
+            request: "category",
+        });
+    }
+
+    res.json({
+        data: data,
+        message: "",
+        request: "category",
+    });
 };
 
 // TODO separar acoes para cada endpoint confomre docs restapi
@@ -108,22 +103,27 @@ export const save = async (req, res) => {
     }
 };
 
-export const categoryUniq = async (req, res) => {
-    try {
-        const category = await prisma.app_categories.findUnique({
-            where: {
-                id: parseInt(req.params.id),
-            },
-        });
+export const category = async (req, res) => {
+    const categoryObj = {
+        id: req.params.id,
+    };
+    const category = new Category(categoryObj);
+    const data = await category.findById();
 
-        if (category.id) {
-            res.json(category);
-            return;
-        }
-    } catch (err) {
-        console.log(err);
-        res.json({ message: "Oops tivemos um erro contate o admin" });
-    } finally {
-        prisma.$disconnect();
+    if (!data) {
+        res.json({ message: "Algo aconteceu contate o admin" });
     }
+    if (data.length <= 0) {
+        res.json({
+            data: null,
+            message: "não encontramos dados",
+            request: "category",
+        });
+    }
+
+    res.json({
+        data: data,
+        message: "",
+        request: "category",
+    });
 };

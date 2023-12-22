@@ -1,18 +1,18 @@
 import { prisma } from "../database/prismaClient.js";
 import Wallet from "../models/Wallet.js";
 
-export const wallet = async (req, res) => {
-    const { id } = req.userSession;
+export const wallets = async (req, res) => {
+    const { id } = req.userAuth;
     const data = {
         user_id: id,
     };
     const wallet = new Wallet(data);
     const wallets = await wallet.findyAll();
-    res.json({ wallets });
+    res.json({ data: wallets, message: "", request: "wallet" });
 };
 
 export const walletCreate = async (req, res) => {
-    const { id } = req.userSession;
+    const { id } = req.userAuth;
 
     try {
         const wallet = await prisma.app_wallet.create({
@@ -37,7 +37,7 @@ export const walletCreate = async (req, res) => {
 };
 
 export const walletUniq = async (req, res) => {
-    const { id } = req.userSession;
+    const { id } = req.userAuth;
     const dataParam = {
         id: req.params.id,
         user_id: id,
@@ -52,7 +52,7 @@ export const walletUniq = async (req, res) => {
         return;
     }
 
-    res.json({ wallet });
+    res.json({ data: wallet, message: "", request: "wallet" });
 };
 //TODO wallet-api #15
 export const walletUpdate = async (req, res) => {
