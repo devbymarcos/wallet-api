@@ -26,83 +26,6 @@ export const categories = async (req, res) => {
         request: "category",
     });
 };
-
-// TODO separar acoes para cada endpoint confomre docs restapi
-export const save = async (req, res) => {
-    if (req.body.action && req.body.action === "create") {
-        try {
-            const categoryCreate = await prisma.app_categories.create({
-                data: {
-                    user_id: req.userSession.id,
-                    name: req.body.name,
-                    description: req.body.description,
-                    type: req.body.type,
-                },
-            });
-
-            res.json({ categoryCreate });
-        } catch (err) {
-            console.log(err);
-            res.json({
-                message: "Ooops, algo deu errado, contate o admin",
-                type: "error",
-            });
-        } finally {
-            await prisma.$disconnect();
-        }
-    }
-
-    if (req.body.action && req.body.action === "update") {
-        try {
-            const categoryUpdate = await prisma.app_categories.update({
-                where: {
-                    id: parseInt(req.body.id),
-                },
-                data: {
-                    name: req.body.name,
-                    description: req.body.description,
-                    type: req.body.type,
-                },
-            });
-
-            res.json({ categoryUpdate });
-        } catch (error) {
-            console.log(error);
-            res.json({
-                message: "Ooops, algo deu errado, contate o admin",
-                type: "error",
-            });
-        } finally {
-            prisma.$disconnect();
-        }
-    }
-
-    if (req.body.action && req.body.action === "delete") {
-        try {
-            const categoryDelete = await prisma.app_categories.delete({
-                where: {
-                    id: parseInt(req.body.id),
-                },
-            });
-
-            res.json({
-                message: "Registro removido com sucesso",
-                type: "success",
-                remove: true,
-            });
-            return;
-        } catch (error) {
-            console.log(error);
-            res.json({
-                message: "Ooops, algo deu errado, contate o admin",
-                type: "error",
-            });
-        } finally {
-            prisma.$disconnect();
-        }
-    }
-};
-
 export const category = async (req, res) => {
     const categoryObj = {
         id: req.params.id,
@@ -127,3 +50,53 @@ export const category = async (req, res) => {
         request: "category",
     });
 };
+
+export const categoryCreate = async (req, res) => {
+    //TODOS VALIDA DADOS
+    const categoryObj = {
+        user_id: req.userAuth.id,
+        name: req.body.name,
+        description: req.body.description,
+        type: req.body.type,
+    };
+
+    const category = new Category(categoryObj);
+    const data = await category.register();
+    if (!data) {
+        res.json({
+            data: data,
+            message: "Algo aconteceu contate admin",
+            request: "category",
+        });
+    }
+
+    res.json({
+        data: data,
+        message: "",
+        request: "category",
+    });
+};
+
+export const categoryDelete = async (req, res) => {
+    const categoryObj = {
+        id: req.params.id,
+    };
+    const category = new Category(categoryObj);
+    const data = await category.delete();
+
+    if (!data) {
+        res.json({
+            data: data,
+            message: "Algo aconteceu contate admin",
+            request: "category",
+        });
+    }
+
+    res.json({
+        data: data,
+        message: "ok removido",
+        request: "category",
+    });
+};
+
+//TODO CRIAR UPDATE

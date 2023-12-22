@@ -47,6 +47,43 @@ class Category {
             prisma.$disconnect();
         }
     }
+
+    async register() {
+        try {
+            const category = await prisma.app_categories.create({
+                data: {
+                    user_id: parseInt(this.user_id),
+                    name: this.name,
+                    description: this.description,
+                    type: this.type,
+                },
+            });
+
+            return category;
+        } catch (err) {
+            console.log(err);
+            return false;
+        } finally {
+            prisma.$disconnect();
+        }
+    }
+
+    async delete() {
+        try {
+            const category = await prisma.app_categories.delete({
+                where: {
+                    id: parseInt(this.id),
+                },
+            });
+            console.log(category);
+            return true;
+        } catch (err) {
+            console.log(err);
+            return false;
+        } finally {
+            prisma.$disconnect();
+        }
+    }
 }
 
 export default Category;
