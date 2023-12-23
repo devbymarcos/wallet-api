@@ -18,12 +18,9 @@ router.get("/dash", Auth.privateRouter, InvoiceController.dashBoard);
 // CATEGORY
 router.get("/categories", Auth.privateRouter, CategoryController.categories);
 router.get("/category/:id", Auth.privateRouter, CategoryController.category);
-router.post("/category", Auth.privateRouter, CategoryController.categoryCreate);
-router.delete(
-    "/category/:id",
-    Auth.privateRouter,
-    CategoryController.categoryDelete
-);
+router.post("/category", Auth.privateRouter, CategoryController.create);
+router.delete("/category/:id", Auth.privateRouter, CategoryController.remove);
+router.put("/category", Auth.privateRouter, CategoryController.update);
 //WALLET
 router.get("/wallets", Auth.privateRouter, WalletController.wallets);
 router.get("/wallet/:id", Auth.privateRouter, WalletController.walletUniq);

@@ -51,7 +51,7 @@ export const category = async (req, res) => {
     });
 };
 
-export const categoryCreate = async (req, res) => {
+export const create = async (req, res) => {
     //TODO VALIDA DADOS
     const categoryObj = {
         user_id: req.userAuth.id,
@@ -77,7 +77,7 @@ export const categoryCreate = async (req, res) => {
     });
 };
 
-export const categoryDelete = async (req, res) => {
+export const remove = async (req, res) => {
     const categoryObj = {
         id: req.params.id,
     };
@@ -99,4 +99,29 @@ export const categoryDelete = async (req, res) => {
     });
 };
 
-//TODO CRIAR UPDATE
+export const update = async (req, res) => {
+    //TODO VALIDA DADOS
+    const categoryObj = {
+        id: req.body.id,
+        name: req.body.name,
+        description: req.body.description,
+        type: req.body.type,
+    };
+
+    const category = new Category(categoryObj);
+    const data = await category.update();
+    console.log(data);
+    if (!data) {
+        res.json({
+            data: data,
+            message: "Algo aconteceu contate admin",
+            request: "category",
+        });
+    }
+
+    res.json({
+        data: data,
+        message: "",
+        request: "category",
+    });
+};

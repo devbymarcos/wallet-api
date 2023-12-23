@@ -84,6 +84,29 @@ class Category {
             prisma.$disconnect();
         }
     }
+
+    async update() {
+        try {
+            const category = await prisma.app_categories.update({
+                data: {
+                    id: parseInt(this.id),
+                    name: this.name,
+                    description: this.description,
+                    type: this.type,
+                },
+
+                where: {
+                    id: parseInt(this.id),
+                },
+            });
+            return category;
+        } catch (err) {
+            console.log(err);
+            return false;
+        } finally {
+            prisma.$disconnect();
+        }
+    }
 }
 
 export default Category;
