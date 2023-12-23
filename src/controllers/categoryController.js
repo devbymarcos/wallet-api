@@ -110,7 +110,7 @@ export const update = async (req, res) => {
 
     const category = new Category(categoryObj);
     const data = await category.update();
-    console.log(data);
+
     if (!data) {
         res.json({
             data: data,

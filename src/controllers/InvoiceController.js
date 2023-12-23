@@ -1,4 +1,5 @@
 import { prisma } from "../database/prismaClient.js";
+import Invoice from "../models/Invoice.js";
 
 export const income = async (req, res) => {
     const { id } = req.userSession;
@@ -483,5 +484,61 @@ export const dashBoard = async (req, res) => {
         chartBase,
         panels,
         openInvoice,
+    });
+};
+
+export const transfers = async (req, res) => {
+    //TODO validar dados
+    const { id } = req.userSession;
+    const d = new Date(req.body.date);
+    const day = d.getUTCDate();
+    const year = d.getUTCFullYear();
+    const month = d.getUTCMonth();
+
+    const invoiceObjOut = {
+        user_id: id,
+        wallet_id: parseInt(req.body.wallet_exit),
+        category_id: parseInt(req.body.category_exit),
+        description: req.body.description,
+        price: parseFloat(req.body.price.replace(",", ".")),
+        due_at: new Date(year, month, day),
+        type: "expense",
+        pay: "paid",
+        repeat_when: "single",
+        period: !req.body.period ? "month" : req.body.period,
+        name: "",
+    };
+
+    const invoiceObjIn = {
+        user_id: id,
+        wallet_id: parseInt(req.body.wallet_entry),
+        category_id: parseInt(req.body.category_entry),
+        description: req.body.description,
+        price: parseFloat(req.body.price.replace(",", ".")),
+        due_at: new Date(year, month, day),
+        type: "income",
+        pay: "paid",
+        repeat_when: "single",
+        period: !req.body.period ? "month" : req.body.period,
+        name: "",
+    };
+
+    const invoiceOut = new Invoice(invoiceObjOut);
+    const invoiceIn = new Invoice(invoiceObjIn);
+    const dataIn = invoiceIn.register();
+    const dataOut = invoiceOut.register();
+
+    if (!dataIn && !dataOut) {
+        res.json({
+            data: false,
+            message: "Algo aconteceu contate admin",
+            request: "transfer",
+        });
+    }
+
+    res.json({
+        data: [dataIn, dataOut],
+        message: "",
+        request: "transfer",
     });
 };
