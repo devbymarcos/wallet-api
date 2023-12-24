@@ -7,7 +7,6 @@ import * as InvoiceController from "../controllers/InvoiceController.js";
 import * as Auth from "../middlewares/Auth.js";
 import * as UserController from "../controllers/userController.js";
 import * as InvoiceFixedController from "../controllers/invoiceFixedController.js";
-import * as BetweenWallet from "../controllers/betweenWalletController.js";
 import * as ExtractController from "../controllers/extractController.js";
 
 const router = Router();
@@ -50,8 +49,8 @@ router.get(
 );
 router.post("/invoice", Auth.privateRouter, InvoiceController.create);
 router.put("/invoice", Auth.privateRouter, InvoiceController.update);
-router.delete("/invoice/:id", Auth.privateRouter, InvoiceController.drop);
-router.post("/transfer", Auth.privateRouter, UserController.transfers);
+router.delete("/invoice/:id", Auth.privateRouter, InvoiceController.remove);
+router.post("/transfer", Auth.privateRouter, InvoiceController.transfers);
 //USER
 router.post("/user", UserController.registerUser);
 router.get("/user", Auth.privateRouter, UserController.getUser);
