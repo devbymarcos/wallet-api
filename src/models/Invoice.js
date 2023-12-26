@@ -68,6 +68,31 @@ class Invoice {
     }
     async update() {
         try {
+            try {
+                const invoice = await prisma.app_invoice.update({
+                    where: {
+                        id: this.id,
+                    },
+                    data: {
+                        wallet_id: this.wallet_id,
+                        category_id: this.category_id,
+                        description: this.description,
+                        price: this.price,
+                        due_at: this.due_at,
+                        type: this.type,
+                        pay: this.pay,
+                        repeat_when: this.repeat_when,
+                        period: this.period,
+                        //name: this.name,
+                    },
+                });
+                return invoice;
+            } catch (err) {
+                console.log(err);
+                return false;
+            } finally {
+                prisma.$disconnect();
+            }
         } catch (err) {
             console.log(err);
             return false;
@@ -87,7 +112,7 @@ class Invoice {
                     pay: this.pay,
                     repeat_when: this.repeat_when,
                     period: this.period,
-                    name: this.name,
+                    //name: this.name,
                 },
             });
             return invoice;
@@ -127,6 +152,30 @@ class Invoice {
             return false;
         } finally {
             prisma.$disconnect();
+        }
+    }
+
+    async updatePay() {
+        try {
+            try {
+                const invoice = await prisma.app_invoice.update({
+                    where: {
+                        id: this.id,
+                    },
+                    data: {
+                        pay: this.pay,
+                    },
+                });
+                return invoice;
+            } catch (err) {
+                console.log(err);
+                return false;
+            } finally {
+                prisma.$disconnect();
+            }
+        } catch (err) {
+            console.log(err);
+            return false;
         }
     }
 }

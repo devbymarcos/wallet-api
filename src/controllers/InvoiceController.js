@@ -64,13 +64,13 @@ export const create = async (req, res) => {
     //     "installments": "2"
     //   }
 
-    const date = req.body.due_at;
-    const dateSplit = date.split("-");
-    const [year, month, day] = dateSplit.map(Number);
-    const dateInstance = new Date(year, month - 1, day);
-
     switch (req.body.repeat_when) {
         case "installments":
+            const date = req.body.due_at;
+            const dateSplit = date.split("-");
+            const [year, month, day] = dateSplit.map(Number);
+            const dateInstance = new Date(year, month - 1, day);
+
             let dataDb = "";
             let dia = "";
             let mes = "";
@@ -145,7 +145,7 @@ export const create = async (req, res) => {
                 category_id: parseInt(req.body.category_id),
                 description: req.body.description,
                 price: parseFloat(req.body.price),
-                due_at: dateInstance,
+                due_at: new Date(req.body.due_at),
                 type:
                     req.body.repeat_when === "fixed"
                         ? "fixed_" + req.body.type
@@ -185,70 +185,103 @@ export const create = async (req, res) => {
 };
 
 export const update = async (req, res) => {
-    if (req.body.action === "status") {
-        try {
-            const incomeUpdate = await prisma.app_invoice.update({
-                where: {
-                    id: parseInt(req.body.id),
-                },
-                data: {
-                    pay: req.body.pay === "unpaid" ? "paid" : "unpaid",
-                },
-            });
-            if (incomeUpdate.id) {
-                res.json({ incomeUpdate });
-            } else {
-                throw new Error("Ooops, algo deu errado, contate o admin");
-            }
-        } catch (err) {
-            console.log(err);
+    //TODO valid data
+    if (req.body.action && req.body.action === "status") {
+        const invoiceObj = {
+            id: req.body.id,
+            pay: req.body.pay === "unpaid" ? "paid" : "unpaid",
+        };
+        const invoice = new Invoice(invoiceObj);
+        data = await invoice.updatePay();
+        if (!data) {
             res.json({
-                message: "Ooops, algo deu errado, contate o admin",
-                type: "error",
+                data: data,
+                message: "Algo aconteceu contate admin",
+                request: "invoice",
             });
-        } finally {
-            prisma.$disconnect();
+            return;
         }
+
+        if (data.length <= 0) {
+            res.json({
+                data: null,
+                message: "não encontramos dados",
+                request: "invoice",
+            });
+
+            return;
+        }
+        res.json({
+            data: data,
+            message: "",
+            request: "invoice",
+        });
     } else {
-        if (!req.body.description) {
-            res.json({ message: "Preencha a descrição", type: "warning" });
-            return;
-        } else if (!req.body.price) {
-            res.json({ message: "Preencha o valor", type: "warning" });
-            return;
-        } else if (!req.body.category) {
-            res.json({ message: "Escolha a categoria", type: "warning" });
-        } else if (!req.body.wallet) {
-            res.json({ message: "Escolha a carteira", type: "warning" });
-        } else if (!req.body.date) {
-            res.json({ message: "É necessario a data", type: "warning" });
-        }
-        //remove o ponto da mascara do input
-        try {
-            const incomeUpdate = await prisma.app_invoice.update({
-                where: {
-                    id: parseInt(req.body.id),
-                },
-                data: {
-                    wallet_id: parseInt(req.body.wallet),
-                    category_id: parseInt(req.body.category),
-                    description: req.body.description,
-                    price: parseFloat(req.body.price),
-                    due_at: new Date(req.body.date),
-                    type: req.body.type,
-                    pay: req.body.pay,
-                },
-            });
-            res.json({ message: "Registro Atualizado", type: "success" });
-        } catch (err) {
-            console.log(err);
+        const invoiceObj = {
+            id: parseInt(req.body.id),
+            wallet_id: parseInt(req.body.wallet_id),
+            category_id: parseInt(req.body.category_id),
+            description: req.body.description,
+            price: parseFloat(req.body.price),
+            due_at: new Date(req.body.due_at),
+            type: req.body.type,
+            pay: req.body.pay,
+            repeat_when: req.body.repeat_when,
+            period: req.body.period,
+        };
+
+        const invoice = new Invoice(invoiceObj);
+        const data = await invoice.update();
+
+        if (!data) {
             res.json({
-                message: "Ooops, algo deu errado, contate o admin",
-                type: "error",
+                data: data,
+                message: "Algo aconteceu contate admin",
+                request: "invoice",
             });
-        } finally {
-            prisma.$disconnect();
+            return;
         }
+
+        if (data.length <= 0) {
+            res.json({
+                data: null,
+                message: "não encontramos dados",
+                request: "invoice",
+            });
+
+            return;
+        }
+        res.json({
+            data: data,
+            message: "",
+            request: "invoice",
+        });
+    }
+
+    try {
+        const incomeUpdate = await prisma.app_invoice.update({
+            where: {
+                id: parseInt(req.body.id),
+            },
+            data: {
+                wallet_id: parseInt(req.body.wallet),
+                category_id: parseInt(req.body.category),
+                description: req.body.description,
+                price: parseFloat(req.body.price),
+                due_at: new Date(req.body.date),
+                type: req.body.type,
+                pay: req.body.pay,
+            },
+        });
+        res.json({ message: "Registro Atualizado", type: "success" });
+    } catch (err) {
+        console.log(err);
+        res.json({
+            message: "Ooops, algo deu errado, contate o admin",
+            type: "error",
+        });
+    } finally {
+        prisma.$disconnect();
     }
 };
 
