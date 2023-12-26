@@ -77,7 +77,7 @@ class Invoice {
         try {
             const invoice = await prisma.app_invoice.create({
                 data: {
-                    user_id: id,
+                    user_id: this.user_id,
                     wallet_id: this.wallet_id,
                     category_id: this.category_id,
                     description: this.description,

@@ -49,38 +49,28 @@ export const invoice = async (req, res) => {
 
 export const create = async (req, res) => {
     const { id } = req.userAuth;
-    console.log(req.body);
+    //TODO VALIDAR DADOS VINDO DPO FRONT EXEMPLO ABAIXO
+    // {
+    //     "wallet_id": "3",
+    //     "category_id": "1",
+    //     "description": "teste endpoint parcelado",
+    //     "price": "100.00",
+    //     "due_at": "2023-12-26",
+    //     "type":  "expense",
+    //     "pay": "paid",
+    //     "repeat_when": "installments",
+    //     "period": "month",
+    //     "name": "invoice",
+    //     "installments": "2"
+    //   }
 
-    if (!req.body.description) {
-        res.json({ message: "Preencha a descrição", type: "warning" });
-        return;
-    } else if (!req.body.price) {
-        res.json({ message: "Preencha o valor", type: "warning" });
-        return;
-    } else if (!req.body.category) {
-        res.json({ message: "Escolha a categoria", type: "warning" });
-        return;
-    } else if (!req.body.wallet) {
-        res.json({ message: "Escolha a carteira", type: "warning" });
-        return;
-    } else if (!req.body.date) {
-        res.json({ message: "É necessario a data", type: "warning" });
-        return;
-    }
-
-    const date = req.body.date;
-    const dateArr1 = date.split("-");
-    const [year, month, day] = dateArr1.map(Number);
+    const date = req.body.due_at;
+    const dateSplit = date.split("-");
+    const [year, month, day] = dateSplit.map(Number);
     const dateInstance = new Date(year, month - 1, day);
-    //TODO CODANDO AQUI
 
-    switch (expr) {
+    switch (req.body.repeat_when) {
         case "installments":
-            // const dateReq = req.body.date;
-            // const dateArr1 = dateReq.split("-");
-            // const [year, month, day] = dateArr1.map(Number);
-            // const dateInstance = new Date(year, month - 1, day);
-
             let dataDb = "";
             let dia = "";
             let mes = "";
@@ -101,8 +91,8 @@ export const create = async (req, res) => {
                 dataDb = new Date(ano, mes - 1, dia);
                 dataPersist.push({
                     user_id: id,
-                    wallet_id: parseInt(req.body.wallet),
-                    category_id: parseInt(req.body.category),
+                    wallet_id: parseInt(req.body.wallet_id),
+                    category_id: parseInt(req.body.category_id),
                     description:
                         req.body.description +
                         " parcela " +
@@ -118,12 +108,12 @@ export const create = async (req, res) => {
                     name: "invoice",
                 });
             }
-            console.log(dataPersist);
-            // const dataInstallments = await Invoice.createInstallments(
-            //     dataPersist
-            // );
 
-            if (!data) {
+            const dataInstallments = await Invoice.createInstallments(
+                dataPersist
+            );
+
+            if (!dataInstallments) {
                 res.json({
                     data: data,
                     message: "Algo aconteceu contate admin",
@@ -132,7 +122,7 @@ export const create = async (req, res) => {
                 return;
             }
 
-            if (data.length <= 0) {
+            if (dataInstallments.length <= 0) {
                 res.json({
                     data: null,
                     message: "não encontramos dados",
@@ -142,7 +132,7 @@ export const create = async (req, res) => {
                 return;
             }
             res.json({
-                data: data,
+                data: dataInstallments,
                 message: "",
                 request: "invoice",
             });
@@ -151,8 +141,8 @@ export const create = async (req, res) => {
         case "single":
             const invoiceObj = {
                 user_id: id,
-                wallet_id: parseInt(req.body.wallet),
-                category_id: parseInt(req.body.category),
+                wallet_id: parseInt(req.body.wallet_id),
+                category_id: parseInt(req.body.category_id),
                 description: req.body.description,
                 price: parseFloat(req.body.price),
                 due_at: dateInstance,
