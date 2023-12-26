@@ -30,8 +30,7 @@ router.put("/wallet/:id", Auth.privateRouter, WalletController.walletUpdate);
 router.delete("/wallet/:id", Auth.privateRouter, WalletController.walletDelete);
 
 //INVOICE
-router.get("/expense", Auth.privateRouter, InvoiceController.expense);
-router.get("/income", Auth.privateRouter, InvoiceController.income);
+router.get("/invoice", Auth.privateRouter, InvoiceController.invoice);
 router.get(
     "/auto-create-fixed",
     Auth.privateRouter,

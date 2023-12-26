@@ -16,6 +16,7 @@ class Invoice {
     period;
     due_year;
     due_month;
+    typeTransfer;
 
     constructor(obj) {
         this.id = obj.id || null;
@@ -33,29 +34,15 @@ class Invoice {
         this.period = obj.period || null;
         this.due_month = obj.due_month || null;
         this.due_year = obj.due_year || null;
+        this.due_year = obj.due_year || null;
+        this.typeTransfer = obj.typeTransfer || null;
     }
 
-    async findAllMonthsIncome() {
+    async findAllMonths() {
         try {
-            const income = await prisma.$queryRaw`
-            SELECT * FROM app_invoice WHERE user_id= ${this.user_id} AND type IN("income","transf-income") AND wallet_id=${this.wallet_id} AND year(due_at) = ${this.due_year} AND month(due_at) = ${this.due_month} ORDER BY day(due_at)`;
-            return income;
-            console.log(
-                "TCL: Invoice -> findAllMonthsIncome -> income",
-                income
-            );
-        } catch (err) {
-            console.log(err);
-            return false;
-        } finally {
-            prisma.$disconnect();
-        }
-    }
-
-    async findAllMonthsExpense() {
-        try {
-            const income = await prisma.$queryRaw`
-            SELECT * FROM app_invoice WHERE user_id= ${this.user_id} AND type IN("expense","transf-expense") AND wallet_id=${this.wallet_id} AND year(due_at) = ${due_year} AND month(due_at) = ${due_month} ORDER BY day(due_at)`;
+            const invoice = await prisma.$queryRaw`
+            SELECT * FROM app_invoice WHERE user_id= ${this.user_id} AND type IN(${this.type},${this.typeTransfer}) AND wallet_id=${this.wallet_id} AND year(due_at) = ${this.due_year} AND month(due_at) = ${this.due_month} ORDER BY day(due_at)`;
+            return invoice;
         } catch (err) {
             console.log(err);
             return false;

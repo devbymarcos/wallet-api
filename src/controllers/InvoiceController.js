@@ -2,7 +2,7 @@ import { prisma } from "../database/prismaClient.js";
 import DashBoard from "../models/Dash.js";
 import Invoice from "../models/Invoice.js";
 
-export const income = async (req, res) => {
+export const invoice = async (req, res) => {
     const dateInput = req.query.date;
     let dateArr;
     if (dateInput) {
@@ -10,21 +10,24 @@ export const income = async (req, res) => {
     }
     const incomeObj = {
         user_id: req.userAuth.id,
-        wallet_id: req.query.currentWallet,
+        wallet_id: req.query.wallet_id,
         due_month: dateArr[0]
             ? parseInt(dateArr[0])
             : new Date().getMonth() + 1,
         due_year: dateArr[1] ? parseInt(dateArr[1]) : data.getFullYear(),
+        typeTransfer:
+            req.query.type == "income" ? "transf-income" : "transf-expense",
+        type: req.query.type,
     };
     const income = new Invoice(incomeObj);
-    const data = await income.findAllMonthsIncome();
-    console.log("TCL: income -> data", data);
+    const data = await income.findAllMonths();
+    console.log("TCL: income -> data", income);
 
     if (!data) {
         res.json({
             data: data,
             message: "Algo aconteceu contate admin",
-            request: "category",
+            request: "invoice",
         });
         return;
     }
@@ -33,64 +36,16 @@ export const income = async (req, res) => {
         res.json({
             data: null,
             message: "não encontramos dados",
-            request: "category",
+            request: "invoice",
         });
 
         return;
     }
-
     res.json({
         data: data,
         message: "",
-        request: "income",
+        request: "invoice",
     });
-};
-
-export const expense = async (req, res) => {
-    const { id } = req.userSession;
-
-    let data = new Date();
-    const currentWallet = req.query.currentWallet;
-    let dateInput = req.query.date;
-    let dateArr = "";
-    if (dateInput) {
-        dateArr = dateInput.split("-");
-    }
-
-    //gerar mes e ano para query
-    let due_month = dateArr[0] ? parseInt(dateArr[0]) : data.getMonth() + 1;
-    let due_year = dateArr[1] ? parseInt(dateArr[1]) : data.getFullYear();
-    try {
-        const expense = await prisma.$queryRaw`
-        SELECT * FROM app_invoice WHERE user_id= ${id} AND type IN("expense","transf-expense") AND wallet_id=${currentWallet} AND year(due_at) = ${due_year} AND month(due_at) = ${due_month} ORDER BY day(due_at)`;
-
-        let dataExpense = [];
-        expense.forEach((item) => {
-            //formata status
-            let statusPay = "";
-            if (item.pay === "paid") {
-                statusPay = true;
-            } else {
-                statusPay = false;
-            }
-            //cria novo objto com dados formatado
-            dataExpense.push({
-                id: item.id,
-                date: item.due_at,
-                description: item.description,
-                status: statusPay,
-                pay: item.pay,
-                value: item.price,
-            });
-        });
-
-        res.json({ dataExpense });
-    } catch (error) {
-        res.status(500);
-        console.log(error);
-    } finally {
-        prisma.$disconnect();
-    }
 };
 
 export const create = async (req, res) => {
