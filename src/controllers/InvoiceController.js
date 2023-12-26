@@ -21,7 +21,6 @@ export const invoice = async (req, res) => {
     };
     const income = new Invoice(incomeObj);
     const data = await income.findAllMonths();
-    console.log("TCL: income -> data", income);
 
     if (!data) {
         res.json({
@@ -49,7 +48,7 @@ export const invoice = async (req, res) => {
 };
 
 export const create = async (req, res) => {
-    const { id } = req.userSession;
+    const { id } = req.userAuth;
     console.log(req.body);
 
     if (!req.body.description) {
@@ -69,105 +68,129 @@ export const create = async (req, res) => {
         return;
     }
 
-    //remove o ponto da mascara do input
-    // const priceReplace = req.body.price.replace(".", "");
+    const date = req.body.date;
+    const dateArr1 = date.split("-");
+    const [year, month, day] = dateArr1.map(Number);
+    const dateInstance = new Date(year, month - 1, day);
+    //TODO CODANDO AQUI
 
-    if (req.body.repeat_when === "installments") {
-        const date = req.body.date;
-        const dateArr1 = date.split("-");
-        const [year, month, day] = dateArr1.map(Number);
+    switch (expr) {
+        case "installments":
+            // const dateReq = req.body.date;
+            // const dateArr1 = dateReq.split("-");
+            // const [year, month, day] = dateArr1.map(Number);
+            // const dateInstance = new Date(year, month - 1, day);
 
-        const data = new Date(year, month - 1, day);
-        let dataDb = "";
-        let dia = "";
-        let mes = "";
-        let ano = "";
-        let p = 0;
-        let dataPersist = [];
-        for (let i = 0; i < req.body.installments; i++) {
-            p++;
-            if (i === 0) {
-                data.setMonth(data.getMonth());
-            } else {
-                data.setMonth(data.getMonth() + 1);
-            }
+            let dataDb = "";
+            let dia = "";
+            let mes = "";
+            let ano = "";
+            let p = 0;
+            let dataPersist = [];
+            for (let i = 0; i < req.body.installments; i++) {
+                p++;
+                if (i === 0) {
+                    dateInstance.setMonth(dateInstance.getMonth());
+                } else {
+                    dateInstance.setMonth(dateInstance.getMonth() + 1);
+                }
 
-            dia = data.getDate();
-            mes = data.getMonth() + 1;
-            ano = data.getFullYear();
-            dataDb = new Date(ano, mes - 1, dia);
-            dataPersist.push({
-                user_id: id,
-                wallet_id: parseInt(req.body.wallet),
-                category_id: parseInt(req.body.category),
-                description:
-                    req.body.description +
-                    " parcela " +
-                    p +
-                    "/" +
-                    req.body.installments,
-                price: parseFloat(req.body.price),
-                due_at: dataDb,
-                type: req.body.type,
-                pay: "unpaid",
-                period: !req.body.period ? "month" : req.body.period,
-                repeat_when: req.body.repeat_when,
-                name: "invoice",
-            });
-        }
-
-        try {
-            const invoiceCreate = await prisma.app_invoice.createMany({
-                data: dataPersist,
-            });
-
-            res.json({
-                message: "Parcelas registradas: " + invoiceCreate.count,
-                type: "success",
-            });
-            return;
-        } catch (err) {
-            console.log(err);
-        } finally {
-            prisma.$disconnect();
-        }
-    } else {
-        //end parcelado
-        try {
-            const date = req.body.date;
-            const dateArr1 = date.split("-");
-            const [year, month, day] = dateArr1.map(Number);
-            const dateDB = new Date(year, month - 1, day);
-
-            const invoiceCreate = await prisma.app_invoice.create({
-                data: {
+                dia = dateInstance.getDate();
+                mes = dateInstance.getMonth() + 1;
+                ano = dateInstance.getFullYear();
+                dataDb = new Date(ano, mes - 1, dia);
+                dataPersist.push({
                     user_id: id,
                     wallet_id: parseInt(req.body.wallet),
                     category_id: parseInt(req.body.category),
-                    description: req.body.description,
+                    description:
+                        req.body.description +
+                        " parcela " +
+                        p +
+                        "/" +
+                        req.body.installments,
                     price: parseFloat(req.body.price),
-                    due_at: dateDB,
-                    type:
-                        req.body.repeat_when === "fixed"
-                            ? "fixed_" + req.body.type
-                            : req.body.type,
-                    pay: req.body.repeat_when === "fixed" ? "paid" : "unpaid",
-                    repeat_when: req.body.repeat_when,
+                    due_at: dataDb,
+                    type: req.body.type,
+                    pay: "unpaid",
                     period: !req.body.period ? "month" : req.body.period,
+                    repeat_when: req.body.repeat_when,
                     name: "invoice",
-                },
-            });
-            console.log(invoiceCreate);
-            res.json({ invoiceCreate });
-        } catch (err) {
-            console.log(err);
+                });
+            }
+            console.log(dataPersist);
+            // const dataInstallments = await Invoice.createInstallments(
+            //     dataPersist
+            // );
+
+            if (!data) {
+                res.json({
+                    data: data,
+                    message: "Algo aconteceu contate admin",
+                    request: "invoice",
+                });
+                return;
+            }
+
+            if (data.length <= 0) {
+                res.json({
+                    data: null,
+                    message: "não encontramos dados",
+                    request: "invoice",
+                });
+
+                return;
+            }
             res.json({
-                message: "Ooops não conseguimos salvar contate o Admin",
-                type: "warning",
+                data: data,
+                message: "",
+                request: "invoice",
             });
-        } finally {
-            prisma.$disconnect();
-        }
+
+            break;
+        case "single":
+            const invoiceObj = {
+                user_id: id,
+                wallet_id: parseInt(req.body.wallet),
+                category_id: parseInt(req.body.category),
+                description: req.body.description,
+                price: parseFloat(req.body.price),
+                due_at: dateInstance,
+                type:
+                    req.body.repeat_when === "fixed"
+                        ? "fixed_" + req.body.type
+                        : req.body.type,
+                pay: req.body.repeat_when === "fixed" ? "paid" : "unpaid",
+                repeat_when: req.body.repeat_when,
+                period: !req.body.period ? "month" : req.body.period,
+                name: "invoice",
+            };
+
+            const invoice = new Invoice(invoiceObj);
+            const data = await invoice.register();
+            if (!data) {
+                res.json({
+                    data: data,
+                    message: "Algo aconteceu contate admin",
+                    request: "invoice",
+                });
+                return;
+            }
+
+            if (data.length <= 0) {
+                res.json({
+                    data: null,
+                    message: "não encontramos dados",
+                    request: "invoice",
+                });
+
+                return;
+            }
+            res.json({
+                data: data,
+                message: "",
+                request: "invoice",
+            });
     }
 };
 
@@ -283,30 +306,36 @@ export const remove = async (req, res) => {
 };
 
 export const invoiceSingle = async (req, res) => {
-    const { id } = req.userSession;
-
-    const getInvoiceSingle = await prisma.app_invoice.findUnique({
-        where: {
-            id: parseInt(req.params.id),
-        },
-    });
-
-    let dataInvoice = {
-        id: getInvoiceSingle.id,
-        categoryId: getInvoiceSingle.category_id,
-        walletId: getInvoiceSingle.wallet_id,
-        type: getInvoiceSingle.type,
-        date: getInvoiceSingle.due_at,
-        value: getInvoiceSingle.price,
-        statusPay: getInvoiceSingle.pay === "paid" ? true : false,
-        pay: getInvoiceSingle.pay,
-        description: getInvoiceSingle.description,
+    //TODO validar dados
+    const invoiceObj = {
+        id: parseInt(req.params.id),
     };
+    const invoice = new Invoice(invoiceObj);
+    const data = await invoice.findById();
 
-    if (getInvoiceSingle.id) {
-        res.json(dataInvoice);
+    if (!data) {
+        res.json({
+            data: data,
+            message: "Algo aconteceu contate admin",
+            request: "invoice",
+        });
         return;
     }
+
+    if (data.length <= 0) {
+        res.json({
+            data: null,
+            message: "não encontramos dados",
+            request: "invoice",
+        });
+
+        return;
+    }
+    res.json({
+        data: data,
+        message: "",
+        request: "invoice",
+    });
 };
 
 export const dashBoard = async (req, res) => {

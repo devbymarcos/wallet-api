@@ -53,6 +53,12 @@ class Invoice {
 
     async findById() {
         try {
+            const invoice = await prisma.app_invoice.findUnique({
+                where: {
+                    id: this.id,
+                },
+            });
+            return invoice;
         } catch (err) {
             console.log(err);
             return false;
@@ -60,7 +66,13 @@ class Invoice {
             prisma.$disconnect();
         }
     }
-
+    async update() {
+        try {
+        } catch (err) {
+            console.log(err);
+            return false;
+        }
+    }
     async register() {
         try {
             const invoice = await prisma.app_invoice.create({
@@ -95,6 +107,21 @@ class Invoice {
                 },
             });
             return invoice;
+        } catch (err) {
+            console.log(err);
+            return false;
+        } finally {
+            prisma.$disconnect();
+        }
+    }
+
+    static async createInstallments(arrData) {
+        try {
+            const invoices = await prisma.app_invoice.createMany({
+                data: arrData,
+            });
+
+            return invoices;
         } catch (err) {
             console.log(err);
             return false;
