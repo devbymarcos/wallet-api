@@ -31,21 +31,7 @@ router.delete("/wallet/:id", Auth.privateRouter, WalletController.walletDelete);
 
 //INVOICE
 router.get("/invoice", Auth.privateRouter, InvoiceController.invoice);
-router.get(
-    "/auto-create-fixed",
-    Auth.privateRouter,
-    InvoiceFixedController.autoFixedCreate
-);
-router.get(
-    "/fixed",
-    Auth.privateRouter,
-    InvoiceFixedController.invoiceFixedList
-);
-router.get(
-    "/invoice/single/:id",
-    Auth.privateRouter,
-    InvoiceController.invoiceSingle
-);
+router.get("/invoice/:id", Auth.privateRouter, InvoiceController.invoiceSingle);
 router.post("/invoice", Auth.privateRouter, InvoiceController.create);
 router.put("/invoice", Auth.privateRouter, InvoiceController.update);
 router.delete("/invoice/:id", Auth.privateRouter, InvoiceController.remove);
