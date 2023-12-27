@@ -24,9 +24,7 @@ router.put("/category", Auth.privateRouter, CategoryController.update);
 router.get("/wallets", Auth.privateRouter, WalletController.wallets);
 router.get("/wallet/:id", Auth.privateRouter, WalletController.walletUniq);
 router.post("/wallet", Auth.privateRouter, WalletController.walletCreate);
-//TODO implemetar essa rota para receber o id
-router.put("/wallet/:id", Auth.privateRouter, WalletController.walletUpdate);
-//TODO implemetar essa rota para receber o id
+router.put("/wallet", Auth.privateRouter, WalletController.walletUpdate);
 router.delete("/wallet/:id", Auth.privateRouter, WalletController.walletDelete);
 
 //INVOICE
