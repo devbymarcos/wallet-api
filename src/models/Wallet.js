@@ -48,7 +48,7 @@ class Wallet {
                     id: this.id,
                 },
             });
-            return wallet;
+            return true;
         } catch (err) {
             console.log(err);
             return false;
