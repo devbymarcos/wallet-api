@@ -1,85 +1,45 @@
 import validator from "validator";
 import User from "../models/User.js";
+import { dataReturn } from "../helpers/functions.js";
 
 export const getUser = async (req, res) => {
-    const { id } = req.userAuth;
-
-    const props = {
-        id: id,
+    const userObj = {
+        id: req.userAuth.id,
     };
-    const dataUser = new User(props);
-    await dataUser.findById();
-    console.log(dataUser.email);
-    if (!dataUser.first_name) {
-        res.json({ message: "Usuário nao encontrado", data: null });
-    }
-    const data = {
-        id: dataUser.id,
-        first_name: dataUser.first_name,
-        last_name: dataUser.last_name,
-        email: dataUser.email,
-        photo: dataUser.photo,
-    };
-    res.json({
-        data: data,
-        message: "",
-        request: "user",
-    });
+    const user = new User(userObj);
+    const data = await user.findById();
+    res.json(dataReturn(data, "user"));
 };
 export const registerUser = async (req, res) => {
-    const dataObj = {
+    const userObj = {
         first_name: req.body.first_name,
         last_name: req.body.last_name,
         email: req.body.email,
         password: req.body.password,
     };
-    const createUser = new User(dataObj);
-    const data = await createUser.register();
-    if (!data) {
-        res.json({
-            data: false,
-            message: "Não foi possivel criar, algo aconteceu contate o admin",
-            request: "user",
-        });
-        return;
-    }
-
-    res.json({ data });
+    const user = new User(userObj);
+    const data = await user.register();
+    res.json(dataReturn(data, "user"));
 };
 
 export const updateUser = async (req, res) => {
-    const { id } = req.userAuth;
-    const dataObj = {
-        id: id,
+    const userObj = {
+        id: req.userAuth.id,
+        first_name: req.body.first_name,
+        last_name: req.body.last_name,
+        email: req.body.email,
     };
-    const user = new User(dataObj);
-    await user.findById();
+    const user = new User(userObj);
+    const data = await user.update();
+    res.json(dataReturn(data, "user"));
+};
 
-    if (!user.first_name) {
-        res.json({
-            message: "Este user não esta registrado, não pode ser alterado",
-            data: null,
-        });
-        return;
-    }
-    user.first_name = req.body.first_name;
-    user.last_name = req.body.last_name;
-    user.email = req.body.email;
-    user.password = req.body.password ? req.body.password : user.password;
-
-    user.update();
-
-    const data = {
-        id: user.id,
-        first_name: user.first_name,
-        last_name: user.last_name,
-        email: user.email,
-        photo: user.photo,
+export const updatePassword = async (req, res) => {
+    const userObj = {
+        id: req.userAuth.id,
+        password: req.body.password,
     };
-
-    res.json({
-        data: data,
-        message: "",
-        request: "user",
-    });
+    const user = new User(userObj);
+    const data = await user.updatePass();
+    res.json(dataReturn(data, "user"));
 };
