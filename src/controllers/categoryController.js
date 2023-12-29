@@ -1,4 +1,4 @@
-import { prisma } from "../database/prismaClient.js";
+import { dataReturn } from "../helpers/functions.js";
 import Category from "../models/Category.js";
 
 export const categories = async (req, res) => {
@@ -8,23 +8,7 @@ export const categories = async (req, res) => {
     };
     const categories = new Category(categoryObj);
     const data = await categories.findAll();
-
-    if (!data) {
-        res.json({ message: "Algo aconteceu contate o admin" });
-    }
-    if (data.length <= 0) {
-        res.json({
-            data: null,
-            message: "não encontramos dados",
-            request: "category",
-        });
-    }
-
-    res.json({
-        data: data,
-        message: "",
-        request: "category",
-    });
+    res.json(dataReturn(data, "category"));
 };
 export const category = async (req, res) => {
     const categoryObj = {
@@ -33,22 +17,7 @@ export const category = async (req, res) => {
     const category = new Category(categoryObj);
     const data = await category.findById();
 
-    if (!data) {
-        res.json({ message: "Algo aconteceu contate o admin" });
-    }
-    if (data.length <= 0) {
-        res.json({
-            data: null,
-            message: "não encontramos dados",
-            request: "category",
-        });
-    }
-
-    res.json({
-        data: data,
-        message: "",
-        request: "category",
-    });
+    res.json(dataReturn(data, "category"));
 };
 
 export const create = async (req, res) => {
@@ -62,19 +31,7 @@ export const create = async (req, res) => {
 
     const category = new Category(categoryObj);
     const data = await category.register();
-    if (!data) {
-        res.json({
-            data: data,
-            message: "Algo aconteceu contate admin",
-            request: "category",
-        });
-    }
-
-    res.json({
-        data: data,
-        message: "",
-        request: "category",
-    });
+    res.json(dataReturn(data, "category"));
 };
 
 export const remove = async (req, res) => {
@@ -84,19 +41,7 @@ export const remove = async (req, res) => {
     const category = new Category(categoryObj);
     const data = await category.delete();
 
-    if (!data) {
-        res.json({
-            data: data,
-            message: "Algo aconteceu contate admin",
-            request: "category",
-        });
-    }
-
-    res.json({
-        data: data,
-        message: "ok removido",
-        request: "category",
-    });
+    res.json(dataReturn(data, "category"));
 };
 
 export const update = async (req, res) => {
@@ -111,17 +56,5 @@ export const update = async (req, res) => {
     const category = new Category(categoryObj);
     const data = await category.update();
 
-    if (!data) {
-        res.json({
-            data: data,
-            message: "Algo aconteceu contate admin",
-            request: "category",
-        });
-    }
-
-    res.json({
-        data: data,
-        message: "",
-        request: "category",
-    });
+    res.json(dataReturn(data, "category"));
 };

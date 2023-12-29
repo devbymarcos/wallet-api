@@ -1,4 +1,5 @@
 import { prisma } from "../database/prismaClient.js";
+import { dataReturn } from "../helpers/functions.js";
 import DashBoard from "../models/Dash.js";
 import Invoice from "../models/Invoice.js";
 
@@ -22,29 +23,7 @@ export const invoice = async (req, res) => {
     const income = new Invoice(incomeObj);
     const data = await income.findAllMonths();
 
-    if (!data) {
-        res.json({
-            data: data,
-            message: "Algo aconteceu contate admin",
-            request: "invoice",
-        });
-        return;
-    }
-
-    if (data.length <= 0) {
-        res.json({
-            data: null,
-            message: "não encontramos dados",
-            request: "invoice",
-        });
-
-        return;
-    }
-    res.json({
-        data: data,
-        message: "",
-        request: "invoice",
-    });
+    res.json(dataReturn(data, "invoice"));
 };
 
 export const create = async (req, res) => {
@@ -113,29 +92,7 @@ export const create = async (req, res) => {
                 dataPersist
             );
 
-            if (!dataInstallments) {
-                res.json({
-                    data: data,
-                    message: "Algo aconteceu contate admin",
-                    request: "invoice",
-                });
-                return;
-            }
-
-            if (dataInstallments.length <= 0) {
-                res.json({
-                    data: null,
-                    message: "não encontramos dados",
-                    request: "invoice",
-                });
-
-                return;
-            }
-            res.json({
-                data: dataInstallments,
-                message: "",
-                request: "invoice",
-            });
+            res.json(dataReturn(dataInstallments, "invoice"));
 
             break;
         case "single":
@@ -158,29 +115,8 @@ export const create = async (req, res) => {
 
             const invoice = new Invoice(invoiceObj);
             const data = await invoice.register();
-            if (!data) {
-                res.json({
-                    data: data,
-                    message: "Algo aconteceu contate admin",
-                    request: "invoice",
-                });
-                return;
-            }
 
-            if (data.length <= 0) {
-                res.json({
-                    data: null,
-                    message: "não encontramos dados",
-                    request: "invoice",
-                });
-
-                return;
-            }
-            res.json({
-                data: data,
-                message: "",
-                request: "invoice",
-            });
+            res.json(dataReturn(data, "invoice"));
     }
 };
 
@@ -193,29 +129,7 @@ export const update = async (req, res) => {
         };
         const invoice = new Invoice(invoiceObj);
         data = await invoice.updatePay();
-        if (!data) {
-            res.json({
-                data: data,
-                message: "Algo aconteceu contate admin",
-                request: "invoice",
-            });
-            return;
-        }
-
-        if (data.length <= 0) {
-            res.json({
-                data: null,
-                message: "não encontramos dados",
-                request: "invoice",
-            });
-
-            return;
-        }
-        res.json({
-            data: data,
-            message: "",
-            request: "invoice",
-        });
+        res.json(dataReturn(data, "invoice"));
     } else {
         const invoiceObj = {
             id: parseInt(req.body.id),
@@ -233,55 +147,7 @@ export const update = async (req, res) => {
         const invoice = new Invoice(invoiceObj);
         const data = await invoice.update();
 
-        if (!data) {
-            res.json({
-                data: data,
-                message: "Algo aconteceu contate admin",
-                request: "invoice",
-            });
-            return;
-        }
-
-        if (data.length <= 0) {
-            res.json({
-                data: null,
-                message: "não encontramos dados",
-                request: "invoice",
-            });
-
-            return;
-        }
-        res.json({
-            data: data,
-            message: "",
-            request: "invoice",
-        });
-    }
-
-    try {
-        const incomeUpdate = await prisma.app_invoice.update({
-            where: {
-                id: parseInt(req.body.id),
-            },
-            data: {
-                wallet_id: parseInt(req.body.wallet),
-                category_id: parseInt(req.body.category),
-                description: req.body.description,
-                price: parseFloat(req.body.price),
-                due_at: new Date(req.body.date),
-                type: req.body.type,
-                pay: req.body.pay,
-            },
-        });
-        res.json({ message: "Registro Atualizado", type: "success" });
-    } catch (err) {
-        console.log(err);
-        res.json({
-            message: "Ooops, algo deu errado, contate o admin",
-            type: "error",
-        });
-    } finally {
-        prisma.$disconnect();
+        res.json(dataReturn(data, "invoice"));
     }
 };
 
@@ -295,37 +161,7 @@ export const remove = async (req, res) => {
     const invoice = new Invoice(invoiceObj);
     const data = await invoice.delete();
 
-    if (!data) {
-        res.json({
-            data: data,
-            message: "Algo aconteceu contate admin",
-            request: "invoice/:id",
-        });
-    }
-
-    res.json({
-        data: data,
-        message: "Ok removido",
-        request: "invoice/:id",
-    });
-
-    // try {
-    //     const invoiceDelete = await prisma.app_invoice.delete({
-    //         where: {
-    //             id: parseInt(req.params.id),
-    //         },
-    //     });
-
-    //     res.json(invoiceDelete);
-    // } catch (err) {
-    //     console.log(err);
-    //     res.json({
-    //         message: "Ooops algo deu errado contate o admin",
-    //         type: "error",
-    //     });
-    // } finally {
-    //     prisma.$disconnect();
-    // }
+    res.json(dataReturn(data, "invoice"));
 };
 
 export const invoiceSingle = async (req, res) => {
@@ -336,29 +172,7 @@ export const invoiceSingle = async (req, res) => {
     const invoice = new Invoice(invoiceObj);
     const data = await invoice.findById();
 
-    if (!data) {
-        res.json({
-            data: data,
-            message: "Algo aconteceu contate admin",
-            request: "invoice",
-        });
-        return;
-    }
-
-    if (data.length <= 0) {
-        res.json({
-            data: null,
-            message: "não encontramos dados",
-            request: "invoice",
-        });
-
-        return;
-    }
-    res.json({
-        data: data,
-        message: "",
-        request: "invoice",
-    });
+    res.json(dataReturn(data, "invoice"));
 };
 
 export const dashBoard = async (req, res) => {
@@ -383,12 +197,7 @@ export const dashBoard = async (req, res) => {
         receivedMonth,
         balanceSum,
     };
-
-    res.json({
-        data: dataDash,
-        message: "",
-        request: "dash",
-    });
+    res.json(dataReturn(dataDash, "dash"));
 };
 
 export const transfers = async (req, res) => {
@@ -440,9 +249,5 @@ export const transfers = async (req, res) => {
         });
     }
 
-    res.json({
-        data: [dataIn, dataOut],
-        message: "",
-        request: "transfer",
-    });
+    res.json(dataReturn([dataIn, dataOut], "transfer"));
 };
