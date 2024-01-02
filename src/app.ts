@@ -3,7 +3,7 @@ import swaggerUI from "swagger-ui-express";
 import path from "path";
 import multer from "multer";
 import dotenv from "dotenv";
-import mainRoutes from "./src/routes/router.js";
+import mainRoutes from "./routes/router.js";
 import morgan from "morgan";
 import cors from "cors";
 import fs from "fs";

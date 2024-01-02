@@ -5,9 +5,10 @@
     "main": "index.js",
     "type": "module",
     "scripts": {
-        "dev": "nodemon --inspect -e js,json, server.js",
-        "start": "nodemon server.js",
-        "test": "vitest"
+        "dev": "tsx watch src/server.ts",
+        "start": "src/server.js",
+        "test": "vitest",
+        "build": "tsup src/server.ts"
     },
     "keywords": [],
     "author": "",
@@ -33,6 +34,8 @@
         "morgan": "^1.10.0",
         "prisma": "^4.7.1",
         "supertest": "^6.3.3",
+        "tsx": "^4.7.0",
+        "typescript": "^5.3.3",
         "vitest": "^0.34.6"
     }
 }
