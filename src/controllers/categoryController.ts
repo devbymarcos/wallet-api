@@ -1,26 +1,32 @@
+import { Request, Response } from "express";
 import { dataReturn } from "../helpers/functions.js";
 import Category from "../models/Category.js";
 
-export const categories = async (req, res) => {
-    const { id } = req.userAuth;
+interface CustomRequest extends Request {
+    userAuth: {
+        id: number;
+    };
+}
+
+export const categories = async (req: CustomRequest, res: Response) => {
     const categoryObj = {
-        user_id: id,
+        user_id: req.userAuth.id,
     };
     const categories = new Category(categoryObj);
     const data = await categories.findAll();
-    res.json(dataReturn(data, "category"));
+    res.json(dataReturn(data, "category", ""));
 };
-export const category = async (req, res) => {
+export const category = async (req: CustomRequest, res: Response) => {
     const categoryObj = {
-        id: req.params.id,
+        id: parseInt(req.params.id),
     };
     const category = new Category(categoryObj);
     const data = await category.findById();
 
-    res.json(dataReturn(data, "category"));
+    res.json(dataReturn(data, "category", ""));
 };
 
-export const create = async (req, res) => {
+export const create = async (req: CustomRequest, res: Response) => {
     //TODO VALIDA DADOS
     const categoryObj = {
         user_id: req.userAuth.id,
@@ -31,20 +37,20 @@ export const create = async (req, res) => {
 
     const category = new Category(categoryObj);
     const data = await category.register();
-    res.json(dataReturn(data, "category"));
+    res.json(dataReturn(data, "category", ""));
 };
 
-export const remove = async (req, res) => {
+export const remove = async (req: CustomRequest, res: Response) => {
     const categoryObj = {
-        id: req.params.id,
+        id: parseInt(req.params.id),
     };
     const category = new Category(categoryObj);
     const data = await category.delete();
 
-    res.json(dataReturn(data, "/category"));
+    res.json(dataReturn(data, "/category", ""));
 };
 
-export const update = async (req, res) => {
+export const update = async (req: CustomRequest, res: Response) => {
     //TODO VALIDA DADOS
     const categoryObj = {
         id: req.body.id,
@@ -56,5 +62,5 @@ export const update = async (req, res) => {
     const category = new Category(categoryObj);
     const data = await category.update();
 
-    res.json(dataReturn(data, "category"));
+    res.json(dataReturn(data, "category", ""));
 };

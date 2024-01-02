@@ -20,7 +20,7 @@ model app_categories {
 
 model app_cliente {
   id         Int       @id @default(autoincrement())
-  user_id    Int
+  user_id    Int?
   name       String    @db.VarChar(255)
   email      String?   @db.VarChar(255)
   phone      String?   @db.VarChar(255)
@@ -71,7 +71,7 @@ model app_provider {
 
 model app_wallet {
   id            Int           @id @default(autoincrement())
-  user_id       Int
+  user_id       Int?
   name          String        @db.VarChar(255)
   description   String        @db.VarChar(255)
   option_wallet Int

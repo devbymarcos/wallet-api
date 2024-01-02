@@ -1,4 +1,5 @@
-import { prisma } from "../database/prismaClient.js";
+import { prisma } from "../database/prismaClient";
+import { CategoryTypes } from "./modelsType";
 
 class Category {
     id;
@@ -7,22 +8,22 @@ class Category {
     description;
     type;
 
-    constructor(obj) {
-        this.id = obj.id || null;
-        this.user_id = obj.user_id || null;
-        this.name = obj.name || null;
-        this.description = obj.description || null;
-        this.type = obj.type || null;
+    constructor(obj: CategoryTypes) {
+        this.id = obj.id || undefined;
+        this.user_id = obj.user_id || undefined;
+        this.name = obj.name || "";
+        this.description = obj.description || "";
+        this.type = obj.type || "";
     }
 
     async findById() {
         try {
             const category = prisma.app_categories.findUnique({
                 where: {
-                    id: parseInt(this.id),
+                    id: this.id,
                 },
             });
-            return category;
+            return [category];
         } catch (err) {
             console.log(err);
             return false;
@@ -52,7 +53,7 @@ class Category {
         try {
             const category = await prisma.app_categories.create({
                 data: {
-                    user_id: parseInt(this.user_id),
+                    user_id: this.user_id,
                     name: this.name,
                     description: this.description,
                     type: this.type,
@@ -72,10 +73,10 @@ class Category {
         try {
             const category = await prisma.app_categories.delete({
                 where: {
-                    id: parseInt(this.id),
+                    id: this.id,
                 },
             });
-            console.log(category);
+
             return true;
         } catch (err) {
             console.log(err);
@@ -89,14 +90,14 @@ class Category {
         try {
             const category = await prisma.app_categories.update({
                 data: {
-                    id: parseInt(this.id),
+                    id: this.id,
                     name: this.name,
                     description: this.description,
                     type: this.type,
                 },
 
                 where: {
-                    id: parseInt(this.id),
+                    id: this.id,
                 },
             });
             return category;

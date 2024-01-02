@@ -1,11 +1,17 @@
 import { prisma } from "../database/prismaClient.js";
-
+import { WalletTypes } from "./modelsType.js";
 class Wallet {
-    constructor(obj) {
-        this.id = obj.id || null;
-        this.user_id = obj.user_id || null;
-        this.name = obj.name || null;
-        this.description = obj.description || null;
+    id;
+    user_id;
+    name;
+    description;
+    option_wallet;
+
+    constructor(obj: WalletTypes) {
+        this.id = obj.id || undefined;
+        this.user_id = obj.user_id || undefined;
+        this.name = obj.name || "";
+        this.description = obj.description || "";
         this.option_wallet = obj.option_wallet || 0;
     }
 
@@ -29,13 +35,14 @@ class Wallet {
         try {
             const wallet = await prisma.app_wallet.findUnique({
                 where: {
-                    id: parseInt(this.id),
+                    id: this.id,
                 },
             });
 
-            return wallet;
+            return [wallet];
         } catch (err) {
             console.log(err);
+            return false;
         } finally {
             prisma.$disconnect();
         }
@@ -89,7 +96,7 @@ class Wallet {
                 },
             });
 
-            return wallet;
+            return [wallet];
         } catch (err) {
             console.log(err);
             return false;

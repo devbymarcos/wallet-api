@@ -3,11 +3,11 @@
     "version": "1.0.0",
     "description": "",
     "main": "index.js",
-    "type": "module",
     "scripts": {
-        "dev": "nodemon --inspect -e js,json, server.js",
-        "start": "nodemon server.js",
-        "test": "vitest"
+        "dev": "tsx watch src/server.ts",
+        "start": "src/server.js",
+        "test": "vitest",
+        "build": "tsup src"
     },
     "keywords": [],
     "author": "",
@@ -29,10 +29,17 @@
         "validator": "^13.6.0"
     },
     "devDependencies": {
+        "@types/cors": "^2.8.17",
+        "@types/express": "^4.17.21",
+        "@types/morgan": "^1.9.9",
+        "@types/multer": "^1.4.11",
         "@types/supertest": "^2.0.14",
         "morgan": "^1.10.0",
         "prisma": "^4.7.1",
         "supertest": "^6.3.3",
+        "tsup": "^8.0.1",
+        "tsx": "^4.7.0",
+        "typescript": "^5.3.3",
         "vitest": "^0.34.6"
     }
 }
