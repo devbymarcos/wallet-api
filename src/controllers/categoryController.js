@@ -41,7 +41,7 @@ export const remove = async (req, res) => {
     const category = new Category(categoryObj);
     const data = await category.delete();
 
-    res.json(dataReturn(data, "category"));
+    res.json(dataReturn(data, "/category"));
 };
 
 export const update = async (req, res) => {

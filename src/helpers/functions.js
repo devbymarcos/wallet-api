@@ -1,6 +1,10 @@
 export function dataReturn(data, request = "", message = "") {
     if (!data) {
-        return { message: "Algo aconteceu contate o admin" };
+        return {
+            data: null,
+            message: message,
+            request: request,
+        };
     }
     if (data.length <= 0) {
         return {

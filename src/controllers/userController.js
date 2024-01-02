@@ -41,5 +41,5 @@ export const updatePassword = async (req, res) => {
     };
     const user = new User(userObj);
     const data = await user.updatePass();
-    res.json(dataReturn(data, "user"));
+    res.json(dataReturn(data, "/user"));
 };

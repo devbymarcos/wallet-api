@@ -2,7 +2,7 @@ import { prisma } from "../database/prismaClient.js";
 import bcryptjs from "bcryptjs";
 import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
-
+import { dataReturn } from "../helpers/functions.js";
 dotenv.config();
 
 export const loginAuth = async (req, res) => {
@@ -10,14 +10,14 @@ export const loginAuth = async (req, res) => {
         where: { email: req.body.email },
     });
     if (!user) {
-        res.json({ message: "Usuário não está registrado", type: "error" });
+        res.json(dataReturn(user, "/login", "Usuário não está registrado"));
         return;
     }
 
     let passwdCheck = await bcryptjs.compare(req.body.password, user.password);
 
     if (!passwdCheck) {
-        res.json({ message: "Usuário e senha não confere", type: "error" });
+        res.json(dataReturn(false, "/login", "Usuário e senha não confere"));
         return;
     }
 
