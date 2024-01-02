@@ -1,16 +1,15 @@
-import { Category} from '../models/Category.js';
+import Category from "../models/Category.js";
 
-export const isCategory = async(req,res,next)=>{
+// export const isCategory = async (req, res, next) => {
+//     const categ = await Category.findAll({
+//         where: {
+//             user_id: req.session.user,
+//         },
+//     });
 
-    const categ = await Category.findAll({
-        where:{
-            user_id:req.session.user
-        }
-    })
-    
-    if(!categ.length){
-        res.redirect('/categorias?category=not');
-        return
-    }
-    next();
-}
+//     if (!categ.length) {
+//         res.redirect("/categorias?category=not");
+//         return;
+//     }
+//     next();
+// };

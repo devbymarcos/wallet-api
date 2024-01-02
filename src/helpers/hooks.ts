@@ -1,4 +1,4 @@
-export function formatDateView(date) {
+export function formatDateView(date: string) {
     if (typeof date != "string") {
         const dview = new Date(date);
         const day = dview.getUTCDate();
@@ -12,7 +12,7 @@ export function formatDateView(date) {
     }
 }
 
-export function formatDatePrisma(date) {
+export function formatDatePrisma(date: string) {
     const d = new Date(date);
     const day = d.getUTCDate();
     const year = d.getUTCFullYear();

@@ -1,5 +1,4 @@
 import express from "express";
-import swaggerUI from "swagger-ui-express";
 import path from "path";
 import multer from "multer";
 import dotenv from "dotenv";
@@ -53,8 +52,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(morgan("dev"));
 
-//rotas do site
-app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDoc));
+//rotas da API
 app.use("/v1", mainRoutes);
 
 //page 404

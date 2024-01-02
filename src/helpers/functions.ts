@@ -1,18 +1,16 @@
-export function dataReturn(data, request = "", message = "") {
+export function dataReturn(
+    data: any[] | boolean | object,
+    request: string,
+    message: string = ""
+) {
     if (!data) {
         return {
             data: null,
-            message: message,
+            message: "Algo aconteceu contate o admin",
             request: request,
         };
     }
-    if (data.length <= 0) {
-        return {
-            data: null,
-            message: "não encontramos dados",
-            request: request,
-        };
-    }
+
     return {
         data: data,
         message: message,

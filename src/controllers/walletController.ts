@@ -1,8 +1,13 @@
-import { prisma } from "../database/prismaClient.js";
+import { Request, Response } from "express";
 import { dataReturn } from "../helpers/functions.js";
 import Wallet from "../models/Wallet.js";
 
-export const wallets = async (req, res) => {
+interface CustomRequest extends Request {
+    userAuth: {
+        id: number;
+    };
+}
+export const wallets = async (req: CustomRequest, res: Response) => {
     const walletObj = {
         user_id: req.userAuth.id,
     };
@@ -12,9 +17,9 @@ export const wallets = async (req, res) => {
     res.json(dataReturn(data, "wallet"));
 };
 
-export const walletCreate = async (req, res) => {
+export const walletCreate = async (req: CustomRequest, res: Response) => {
     const walletObj = {
-        user_id: parseInt(req.userAuth.id),
+        user_id: req.userAuth.id,
         name: req.body.name,
         description: req.body.description,
         option_wallet: parseInt(req.body.option_wallet),
@@ -26,10 +31,10 @@ export const walletCreate = async (req, res) => {
     res.json(dataReturn(data, "wallet"));
 };
 
-export const walletUniq = async (req, res) => {
+export const walletUniq = async (req: CustomRequest, res: Response) => {
     const { id } = req.userAuth;
     const walletObj = {
-        id: req.params.id,
+        id: parseInt(req.params.id),
         user_id: id,
     };
     const wallet = new Wallet(walletObj);
@@ -38,8 +43,7 @@ export const walletUniq = async (req, res) => {
     res.json(dataReturn(data, "wallet"));
 };
 
-export const walletUpdate = async (req, res) => {
-    console.log(req.body);
+export const walletUpdate = async (req: CustomRequest, res: Response) => {
     const walletObj = {
         id: parseInt(req.body.id),
         name: req.body.name,
@@ -52,7 +56,7 @@ export const walletUpdate = async (req, res) => {
     res.json(dataReturn(data, "wallet"));
 };
 
-export const walletDelete = async (req, res) => {
+export const walletDelete = async (req: CustomRequest, res: Response) => {
     const walletObj = {
         id: parseInt(req.params.id),
     };
