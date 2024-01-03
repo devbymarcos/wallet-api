@@ -1,24 +1,29 @@
-import { prisma } from "../database/prismaClient.js";
-
+import { prisma } from "../database/prismaClient";
+import { DashTypes } from "./modelsType";
 class DashBoard {
     user_id;
     wallet_id;
 
-    constructor(obj) {
-        this.user_id = obj.user_id || null;
-        this.wallet_id = obj.wallet_id || null;
+    constructor(obj: DashTypes) {
+        this.user_id = obj.user_id || undefined;
+        this.wallet_id = obj.wallet_id || undefined;
     }
 
     async balance() {
         try {
-            const balance =
+            const balance: Array<{ income: number; expense: number }> =
                 await prisma.$queryRaw`SELECT (SELECT SUM(price) FROM app_invoice WHERE user_id= ${this.user_id} AND pay = 'paid' AND type = 'income' AND wallet_id = ${this.wallet_id}) as income,(SELECT SUM(price) FROM app_invoice WHERE user_id= ${this.user_id} AND pay = 'paid' AND type = 'expense' AND wallet_id = ${this.wallet_id}) as expense from app_invoice WHERE user_id = ${this.user_id} AND pay = 'paid' AND wallet_id = ${this.wallet_id} group by income,expense`;
-            const balanceSum = balance[0].income - balance[0].expense;
 
-            return [balanceSum];
+            const balanceSum: number = balance[0].income - balance[0].expense;
+
+            return {
+                balanceSum: balanceSum,
+            };
         } catch (err) {
             console.log(err);
-            return false;
+            return {
+                balanceSum: 0,
+            };
         } finally {
             prisma.$disconnect();
         }
@@ -26,8 +31,8 @@ class DashBoard {
 
     async receivedMonth() {
         try {
-            const currentDate = new Date();
-            const receivedMonth =
+            const currentDate: Date = new Date();
+            const receivedMonth: Array<{ incomeMonth: number }> =
                 await prisma.$queryRaw`SELECT  SUM(price) as incomeMonth FROM app_invoice WHERE user_id = ${
                     this.user_id
                 } AND pay = 'paid' AND month(due_at) = ${
@@ -36,10 +41,14 @@ class DashBoard {
                     this.wallet_id
                 }`;
 
-            return [receivedMonth[0].incomeMonth];
+            return {
+                receivedMonth: receivedMonth[0].incomeMonth,
+            };
         } catch (err) {
             console.log(err);
-            return false;
+            return {
+                receivedMonth: [0],
+            };
         } finally {
             prisma.$disconnect();
         }
@@ -47,7 +56,7 @@ class DashBoard {
     async paidMonth() {
         try {
             const currentDate = new Date();
-            const paidMonth =
+            const paidMonth: Array<{ expenseMonth: number }> =
                 await prisma.$queryRaw`SELECT  SUM(price) as expenseMonth FROM app_invoice WHERE user_id = ${
                     this.user_id
                 } AND pay = 'paid' AND month(due_at) = ${
@@ -55,10 +64,15 @@ class DashBoard {
                 } AND year(due_at) = ${currentDate.getFullYear()} AND type = 'expense' AND wallet_id = ${
                     this.wallet_id
                 }`;
-            return [paidMonth[0].expenseMonth];
+
+            return {
+                paidMonth: paidMonth[0].expenseMonth,
+            };
         } catch (err) {
             console.log(err);
-            return false;
+            return {
+                paidMonth: [0],
+            };
         } finally {
             prisma.$disconnect();
         }
@@ -66,20 +80,33 @@ class DashBoard {
 
     async resultLastFourMonth() {
         try {
-            const result = await prisma.$queryRaw`
+            const result: Array<{
+                due_year: number;
+                due_month: number;
+                due_date: string;
+                income: number;
+                expense: number;
+            }> = await prisma.$queryRaw`
             SELECT year(due_at) as due_year,month(due_at) as due_month,DATE_FORMAT (due_at,'%m/%y') AS due_date,(SELECT SUM(price) FROM app_invoice WHERE user_id = ${this.user_id} AND pay = 'paid' AND type = 'income' AND year(due_at) = due_year AND month(due_at) = due_month AND wallet_id = ${this.wallet_id}) as income,(SELECT SUM(price) FROM app_invoice WHERE user_id = ${this.user_id} AND pay = 'paid' AND type = 'expense' AND year(due_at) = due_year AND month(due_at) = due_month AND wallet_id = ${this.wallet_id}) as expense FROM app_invoice WHERE user_id = ${this.user_id} AND pay = 'paid'AND wallet_id = ${this.wallet_id} AND due_at >= date(now()- INTERVAL 4 MONTH) GROUP BY due_year , due_month ,due_date ORDER BY due_year , due_month ASC  limit 5`;
 
-            let months = [];
-            let values = [];
+            let months: Array<string> = [];
+            let values: Array<number> = [];
 
             result.forEach((item) => {
                 months.push(item.due_month + "/" + item.due_year);
                 values.push(item.income - item.expense);
             });
 
-            return [months, values];
+            return {
+                months: months,
+                values: values,
+            };
         } catch (err) {
             console.log(err);
+            return {
+                months: ["not found"],
+                values: [0],
+            };
         } finally {
             prisma.$disconnect();
         }

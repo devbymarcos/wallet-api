@@ -18,7 +18,7 @@ class User {
         password,
         photo,
     }: UserTypes) {
-        this.id = id;
+        this.id = id || undefined;
         this.first_name = first_name || undefined;
         this.last_name = last_name || undefined;
         this.email = email || undefined;

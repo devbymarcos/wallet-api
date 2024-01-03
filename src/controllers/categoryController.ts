@@ -17,7 +17,6 @@ export const category = async (req: Request, res: Response) => {
     };
     const category = new Category(categoryObj);
     const data = await category.findById();
-    console.log("TCL: category -> data", data);
 
     res.json(dataReturn(data, "category", ""));
 };

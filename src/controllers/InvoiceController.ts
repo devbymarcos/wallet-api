@@ -1,21 +1,22 @@
-import { prisma } from "../database/prismaClient.js";
-import { dataReturn } from "../helpers/functions.js";
-import DashBoard from "../models/Dash.js";
-import Invoice from "../models/Invoice.js";
+import { Request, Response } from "express";
+import { dataReturn } from "../helpers/functions";
+import DashBoard from "../models/Dash";
+import Invoice from "../models/Invoice";
 
-export const invoice = async (req, res) => {
-    const dateInput = req.query.date;
-    let dateArr;
+export const invoice = async (req: Request, res: Response) => {
+    const dateInput = String(req.query.date);
+    let dateArr: string[] = [];
     if (dateInput) {
         dateArr = dateInput.split("-");
     }
+    const dateCurrent: Date = new Date();
     const incomeObj = {
-        user_id: req.userAuth.id,
+        user_id: res.locals.userAuth.id,
         wallet_id: req.query.wallet_id,
         due_month: dateArr[0]
             ? parseInt(dateArr[0])
             : new Date().getMonth() + 1,
-        due_year: dateArr[1] ? parseInt(dateArr[1]) : data.getFullYear(),
+        due_year: dateArr[1] ? parseInt(dateArr[1]) : dateCurrent.getFullYear(),
         typeTransfer:
             req.query.type == "income" ? "transf-income" : "transf-expense",
         type: req.query.type,
@@ -23,11 +24,11 @@ export const invoice = async (req, res) => {
     const income = new Invoice(incomeObj);
     const data = await income.findAllMonths();
 
-    res.json(dataReturn(data, "invoice"));
+    res.json(dataReturn(data, "/invoice"));
 };
 
-export const create = async (req, res) => {
-    const { id } = req.userAuth;
+export const create = async (req: Request, res: Response) => {
+    const { id } = res.locals.userAuth;
     //TODO VALIDAR DADOS VINDO DPO FRONT EXEMPLO ABAIXO
     // {
     //     "wallet_id": "3",
@@ -50,10 +51,10 @@ export const create = async (req, res) => {
             const [year, month, day] = dateSplit.map(Number);
             const dateInstance = new Date(year, month - 1, day);
 
-            let dataDb = "";
-            let dia = "";
-            let mes = "";
-            let ano = "";
+            let dataDb: Date;
+            let dia: number;
+            let mes: number;
+            let ano: number;
             let p = 0;
             let dataPersist = [];
             for (let i = 0; i < req.body.installments; i++) {
@@ -120,7 +121,7 @@ export const create = async (req, res) => {
     }
 };
 
-export const update = async (req, res) => {
+export const update = async (req: Request, res: Response) => {
     //TODO valid data
     if (req.body.action && req.body.action === "status") {
         const invoiceObj = {
@@ -128,7 +129,7 @@ export const update = async (req, res) => {
             pay: req.body.pay === "unpaid" ? "paid" : "unpaid",
         };
         const invoice = new Invoice(invoiceObj);
-        data = await invoice.updatePay();
+        const data = await invoice.updatePay();
         res.json(dataReturn(data, "invoice"));
     } else {
         const invoiceObj = {
@@ -151,10 +152,10 @@ export const update = async (req, res) => {
     }
 };
 
-export const remove = async (req, res) => {
+export const remove = async (req: Request, res: Response) => {
     //TODO VALIDA DADOS
     const invoiceObj = {
-        user_id: req.userAuth.id,
+        user_id: res.locals.userAuth.id,
         id: req.params.id,
     };
 
@@ -164,7 +165,7 @@ export const remove = async (req, res) => {
     res.json(dataReturn(data, "invoice"));
 };
 
-export const invoiceSingle = async (req, res) => {
+export const invoiceSingle = async (req: Request, res: Response) => {
     //TODO validar dados
     const invoiceObj = {
         id: parseInt(req.params.id),
@@ -175,34 +176,35 @@ export const invoiceSingle = async (req, res) => {
     res.json(dataReturn(data, "invoice"));
 };
 
-export const dashBoard = async (req, res) => {
+export const dashBoard = async (req: Request, res: Response) => {
     //TODO VALIDAR OS DADOS
+
     const dashObj = {
-        user_id: req.userAuth.id,
-        wallet_id: req.query.wallet_id,
+        user_id: res.locals.userAuth.id,
+        wallet_id: parseInt(String(req.query.wallet_id)),
     };
 
     const dash = new DashBoard(dashObj);
-    const [months, values] = await dash.resultLastFourMonth();
-    const [paidMonth] = await dash.paidMonth();
-    const [receivedMonth] = await dash.receivedMonth();
-    const [balanceSum] = await dash.balance();
+    const { months, values } = await dash.resultLastFourMonth();
+    const { paidMonth } = await dash.paidMonth();
+    const { receivedMonth } = await dash.receivedMonth();
+    const { balanceSum } = await dash.balance();
 
     const dataDash = {
         result: {
-            months,
-            values,
+            months: months,
+            values: values,
         },
         paidMonth,
-        receivedMonth,
+        receivedMonth: receivedMonth,
         balanceSum,
     };
     res.json(dataReturn(dataDash, "dash"));
 };
 
-export const transfers = async (req, res) => {
+export const transfers = async (req: Request, res: Response) => {
     //TODO validar dados
-    const { id } = req.userSession;
+    const { id } = res.locals.userAuth.id;
     const d = new Date(req.body.date);
     const day = d.getUTCDate();
     const year = d.getUTCFullYear();

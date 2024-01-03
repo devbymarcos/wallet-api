@@ -35,7 +35,7 @@ export const loginAuth = async (req: Request, res: Response) => {
     }
 
     const token = jwt.sign(
-        { id: user.id, email: user.email },
+        { id: data.id, email: user.email },
         String(process.env.SECRET_KEY_JWT),
         {
             expiresIn: 86400,
@@ -43,11 +43,11 @@ export const loginAuth = async (req: Request, res: Response) => {
     );
     const userData = [
         {
-            id: user.id,
-            first_name: user.first_name,
-            last_name: user.last_name,
-            email: user.email,
-            photo: user.photo,
+            id: data.id,
+            first_name: data.first_name,
+            last_name: data.last_name,
+            email: data.email,
+            photo: data.photo,
             token: token,
         },
     ];

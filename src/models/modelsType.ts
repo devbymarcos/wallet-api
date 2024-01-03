@@ -15,10 +15,15 @@ export interface WalletTypes {
 }
 
 export interface UserTypes {
-    id: number;
+    id: number | undefined;
     first_name: string;
     last_name: string;
     email: string;
     password: string;
     photo?: string | undefined;
+}
+
+export interface DashTypes {
+    user_id: number | undefined;
+    wallet_id: number | undefined;
 }
