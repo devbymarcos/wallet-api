@@ -8,14 +8,16 @@ export const categories = async (req: Request, res: Response) => {
     };
     const categories = new Category(categoryObj);
     const data = await categories.findAll();
-    res.json(dataReturn(data, "category", ""));
+    res.json(dataReturn(data, "/category", ""));
 };
+
 export const category = async (req: Request, res: Response) => {
     const categoryObj = {
         id: parseInt(req.params.id),
     };
     const category = new Category(categoryObj);
     const data = await category.findById();
+    console.log("TCL: category -> data", data);
 
     res.json(dataReturn(data, "category", ""));
 };

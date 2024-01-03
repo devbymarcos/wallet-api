@@ -13,3 +13,12 @@ export interface WalletTypes {
     description?: string;
     option_wallet?: number;
 }
+
+export interface UserTypes {
+    id: number;
+    first_name: string;
+    last_name: string;
+    email: string;
+    password: string;
+    photo?: string | undefined;
+}

@@ -18,12 +18,12 @@ class Category {
 
     async findById() {
         try {
-            const category = prisma.app_categories.findUnique({
+            const category = await prisma.app_categories.findUnique({
                 where: {
                     id: this.id,
                 },
             });
-            return [category];
+            return category;
         } catch (err) {
             console.log(err);
             return false;

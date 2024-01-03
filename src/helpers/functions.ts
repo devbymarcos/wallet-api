@@ -1,12 +1,19 @@
 export function dataReturn(
-    data: any[] | boolean | object,
+    data: any[] | boolean | null | object,
     request: string,
     message: string = ""
 ) {
-    if (!data) {
+    if (data == null || !data) {
         return {
-            data: [false],
-            message: "Algo aconteceu contate o admin",
+            data: null,
+            message: "Record not found",
+            request: request,
+        };
+    }
+    if (Array.isArray(data) && data.length <= 0) {
+        return {
+            data: null,
+            message: "Record not found",
             request: request,
         };
     }

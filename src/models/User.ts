@@ -1,14 +1,28 @@
 import { prisma } from "../database/prismaClient.js";
 import bcryptjs from "bcryptjs";
-import validator from "validator";
+import { UserTypes } from "./modelsType.js";
 
 class User {
-    constructor({ id, first_name, last_name, email, password, photo }) {
-        this.id = id || null;
-        this.first_name = first_name || null;
-        this.last_name = last_name || null;
-        this.email = email || null;
-        this.password = password || null;
+    id;
+    first_name;
+    last_name;
+    email;
+    password;
+    photo;
+
+    constructor({
+        id,
+        first_name,
+        last_name,
+        email,
+        password,
+        photo,
+    }: UserTypes) {
+        this.id = id;
+        this.first_name = first_name || undefined;
+        this.last_name = last_name || undefined;
+        this.email = email || undefined;
+        this.password = password;
         this.photo = photo || "default";
     }
 
@@ -16,9 +30,11 @@ class User {
         try {
             const user = await prisma.users.findUnique({
                 where: {
-                    id: parseInt(this.id),
+                    id: this.id,
                 },
             });
+
+            if (user == null) return false;
 
             const data = {
                 id: user.id,
@@ -45,10 +61,10 @@ class User {
             });
 
             if (!user) return false;
-
-            return true;
+            return user;
         } catch (err) {
             console.log(err);
+            return false;
         } finally {
             prisma.$disconnect();
         }
@@ -90,7 +106,7 @@ class User {
         try {
             const user = await prisma.users.update({
                 where: {
-                    id: parseInt(this.id),
+                    id: this.id,
                 },
                 data: {
                     first_name: this.first_name,
@@ -115,20 +131,15 @@ class User {
     }
 
     async cryptpass() {
-        if (this.password) {
-            const passwordCrypt = await bcryptjs.hash(this.password, 10);
-
-            return passwordCrypt;
-        }
-
-        return false;
+        const passwordCrypt = await bcryptjs.hash(this.password, 10);
+        return passwordCrypt;
     }
 
     async updatePass() {
         try {
             const user = await prisma.users.update({
                 where: {
-                    id: parseInt(this.id),
+                    id: this.id,
                 },
                 data: {
                     password: await this.cryptpass(),
