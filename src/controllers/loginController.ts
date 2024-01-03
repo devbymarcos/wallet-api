@@ -2,7 +2,7 @@ import { prisma } from "../database/prismaClient.js";
 import bcryptjs from "bcryptjs";
 import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
-import { dataReturn } from "../helpers/functions.js";
+
 dotenv.config();
 
 export const loginAuth = async (req, res) => {
@@ -10,14 +10,21 @@ export const loginAuth = async (req, res) => {
         where: { email: req.body.email },
     });
     if (!user) {
-        res.json(dataReturn(user, "/login", "Usuário não está registrado"));
+        res.json({
+            data: [false],
+            message: "Usuário não esta registrado",
+            request: "/login",
+        });
         return;
     }
-
     let passwdCheck = await bcryptjs.compare(req.body.password, user.password);
 
     if (!passwdCheck) {
-        res.json(dataReturn(false, "/login", "Usuário e senha não confere"));
+        res.json({
+            data: [false],
+            message: "Usuário e senha não confere",
+            request: "/login",
+        });
         return;
     }
 
@@ -28,15 +35,20 @@ export const loginAuth = async (req, res) => {
             expiresIn: 86400,
         }
     );
-
-    res.json({
-        user: {
+    const userData = [
+        {
+            id: user.id,
             first_name: user.first_name,
             last_name: user.last_name,
             email: user.email,
             photo: user.photo,
             token: token,
         },
+    ];
+    res.json({
+        data: userData,
+        message: "",
+        request: "/login",
     });
 };
 
