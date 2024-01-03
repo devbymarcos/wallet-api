@@ -1,17 +1,21 @@
-import validator from "validator";
 import User from "../models/User.js";
 import { dataReturn } from "../helpers/functions.js";
-
-export const getUser = async (req, res) => {
+import { Request, Response } from "express";
+export const getUser = async (req: Request, res: Response) => {
     const userObj = {
-        id: req.userAuth.id,
+        id: res.locals.userAuth.id,
+        first_name: "",
+        last_name: "",
+        email: "",
+        password: "",
     };
     const user = new User(userObj);
     const data = await user.findById();
     res.json(dataReturn(data, "user"));
 };
-export const registerUser = async (req, res) => {
+export const registerUser = async (req: Request, res: Response) => {
     const userObj = {
+        id: undefined,
         first_name: req.body.first_name,
         last_name: req.body.last_name,
         email: req.body.email,
@@ -22,21 +26,25 @@ export const registerUser = async (req, res) => {
     res.json(dataReturn(data, "user"));
 };
 
-export const updateUser = async (req, res) => {
+export const updateUser = async (req: Request, res: Response) => {
     const userObj = {
-        id: req.userAuth.id,
+        id: res.locals.userAuth.id,
         first_name: req.body.first_name,
         last_name: req.body.last_name,
         email: req.body.email,
+        password: "",
     };
     const user = new User(userObj);
     const data = await user.update();
     res.json(dataReturn(data, "user"));
 };
 
-export const updatePassword = async (req, res) => {
+export const updatePassword = async (req: Request, res: Response) => {
     const userObj = {
-        id: req.userAuth.id,
+        id: res.locals.userAuth.id,
+        first_name: "",
+        last_name: "",
+        email: "",
         password: req.body.password,
     };
     const user = new User(userObj);
