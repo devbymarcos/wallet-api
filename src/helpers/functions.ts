@@ -5,7 +5,7 @@ export function dataReturn(
 ) {
     if (!data) {
         return {
-            data: null,
+            data: [false],
             message: "Algo aconteceu contate o admin",
             request: request,
         };
