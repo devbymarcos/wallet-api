@@ -2,14 +2,9 @@ import { Request, Response } from "express";
 import { dataReturn } from "../helpers/functions.js";
 import Wallet from "../models/Wallet.js";
 
-interface CustomRequest extends Request {
-    userAuth: {
-        id: number;
-    };
-}
-export const wallets = async (req: CustomRequest, res: Response) => {
+export const wallets = async (req: Request, res: Response) => {
     const walletObj = {
-        user_id: req.userAuth.id,
+        user_id: res.locals.userAuth.id,
     };
     const wallet = new Wallet(walletObj);
     const data = await wallet.findyAll();
@@ -17,9 +12,9 @@ export const wallets = async (req: CustomRequest, res: Response) => {
     res.json(dataReturn(data, "wallet"));
 };
 
-export const walletCreate = async (req: CustomRequest, res: Response) => {
+export const walletCreate = async (req: Request, res: Response) => {
     const walletObj = {
-        user_id: req.userAuth.id,
+        user_id: res.locals.userAuth.id,
         name: req.body.name,
         description: req.body.description,
         option_wallet: parseInt(req.body.option_wallet),
@@ -31,11 +26,10 @@ export const walletCreate = async (req: CustomRequest, res: Response) => {
     res.json(dataReturn(data, "wallet"));
 };
 
-export const walletUniq = async (req: CustomRequest, res: Response) => {
-    const { id } = req.userAuth;
+export const walletUniq = async (req: Request, res: Response) => {
     const walletObj = {
         id: parseInt(req.params.id),
-        user_id: id,
+        user_id: res.locals.userAuth.id,
     };
     const wallet = new Wallet(walletObj);
     const data = await wallet.findyById();
@@ -43,7 +37,7 @@ export const walletUniq = async (req: CustomRequest, res: Response) => {
     res.json(dataReturn(data, "wallet"));
 };
 
-export const walletUpdate = async (req: CustomRequest, res: Response) => {
+export const walletUpdate = async (req: Request, res: Response) => {
     const walletObj = {
         id: parseInt(req.body.id),
         name: req.body.name,
@@ -56,7 +50,7 @@ export const walletUpdate = async (req: CustomRequest, res: Response) => {
     res.json(dataReturn(data, "wallet"));
 };
 
-export const walletDelete = async (req: CustomRequest, res: Response) => {
+export const walletDelete = async (req: Request, res: Response) => {
     const walletObj = {
         id: parseInt(req.params.id),
     };

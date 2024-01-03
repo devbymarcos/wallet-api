@@ -2,21 +2,15 @@ import { Request, Response } from "express";
 import { dataReturn } from "../helpers/functions.js";
 import Category from "../models/Category.js";
 
-interface CustomRequest extends Request {
-    userAuth: {
-        id: number;
-    };
-}
-
-export const categories = async (req: CustomRequest, res: Response) => {
+export const categories = async (req: Request, res: Response) => {
     const categoryObj = {
-        user_id: req.userAuth.id,
+        user_id: res.locals.userAuth.id,
     };
     const categories = new Category(categoryObj);
     const data = await categories.findAll();
     res.json(dataReturn(data, "category", ""));
 };
-export const category = async (req: CustomRequest, res: Response) => {
+export const category = async (req: Request, res: Response) => {
     const categoryObj = {
         id: parseInt(req.params.id),
     };
@@ -26,10 +20,10 @@ export const category = async (req: CustomRequest, res: Response) => {
     res.json(dataReturn(data, "category", ""));
 };
 
-export const create = async (req: CustomRequest, res: Response) => {
+export const create = async (req: Request, res: Response) => {
     //TODO VALIDA DADOS
     const categoryObj = {
-        user_id: req.userAuth.id,
+        user_id: res.locals.userAuth.id,
         name: req.body.name,
         description: req.body.description,
         type: req.body.type,
@@ -40,7 +34,7 @@ export const create = async (req: CustomRequest, res: Response) => {
     res.json(dataReturn(data, "category", ""));
 };
 
-export const remove = async (req: CustomRequest, res: Response) => {
+export const remove = async (req: Request, res: Response) => {
     const categoryObj = {
         id: parseInt(req.params.id),
     };
@@ -50,7 +44,7 @@ export const remove = async (req: CustomRequest, res: Response) => {
     res.json(dataReturn(data, "/category", ""));
 };
 
-export const update = async (req: CustomRequest, res: Response) => {
+export const update = async (req: Request, res: Response) => {
     //TODO VALIDA DADOS
     const categoryObj = {
         id: req.body.id,

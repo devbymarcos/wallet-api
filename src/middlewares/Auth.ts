@@ -1,18 +1,30 @@
-import jwt from "jsonwebtoken";
+import { Request, Response, NextFunction } from "express";
+import jwt, { JwtPayload } from "jsonwebtoken";
 import dotenv from "dotenv";
 
 dotenv.config();
 
-export const privateRouter = async (req, res, next) => {
-    if (!req.header("Authorization")) {
+type UserType = {
+    id: number;
+    email: string;
+    iat: number;
+    exp: number;
+};
+
+export const privateRouter = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    const authHeader = req.header("Authorization");
+    if (authHeader === undefined || authHeader === null) {
         res.sendStatus(401);
         return;
     }
-
-    const [authType, token] = req.header("Authorization").split(" ");
+    const [authType, token] = authHeader.split(" ");
 
     let success = false;
-    let userAuthenticate = "";
+    let userAuthenticate: string | UserType | JwtPayload | undefined;
 
     if (authType === "Bearer" && token) {
         try {
@@ -29,7 +41,7 @@ export const privateRouter = async (req, res, next) => {
     }
 
     if (success) {
-        req.userAuth = userAuthenticate;
+        res.locals.userAuth = userAuthenticate;
         return next();
     }
 
