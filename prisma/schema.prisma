@@ -32,16 +32,16 @@ model app_cliente {
 
 model app_invoice {
   id                Int            @id @default(autoincrement())
-  user_id           Int
+  user_id           Int?
   wallet_id         Int
   category_id       Int
   invoice_of        Int?
-  name              String         @db.VarChar(255)
-  description       String         @db.VarChar(255)
-  price             Float          @db.Float
-  due_at            DateTime       @db.Date
-  type              String         @db.VarChar(255)
-  pay               String         @default("unpaid") @db.VarChar(255)
+  name              String?         @db.VarChar(255)
+  description       String?         @db.VarChar(255)
+  price             Float?         @db.Float
+  due_at            DateTime?       @db.Date
+  type              String?         @db.VarChar(255)
+  pay               String?         @default("unpaid") @db.VarChar(255)
   repeat_when       String?        @db.VarChar(255)
   period            String?        @default("month") @db.VarChar(255)
   group_quota       String?        @db.VarChar(255)

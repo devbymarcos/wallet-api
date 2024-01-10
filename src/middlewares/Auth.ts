@@ -17,6 +17,7 @@ export const privateRouter = async (
     next: NextFunction
 ) => {
     const authHeader = req.header("Authorization");
+
     if (authHeader === undefined || authHeader === null) {
         res.sendStatus(401);
         return;

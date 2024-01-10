@@ -27,3 +27,22 @@ export interface DashTypes {
     user_id: number | undefined;
     wallet_id: number | undefined;
 }
+
+export interface InvoiceTypes {
+    id: number;
+    user_id?: number;
+    wallet_id: number;
+    category_id: number;
+    invoice_of?: number;
+    name?: string;
+    description?: string;
+    price?: number;
+    due_at?: Date;
+    type?: string;
+    pay?: string;
+    repeat_when?: string;
+    period?: string;
+    due_year?: string;
+    due_month?: string;
+    typeTransfer?: string;
+}

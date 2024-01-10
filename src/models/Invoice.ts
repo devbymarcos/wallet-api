@@ -1,5 +1,5 @@
 import { prisma } from "../database/prismaClient.js";
-
+import { InvoiceTypes } from "./modelsType.js";
 class Invoice {
     id;
     user_id;
@@ -18,24 +18,40 @@ class Invoice {
     due_month;
     typeTransfer;
 
-    constructor(obj) {
-        this.id = obj.id || null;
-        this.user_id = obj.user_id || null;
-        this.wallet_id = obj.wallet_id || null;
-        this.category_id = obj.category_id || null;
-        this.invoice_of = obj.invoice_of || null;
-        this.name = obj.name || null;
-        this.description = obj.description || null;
-        this.price = obj.price || null;
-        this.due_at = obj.due_at || null;
-        this.type = obj.type || null;
-        this.pay = obj.pay || null;
-        this.repeat_when = obj.repeat_when || null;
-        this.period = obj.period || null;
-        this.due_month = obj.due_month || null;
-        this.due_year = obj.due_year || null;
-        this.due_year = obj.due_year || null;
-        this.typeTransfer = obj.typeTransfer || null;
+    constructor({
+        id,
+        user_id,
+        wallet_id,
+        category_id,
+        invoice_of,
+        name,
+        description,
+        price,
+        due_at,
+        type,
+        pay,
+        repeat_when,
+        period,
+        due_year,
+        due_month,
+        typeTransfer,
+    }: InvoiceTypes) {
+        this.id = id;
+        this.user_id = user_id;
+        this.wallet_id = wallet_id;
+        this.category_id = category_id;
+        this.invoice_of = invoice_of;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.due_at = due_at;
+        this.type = type;
+        this.pay = pay;
+        this.repeat_when = repeat_when;
+        this.period = period;
+        this.due_month = due_month;
+        this.due_year = due_year;
+        this.typeTransfer = typeTransfer;
     }
 
     async findAllMonths() {
@@ -129,7 +145,7 @@ class Invoice {
         try {
             const invoice = await prisma.app_invoice.delete({
                 where: {
-                    id: parseInt(this.id),
+                    id: this.id,
                 },
             });
             return invoice;
@@ -141,7 +157,7 @@ class Invoice {
         }
     }
 
-    static async createInstallments(arrData) {
+    static async createInstallments(arrData: any[]) {
         try {
             const invoices = await prisma.app_invoice.createMany({
                 data: arrData,
