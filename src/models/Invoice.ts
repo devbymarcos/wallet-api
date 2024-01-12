@@ -129,7 +129,7 @@ class Invoice {
                     pay: this.pay,
                     repeat_when: this.repeat_when,
                     period: this.period,
-                    //name: this.name,
+                    name: this.name,
                 },
             });
             return invoice;
@@ -181,6 +181,31 @@ class Invoice {
                     },
                     data: {
                         pay: this.pay,
+                    },
+                });
+                return invoice;
+            } catch (err) {
+                console.log(err);
+                return false;
+            } finally {
+                prisma.$disconnect();
+            }
+        } catch (err) {
+            console.log(err);
+            return false;
+        }
+    }
+
+    static async groupWalletSumIdType(user_id: number | undefined) {
+        try {
+            try {
+                const invoice = await prisma.app_invoice.groupBy({
+                    by: ["wallet_id", "type"],
+                    where: {
+                        user_id: user_id,
+                    },
+                    _sum: {
+                        price: true,
                     },
                 });
                 return invoice;

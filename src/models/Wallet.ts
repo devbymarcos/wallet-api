@@ -87,7 +87,7 @@ class Wallet {
     }
     async register() {
         try {
-            const wallet = prisma.app_wallet.create({
+            const wallet = await prisma.app_wallet.create({
                 data: {
                     user_id: this.user_id,
                     name: this.name,

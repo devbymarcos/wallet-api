@@ -116,6 +116,7 @@ export const create = async (req: Request, res: Response) => {
 
             const invoice = new Invoice(invoiceObj);
             const data = await invoice.register();
+            console.log("TCL: create -> data", data);
 
             res.json(dataReturn(data, "invoice"));
     }
@@ -188,7 +189,7 @@ export const dashBoard = async (req: Request, res: Response) => {
     const { months, values } = await dash.resultLastFourMonth();
     const { paidMonth } = await dash.paidMonth();
     const { receivedMonth } = await dash.receivedMonth();
-    const { balanceSum } = await dash.balance();
+    const balanceSum = await dash.balance();
 
     const dataDash = {
         result: {

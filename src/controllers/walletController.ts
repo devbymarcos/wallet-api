@@ -22,6 +22,7 @@ export const walletCreate = async (req: Request, res: Response) => {
 
     const wallet = new Wallet(walletObj);
     const data = await wallet.register();
+    console.log("TCL: walletCreate -> data", data);
 
     res.json(dataReturn(data, "wallet"));
 };
