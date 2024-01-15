@@ -42,7 +42,7 @@ export interface InvoiceTypes {
     pay?: string;
     repeat_when?: string;
     period?: string;
-    due_year?: string;
-    due_month?: string;
+    date_init?: string;
+    date_end?: string;
     typeTransfer?: string;
 }

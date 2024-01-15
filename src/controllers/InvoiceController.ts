@@ -4,22 +4,29 @@ import DashBoard from "../models/Dash";
 import Invoice from "../models/Invoice";
 
 export const invoice = async (req: Request, res: Response) => {
-    const dateInput = String(req.query.date);
-    let dateArr: string[] = [];
-    if (dateInput) {
-        dateArr = dateInput.split("-");
+    let date_init: any, date_end: any;
+
+    if (!req.query.date_one) {
+        const date = new Date();
+        date_init = date.toISOString().split("T")[0];
+        const lastDayOfMonth = new Date(
+            date.getFullYear(),
+            date.getMonth() + 1,
+            0
+        );
+        date_end = lastDayOfMonth.toISOString().split("T")[0];
+    } else {
+        date_init = req.query.date_one;
+        date_end = req.query.date_two;
     }
-    const dateCurrent: Date = new Date();
+
     const incomeObj = {
+        id: 0,
         user_id: res.locals.userAuth.id,
-        wallet_id: req.query.wallet_id,
-        due_month: dateArr[0]
-            ? parseInt(dateArr[0])
-            : new Date().getMonth() + 1,
-        due_year: dateArr[1] ? parseInt(dateArr[1]) : dateCurrent.getFullYear(),
-        typeTransfer:
-            req.query.type == "income" ? "transf-income" : "transf-expense",
-        type: req.query.type,
+        wallet_id: 0,
+        category_id: 0,
+        date_init: date_init,
+        date_end: date_end,
     };
     const income = new Invoice(incomeObj);
     const data = await income.findAllMonths();
@@ -116,7 +123,6 @@ export const create = async (req: Request, res: Response) => {
 
             const invoice = new Invoice(invoiceObj);
             const data = await invoice.register();
-            console.log("TCL: create -> data", data);
 
             res.json(dataReturn(data, "invoice"));
     }

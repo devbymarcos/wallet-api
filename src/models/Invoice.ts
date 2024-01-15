@@ -14,8 +14,8 @@ class Invoice {
     pay;
     repeat_when;
     period;
-    due_year;
-    due_month;
+    date_init;
+    date_end;
     typeTransfer;
 
     constructor({
@@ -32,8 +32,8 @@ class Invoice {
         pay,
         repeat_when,
         period,
-        due_year,
-        due_month,
+        date_init,
+        date_end,
         typeTransfer,
     }: InvoiceTypes) {
         this.id = id;
@@ -49,16 +49,16 @@ class Invoice {
         this.pay = pay;
         this.repeat_when = repeat_when;
         this.period = period;
-        this.due_month = due_month;
-        this.due_year = due_year;
+        this.date_init = date_init;
+        this.date_end = date_end;
         this.typeTransfer = typeTransfer;
     }
 
     async findAllMonths() {
         try {
             const invoice: Array<any> = await prisma.$queryRaw`
-            SELECT * FROM app_invoice WHERE user_id= ${this.user_id} AND type IN(${this.type},${this.typeTransfer}) AND wallet_id=${this.wallet_id} AND year(due_at) = ${this.due_year} AND month(due_at) = ${this.due_month} ORDER BY day(due_at)`;
-            console.log(invoice);
+            SELECT * FROM app_invoice WHERE due_at BETWEEN ${this.date_init} AND ${this.date_end}  AND user_id= ${this.user_id}  ORDER BY day(due_at)`;
+
             return invoice;
         } catch (err) {
             console.log(err);
