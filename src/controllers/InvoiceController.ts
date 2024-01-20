@@ -6,7 +6,7 @@ import Invoice from "../models/Invoice";
 export const invoice = async (req: Request, res: Response) => {
     let date_init: any, date_end: any;
 
-    if (!req.query.date_one) {
+    if (req.query.date_one && req.query.date_one == "undefined") {
         const date = new Date();
         date_init = date.toISOString().split("T")[0];
         const lastDayOfMonth = new Date(
@@ -180,7 +180,7 @@ export const invoiceSingle = async (req: Request, res: Response) => {
     const invoice = new Invoice(invoiceObj);
     const data = await invoice.findById();
 
-    res.json(dataReturn(data, "invoice"));
+    res.json(dataReturn([data], "invoice"));
 };
 
 export const dashBoard = async (req: Request, res: Response) => {
