@@ -5,10 +5,12 @@ import Invoice from "../models/Invoice";
 
 export const invoice = async (req: Request, res: Response) => {
     let date_init: any, date_end: any;
-
-    if (req.query.date_one && req.query.date_one == "undefined") {
+    console.log(req.query.date_one);
+    if (req.query.date_one == "undefined") {
+        console.log("ola");
         const date = new Date();
-        date_init = date.toISOString().split("T")[0];
+        date_init = `${date.getFullYear()}-${date.getMonth() + 1}-01`;
+        console.log(date_init);
         const lastDayOfMonth = new Date(
             date.getFullYear(),
             date.getMonth() + 1,
@@ -35,21 +37,7 @@ export const invoice = async (req: Request, res: Response) => {
 };
 
 export const create = async (req: Request, res: Response) => {
-    const { id } = res.locals.userAuth;
     //TODO VALIDAR DADOS VINDO DPO FRONT EXEMPLO ABAIXO
-    // {
-    //     "wallet_id": "3",
-    //     "category_id": "1",
-    //     "description": "teste endpoint parcelado",
-    //     "price": "100.00",
-    //     "due_at": "2023-12-26",
-    //     "type":  "expense",
-    //     "pay": "paid",
-    //     "repeat_when": "installments",
-    //     "period": "month",
-    //     "name": "invoice",
-    //     "installments": "2"
-    //   }
 
     switch (req.body.repeat_when) {
         case "installments":
@@ -77,7 +65,7 @@ export const create = async (req: Request, res: Response) => {
                 ano = dateInstance.getFullYear();
                 dataDb = new Date(ano, mes - 1, dia);
                 dataPersist.push({
-                    user_id: id,
+                    user_id: res.locals.userAuth.id,
                     wallet_id: parseInt(req.body.wallet_id),
                     category_id: parseInt(req.body.category_id),
                     description:
@@ -105,7 +93,8 @@ export const create = async (req: Request, res: Response) => {
             break;
         case "single":
             const invoiceObj = {
-                user_id: id,
+                id: 0,
+                user_id: res.locals.userAuth.id,
                 wallet_id: parseInt(req.body.wallet_id),
                 category_id: parseInt(req.body.category_id),
                 description: req.body.description,
@@ -115,7 +104,7 @@ export const create = async (req: Request, res: Response) => {
                     req.body.repeat_when === "fixed"
                         ? "fixed_" + req.body.type
                         : req.body.type,
-                pay: req.body.repeat_when === "fixed" ? "paid" : "unpaid",
+                pay: req.body.pay,
                 repeat_when: req.body.repeat_when,
                 period: !req.body.period ? "month" : req.body.period,
                 name: "invoice",
@@ -124,7 +113,7 @@ export const create = async (req: Request, res: Response) => {
             const invoice = new Invoice(invoiceObj);
             const data = await invoice.register();
 
-            res.json(dataReturn(data, "invoice"));
+            res.json(dataReturn([data], "invoice"));
     }
 };
 
