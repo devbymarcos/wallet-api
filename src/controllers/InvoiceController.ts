@@ -5,7 +5,7 @@ import Invoice from "../models/Invoice";
 
 export const invoice = async (req: Request, res: Response) => {
     let date_init: any, date_end: any;
-    console.log(req.query.date_one);
+
     if (req.query.date_one == "undefined") {
         console.log("ola");
         const date = new Date();
@@ -123,6 +123,8 @@ export const update = async (req: Request, res: Response) => {
         const invoiceObj = {
             id: req.body.id,
             pay: req.body.pay === "unpaid" ? "paid" : "unpaid",
+            wallet_id: 0,
+            category_id: 0,
         };
         const invoice = new Invoice(invoiceObj);
         const data = await invoice.updatePay();
@@ -152,7 +154,9 @@ export const remove = async (req: Request, res: Response) => {
     //TODO VALIDA DADOS
     const invoiceObj = {
         user_id: res.locals.userAuth.id,
-        id: req.params.id,
+        id: parseInt(req.params.id),
+        wallet_id: 0,
+        category_id: 0,
     };
 
     const invoice = new Invoice(invoiceObj);
@@ -165,6 +169,8 @@ export const invoiceSingle = async (req: Request, res: Response) => {
     //TODO validar dados
     const invoiceObj = {
         id: parseInt(req.params.id),
+        wallet_id: 0,
+        category_id: 0,
     };
     const invoice = new Invoice(invoiceObj);
     const data = await invoice.findById();
@@ -207,6 +213,7 @@ export const transfers = async (req: Request, res: Response) => {
     const month = d.getUTCMonth();
 
     const invoiceObjOut = {
+        id: 0,
         user_id: id,
         wallet_id: parseInt(req.body.wallet_exit),
         category_id: parseInt(req.body.category_exit),
@@ -221,6 +228,7 @@ export const transfers = async (req: Request, res: Response) => {
     };
 
     const invoiceObjIn = {
+        id: 0,
         user_id: id,
         wallet_id: parseInt(req.body.wallet_entry),
         category_id: parseInt(req.body.category_entry),
