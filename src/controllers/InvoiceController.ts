@@ -146,7 +146,7 @@ export const update = async (req: Request, res: Response) => {
         const invoice = new Invoice(invoiceObj);
         const data = await invoice.update();
 
-        res.json(dataReturn(data, "invoice"));
+        res.json(dataReturn([data], "invoice"));
     }
 };
 
