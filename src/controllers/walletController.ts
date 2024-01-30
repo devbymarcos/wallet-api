@@ -48,7 +48,7 @@ export const walletUpdate = async (req: Request, res: Response) => {
     const wallet = new Wallet(walletObj);
     const data = await wallet.update();
 
-    res.json(dataReturn(data, "wallet"));
+    res.json(dataReturn([data], "wallet"));
 };
 
 export const walletDelete = async (req: Request, res: Response) => {
