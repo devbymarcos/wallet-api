@@ -47,8 +47,9 @@ export const remove = async (req: Request, res: Response) => {
 
 export const update = async (req: Request, res: Response) => {
     //TODO VALIDA DADOS
+
     const categoryObj = {
-        id: req.body.id,
+        id: Number(req.body.id),
         name: req.body.name,
         description: req.body.description,
         type: req.body.type,
@@ -57,5 +58,5 @@ export const update = async (req: Request, res: Response) => {
     const category = new Category(categoryObj);
     const data = await category.update();
 
-    res.json(dataReturn(data, "category", ""));
+    res.json(dataReturn([data], "category", ""));
 };
