@@ -32,7 +32,7 @@ export const create = async (req: Request, res: Response) => {
 
     const category = new Category(categoryObj);
     const data = await category.register();
-    res.json(dataReturn(data, "category", ""));
+    res.json(dataReturn([data], "category", ""));
 };
 
 export const remove = async (req: Request, res: Response) => {
