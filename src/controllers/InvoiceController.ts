@@ -183,23 +183,28 @@ export const dashBoard = async (req: Request, res: Response) => {
 
     const dashObj = {
         user_id: res.locals.userAuth.id,
-        wallet_id: parseInt(String(req.query.wallet_id)),
     };
 
     const dash = new DashBoard(dashObj);
-    const { months, values } = await dash.resultLastFourMonth();
-    const { paidMonth } = await dash.paidMonth();
-    const { receivedMonth } = await dash.receivedMonth();
-    const balanceSum = await dash.balance();
+
+    const [result, paidMonth, receivedMonth, balanceSum, invoiceOpen] =
+        await Promise.all([
+            dash.resultLastFourMonth(),
+            dash.paidMonth(),
+            dash.receivedMonth(),
+            dash.balance(),
+            dash.invoiceOpen(),
+        ]);
 
     const dataDash = {
         result: {
-            months: months,
-            values: values,
+            months: result.months,
+            values: result.values,
         },
-        paidMonth,
-        receivedMonth: receivedMonth,
+        paidMonth: paidMonth.paidMonth,
+        receivedMonth: receivedMonth.receivedMonth,
         balanceSum,
+        invoiceOpen,
     };
     res.json(dataReturn(dataDash, "dash"));
 };

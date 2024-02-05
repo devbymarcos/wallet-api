@@ -24,8 +24,7 @@ export interface UserTypes {
 }
 
 export interface DashTypes {
-    user_id: number | undefined;
-    wallet_id: number | undefined;
+    user_id: number;
 }
 
 export interface InvoiceTypes {

@@ -5,11 +5,9 @@ import { DashTypes } from "./modelsType";
 
 class DashBoard {
     user_id;
-    wallet_id;
 
     constructor(obj: DashTypes) {
         this.user_id = obj.user_id || undefined;
-        this.wallet_id = obj.wallet_id || undefined;
     }
 
     async balance() {
@@ -150,6 +148,24 @@ class DashBoard {
                 months: ["not found"],
                 values: [0],
             };
+        } finally {
+            prisma.$disconnect();
+        }
+    }
+    async invoiceOpen() {
+        try {
+            const open = await prisma.app_invoice.findMany({
+                where: {
+                    AND: [
+                        { user_id: this.user_id },
+                        { due_at: { lt: new Date() } },
+                    ],
+                },
+            });
+            return open;
+        } catch (err) {
+            console.log(err);
+            return false;
         } finally {
             prisma.$disconnect();
         }
