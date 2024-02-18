@@ -57,7 +57,7 @@ class Invoice {
     async findAllMonths() {
         try {
             const invoice: Array<any> = await prisma.$queryRaw`
-            SELECT * FROM app_invoice WHERE due_at BETWEEN ${this.date_init} AND ${this.date_end}  AND user_id= ${this.user_id}  ORDER BY day(due_at)`;
+            SELECT * FROM app_invoice WHERE due_at BETWEEN ${this.date_init} AND ${this.date_end}  AND user_id= ${this.user_id} AND wallet_id = ${this.wallet_id}  ORDER BY day(due_at)`;
 
             return invoice;
         } catch (err) {

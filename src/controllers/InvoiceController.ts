@@ -4,10 +4,9 @@ import DashBoard from "../models/Dash";
 import Invoice from "../models/Invoice";
 
 export const invoice = async (req: Request, res: Response) => {
-    let date_init: any, date_end: any;
+    let date_init: any, date_end: any, walletId: any;
 
     if (req.query.date_one == "undefined") {
-        console.log("ola");
         const date = new Date();
         date_init = `${date.getFullYear()}-${date.getMonth() + 1}-01`;
         console.log(date_init);
@@ -17,15 +16,17 @@ export const invoice = async (req: Request, res: Response) => {
             0
         );
         date_end = lastDayOfMonth.toISOString().split("T")[0];
+        walletId = req.query.walletId;
     } else {
         date_init = req.query.date_one;
         date_end = req.query.date_two;
+        walletId = req.query.walletId;
     }
 
     const incomeObj = {
         id: 0,
         user_id: res.locals.userAuth.id,
-        wallet_id: 0,
+        wallet_id: walletId,
         category_id: 0,
         date_init: date_init,
         date_end: date_end,
