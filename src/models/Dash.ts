@@ -159,6 +159,7 @@ class DashBoard {
                     AND: [
                         { user_id: this.user_id },
                         { due_at: { lt: new Date() } },
+                        { pay: "unpaid" },
                     ],
                 },
             });
