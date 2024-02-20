@@ -202,8 +202,9 @@ class Invoice {
                 const invoice = await prisma.app_invoice.groupBy({
                     by: ["wallet_id", "type"],
                     where: {
-                        user_id: user_id,
+                        AND: [{ user_id: user_id }, { pay: "paid    " }],
                     },
+
                     _sum: {
                         price: true,
                     },
