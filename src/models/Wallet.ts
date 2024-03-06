@@ -1,5 +1,6 @@
 import { prisma } from "../database/prismaClient.js";
 import { WalletTypes } from "./modelsType.js";
+import Invoice from "./Invoice";
 class Wallet {
     id;
     user_id;

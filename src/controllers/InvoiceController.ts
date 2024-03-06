@@ -184,6 +184,7 @@ export const dashBoard = async (req: Request, res: Response) => {
 
     const dashObj = {
         user_id: res.locals.userAuth.id,
+        wallet_id: Number(req.query.wallet_id),
     };
 
     const dash = new DashBoard(dashObj);
@@ -212,21 +213,21 @@ export const dashBoard = async (req: Request, res: Response) => {
 
 export const transfers = async (req: Request, res: Response) => {
     //TODO validar dados
-    const { id } = res.locals.userAuth.id;
-    const d = new Date(req.body.date);
+
+    const d = new Date(req.body.due_at);
     const day = d.getUTCDate();
     const year = d.getUTCFullYear();
     const month = d.getUTCMonth();
 
     const invoiceObjOut = {
         id: 0,
-        user_id: id,
+        user_id: res.locals.userAuth.id,
         wallet_id: parseInt(req.body.wallet_exit),
-        category_id: parseInt(req.body.category_exit),
+        category_id: parseInt(req.body.category_id),
         description: req.body.description,
-        price: parseFloat(req.body.price.replace(",", ".")),
+        price: req.body.price,
         due_at: new Date(year, month, day),
-        type: "expense",
+        type: "transf_expense",
         pay: "paid",
         repeat_when: "single",
         period: !req.body.period ? "month" : req.body.period,
@@ -235,13 +236,13 @@ export const transfers = async (req: Request, res: Response) => {
 
     const invoiceObjIn = {
         id: 0,
-        user_id: id,
+        user_id: res.locals.userAuth.id,
         wallet_id: parseInt(req.body.wallet_entry),
-        category_id: parseInt(req.body.category_entry),
+        category_id: parseInt(req.body.category_id),
         description: req.body.description,
-        price: parseFloat(req.body.price.replace(",", ".")),
+        price: req.body.price,
         due_at: new Date(year, month, day),
-        type: "income",
+        type: "transf_income",
         pay: "paid",
         repeat_when: "single",
         period: !req.body.period ? "month" : req.body.period,
@@ -250,8 +251,8 @@ export const transfers = async (req: Request, res: Response) => {
 
     const invoiceOut = new Invoice(invoiceObjOut);
     const invoiceIn = new Invoice(invoiceObjIn);
-    const dataIn = invoiceIn.register();
-    const dataOut = invoiceOut.register();
+    const dataIn = await invoiceIn.register();
+    const dataOut = await invoiceOut.register();
 
     if (!dataIn && !dataOut) {
         res.json({
