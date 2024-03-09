@@ -1,6 +1,7 @@
 import User from "../models/User.js";
 import { dataReturn } from "../helpers/functions.js";
 import { Request, Response } from "express";
+
 export const getUser = async (req: Request, res: Response) => {
     const userObj = {
         id: res.locals.userAuth.id,
@@ -36,7 +37,7 @@ export const updateUser = async (req: Request, res: Response) => {
     };
     const user = new User(userObj);
     const data = await user.update();
-    res.json(dataReturn(data, "user"));
+    res.json(dataReturn([data], "user"));
 };
 
 export const updatePassword = async (req: Request, res: Response) => {
