@@ -6,6 +6,8 @@ import mainRoutes from "./routes/router.js";
 import morgan from "morgan";
 import cors from "cors";
 import fs from "fs";
+import swaggerUi from "swagger-ui-express";
+import swaggerDocs from "./swagger.json";
 
 dotenv.config();
 const __dirname = path.resolve();
@@ -35,8 +37,6 @@ const upload = multer({
     limits: { fieldSize: 2000000 },
 });
 
-const swaggerDoc = JSON.parse(fs.readFileSync("./swagger.json", "utf8"));
-
 const app = express();
 app.disable("x-powered-by");
 app.use(cors());
@@ -50,8 +50,8 @@ app.use(express.static(path.join(__dirname, "public")));
 // habilita pegar dados no corpo da requizição
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 app.use(morgan("dev"));
-
 //rotas da API
 app.use("/v1", mainRoutes);
 

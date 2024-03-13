@@ -13,4 +13,5 @@ export const cashFlowOnCategory = async (req: Request, res: Response) => {
         expense: expense,
     };
     res.json(dataReturn(dataReport, "/report", ""));
+    //TODO CONTINUAR AQUI
 };
