@@ -1,13 +1,14 @@
 import { Router } from "express";
 
-import * as CategoryController from "../controllers/categoryController.js";
-import * as WalletController from "../controllers/walletController.js";
-import * as LoginController from "../controllers/loginController.js";
-import * as InvoiceController from "../controllers/InvoiceController.js";
+import * as CategoryController from "../controllers/categoryController";
+import * as WalletController from "../controllers/walletController";
+import * as LoginController from "../controllers/loginController";
+import * as InvoiceController from "../controllers/InvoiceController";
 import * as Auth from "../middlewares/Auth.js";
-import * as UserController from "../controllers/userController.js";
-import * as InvoiceFixedController from "../controllers/invoiceFixedController.js";
-import * as ExtractController from "../controllers/extractController.js";
+import * as UserController from "../controllers/userController";
+import * as InvoiceFixedController from "../controllers/invoiceFixedController";
+import * as ExtractController from "../controllers/extractController";
+import * as ReportController from "../controllers/report-controller/reportController";
 
 const router = Router();
 router.get("/", (req, res) => res.status(200).json({ message: "activate" }));
@@ -38,6 +39,8 @@ router.post("/invoice", Auth.privateRouter, InvoiceController.create);
 router.put("/invoice", Auth.privateRouter, InvoiceController.update);
 router.delete("/invoice/:id", Auth.privateRouter, InvoiceController.remove);
 router.post("/transfer", Auth.privateRouter, InvoiceController.transfers);
+//REPORTS
+router.get("/category-flow", Auth.privateRouter, ReportController.categoryFlow);
 
 //TODO CRIAR PARAMETROS PARA ESSA ROTA
 router.get("/extract", Auth.privateRouter, ExtractController.extract);
