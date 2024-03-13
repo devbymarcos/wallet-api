@@ -40,7 +40,11 @@ router.put("/invoice", Auth.privateRouter, InvoiceController.update);
 router.delete("/invoice/:id", Auth.privateRouter, InvoiceController.remove);
 router.post("/transfer", Auth.privateRouter, InvoiceController.transfers);
 //REPORTS
-router.get("/category-flow", Auth.privateRouter, ReportController.categoryFlow);
+router.get(
+    "/category-flow",
+    Auth.privateRouter,
+    ReportController.cashFlowOnCategory
+);
 
 //TODO CRIAR PARAMETROS PARA ESSA ROTA
 router.get("/extract", Auth.privateRouter, ExtractController.extract);
