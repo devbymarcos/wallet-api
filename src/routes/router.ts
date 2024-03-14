@@ -21,7 +21,7 @@ router.put("/userpass", Auth.privateRouter, UserController.updatePassword);
 // DASH
 router.get("/dash", Auth.privateRouter, InvoiceController.dashBoard);
 //WALLET
-router.get("/wallets", Auth.privateRouter, WalletController.wallets);
+router.get("/wallet", Auth.privateRouter, WalletController.wallets);
 router.get("/wallet/:id", Auth.privateRouter, WalletController.walletUniq);
 router.post("/wallet", Auth.privateRouter, WalletController.walletCreate);
 router.put("/wallet", Auth.privateRouter, WalletController.walletUpdate);
