@@ -1,4 +1,4 @@
-import User from "../models/User";
+import User from "../models/user-model/User";
 // import
 // export const isVisitor = async (req, res, next) => {
 //     const visitor = await User.findByPk(req.session.user);

@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { dataReturn } from "../helpers/functions.js";
-import Wallet from "../models/Wallet.js";
+import { dataReturn } from "../../helpers/functions.js";
+import Wallet from "../../models/wallet-model/Wallet.js";
 
 export const wallets = async (req: Request, res: Response) => {
     const walletObj = {

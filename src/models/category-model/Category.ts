@@ -1,46 +1,46 @@
-import { prisma } from "../database/prismaClient.js";
-import { WalletTypes } from "./modelsType.js";
-import Invoice from "./Invoice";
-class Wallet {
+import { prisma } from "../../database/prismaClient";
+import { CategoryTypes } from "./types";
+
+class Category {
     id;
     user_id;
     name;
     description;
-    option_wallet;
+    type;
 
-    constructor(obj: WalletTypes) {
+    constructor(obj: CategoryTypes) {
         this.id = obj.id || undefined;
         this.user_id = obj.user_id || undefined;
         this.name = obj.name || "";
         this.description = obj.description || "";
-        this.option_wallet = obj.option_wallet || 0;
+        this.type = obj.type || "";
     }
 
-    async findyAll() {
+    async findById() {
         try {
-            const wallet = await prisma.app_wallet.findMany({
+            const category = await prisma.app_categories.findUnique({
+                where: {
+                    id: this.id,
+                },
+            });
+            return category;
+        } catch (err) {
+            console.log(err);
+            return false;
+        } finally {
+            prisma.$disconnect();
+        }
+    }
+
+    async findAll() {
+        try {
+            const categories = await prisma.app_categories.findMany({
                 where: {
                     user_id: this.user_id,
                 },
             });
 
-            return wallet;
-        } catch (err) {
-            console.log(err);
-            return false;
-        } finally {
-            prisma.$disconnect();
-        }
-    }
-    async findyById() {
-        try {
-            const wallet = await prisma.app_wallet.findUnique({
-                where: {
-                    id: this.id,
-                },
-            });
-
-            return [wallet];
+            return categories;
         } catch (err) {
             console.log(err);
             return false;
@@ -49,13 +49,34 @@ class Wallet {
         }
     }
 
-    async remove() {
+    async register() {
         try {
-            const wallet = await prisma.app_wallet.delete({
+            const category = await prisma.app_categories.create({
+                data: {
+                    user_id: this.user_id,
+                    name: this.name,
+                    description: this.description,
+                    type: this.type,
+                },
+            });
+
+            return category;
+        } catch (err) {
+            console.log(err);
+            return false;
+        } finally {
+            prisma.$disconnect();
+        }
+    }
+
+    async delete() {
+        try {
+            const category = await prisma.app_categories.delete({
                 where: {
                     id: this.id,
                 },
             });
+
             return true;
         } catch (err) {
             console.log(err);
@@ -67,37 +88,19 @@ class Wallet {
 
     async update() {
         try {
-            const wallet = prisma.app_wallet.update({
+            const category = await prisma.app_categories.update({
+                data: {
+                    id: this.id,
+                    name: this.name,
+                    description: this.description,
+                    type: this.type,
+                },
+
                 where: {
                     id: this.id,
                 },
-                data: {
-                    name: this.name,
-                    description: this.description,
-                    option_wallet: this.option_wallet,
-                },
             });
-
-            return wallet;
-        } catch (err) {
-            console.log(err);
-            return false;
-        } finally {
-            prisma.$disconnect();
-        }
-    }
-    async register() {
-        try {
-            const wallet = await prisma.app_wallet.create({
-                data: {
-                    user_id: this.user_id,
-                    name: this.name,
-                    description: this.description,
-                    option_wallet: this.option_wallet,
-                },
-            });
-
-            return [wallet];
+            return category;
         } catch (err) {
             console.log(err);
             return false;
@@ -107,4 +110,4 @@ class Wallet {
     }
 }
 
-export default Wallet;
+export default Category;

@@ -1,6 +1,6 @@
-import { prisma } from "../database/prismaClient.js";
+import { prisma } from "../../database/prismaClient.js";
 import bcryptjs from "bcryptjs";
-import { UserTypes } from "./modelsType.js";
+import { UserTypes } from "./types";
 
 class User {
     id;

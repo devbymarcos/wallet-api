@@ -1,4 +1,4 @@
-import { prisma } from "../database/prismaClient.js";
+import { prisma } from "../../database/prismaClient.js";
 
 export const invoiceFixedList = async (req, res) => {
     const { id } = req.userSession;

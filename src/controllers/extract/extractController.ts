@@ -1,5 +1,5 @@
-import { prisma } from "../database/prismaClient.js";
-import { formatDateView } from "../helpers/hooks.js";
+import { prisma } from "../../database/prismaClient.js";
+import { formatDateView } from "../../helpers/hooks.js";
 
 export const extract = async (req, res) => {
     // formatar a date para o prisma

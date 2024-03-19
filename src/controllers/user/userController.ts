@@ -1,5 +1,5 @@
-import User from "../models/User.js";
-import { dataReturn } from "../helpers/functions.js";
+import User from "../../models/user-model/User.js";
+import { dataReturn } from "../../helpers/functions.js";
 import { Request, Response } from "express";
 
 export const getUser = async (req: Request, res: Response) => {

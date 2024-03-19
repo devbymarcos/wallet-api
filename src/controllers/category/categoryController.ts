@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { dataReturn } from "../helpers/functions.js";
-import Category from "../models/Category.js";
+import { dataReturn } from "../../helpers/functions.js";
+import Category from "../../models/category-model/Category.js";
 
 export const categories = async (req: Request, res: Response) => {
     const categoryObj = {

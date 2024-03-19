@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import ReportModel from "../../models/reports/ReportModel";
+import ReportModel from "../../models/report-model/ReportModel";
 import { dataReturn } from "../../helpers/functions.js";
 
 export const cashFlowOnCategory = async (req: Request, res: Response) => {

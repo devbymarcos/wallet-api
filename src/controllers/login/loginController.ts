@@ -2,8 +2,8 @@ import { Request, Response } from "express";
 import bcryptjs from "bcryptjs";
 import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
-import User from "../models/User.js";
-import { dataReturn } from "../helpers/functions.js";
+import User from "../../models/user-model/User.js";
+import { dataReturn } from "../../helpers/functions.js";
 
 dotenv.config();
 

@@ -1,4 +1,4 @@
-import Wallet from "../models/Wallet";
+import Wallet from "../models/wallet-model/Wallet";
 
 export const isWallet = async (req, res, next) => {
     const wallet = await Wallet.findAll({

@@ -1,13 +1,13 @@
 import { Router } from "express";
 
-import * as CategoryController from "../controllers/categoryController";
-import * as WalletController from "../controllers/walletController";
-import * as LoginController from "../controllers/loginController";
-import * as InvoiceController from "../controllers/InvoiceController";
+import * as CategoryController from "../controllers/category/categoryController";
+import * as WalletController from "../controllers/wallet/walletController";
+import * as LoginController from "../controllers/login/loginController";
+import * as InvoiceController from "../controllers/invoice/InvoiceController";
 import * as Auth from "../middlewares/Auth.js";
-import * as UserController from "../controllers/userController";
-import * as InvoiceFixedController from "../controllers/invoiceFixedController";
-import * as ExtractController from "../controllers/extractController";
+import * as UserController from "../controllers/user/userController";
+import * as InvoiceFixedController from "../controllers/invoice/invoiceFixedController";
+import * as ExtractController from "../controllers/extract/extractController";
 import * as ReportController from "../controllers/report-controller/reportController";
 
 const router = Router();

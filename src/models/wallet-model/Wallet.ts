@@ -1,46 +1,30 @@
-import { prisma } from "../database/prismaClient";
-import { CategoryTypes } from "./modelsType";
+import { prisma } from "../../database/prismaClient.js";
+import { WalletTypes } from "./types";
 
-class Category {
+class Wallet {
     id;
     user_id;
     name;
     description;
-    type;
+    option_wallet;
 
-    constructor(obj: CategoryTypes) {
+    constructor(obj: WalletTypes) {
         this.id = obj.id || undefined;
         this.user_id = obj.user_id || undefined;
         this.name = obj.name || "";
         this.description = obj.description || "";
-        this.type = obj.type || "";
+        this.option_wallet = obj.option_wallet || 0;
     }
 
-    async findById() {
+    async findyAll() {
         try {
-            const category = await prisma.app_categories.findUnique({
-                where: {
-                    id: this.id,
-                },
-            });
-            return category;
-        } catch (err) {
-            console.log(err);
-            return false;
-        } finally {
-            prisma.$disconnect();
-        }
-    }
-
-    async findAll() {
-        try {
-            const categories = await prisma.app_categories.findMany({
+            const wallet = await prisma.app_wallet.findMany({
                 where: {
                     user_id: this.user_id,
                 },
             });
 
-            return categories;
+            return wallet;
         } catch (err) {
             console.log(err);
             return false;
@@ -48,35 +32,30 @@ class Category {
             prisma.$disconnect();
         }
     }
-
-    async register() {
+    async findyById() {
         try {
-            const category = await prisma.app_categories.create({
-                data: {
-                    user_id: this.user_id,
-                    name: this.name,
-                    description: this.description,
-                    type: this.type,
-                },
-            });
-
-            return category;
-        } catch (err) {
-            console.log(err);
-            return false;
-        } finally {
-            prisma.$disconnect();
-        }
-    }
-
-    async delete() {
-        try {
-            const category = await prisma.app_categories.delete({
+            const wallet = await prisma.app_wallet.findUnique({
                 where: {
                     id: this.id,
                 },
             });
 
+            return [wallet];
+        } catch (err) {
+            console.log(err);
+            return false;
+        } finally {
+            prisma.$disconnect();
+        }
+    }
+
+    async remove() {
+        try {
+            const wallet = await prisma.app_wallet.delete({
+                where: {
+                    id: this.id,
+                },
+            });
             return true;
         } catch (err) {
             console.log(err);
@@ -88,19 +67,37 @@ class Category {
 
     async update() {
         try {
-            const category = await prisma.app_categories.update({
-                data: {
-                    id: this.id,
-                    name: this.name,
-                    description: this.description,
-                    type: this.type,
-                },
-
+            const wallet = prisma.app_wallet.update({
                 where: {
                     id: this.id,
                 },
+                data: {
+                    name: this.name,
+                    description: this.description,
+                    option_wallet: this.option_wallet,
+                },
             });
-            return category;
+
+            return wallet;
+        } catch (err) {
+            console.log(err);
+            return false;
+        } finally {
+            prisma.$disconnect();
+        }
+    }
+    async register() {
+        try {
+            const wallet = await prisma.app_wallet.create({
+                data: {
+                    user_id: this.user_id,
+                    name: this.name,
+                    description: this.description,
+                    option_wallet: this.option_wallet,
+                },
+            });
+
+            return [wallet];
         } catch (err) {
             console.log(err);
             return false;
@@ -110,4 +107,4 @@ class Category {
     }
 }
 
-export default Category;
+export default Wallet;

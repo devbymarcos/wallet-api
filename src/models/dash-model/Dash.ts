@@ -1,7 +1,7 @@
-import { prisma } from "../database/prismaClient";
-import Invoice from "./Invoice";
-import Wallet from "./Wallet";
-import { DashTypes } from "./modelsType";
+import { prisma } from "../../database/prismaClient";
+import Invoice from "../invoice-model/Invoice";
+import Wallet from "../wallet-model/Wallet";
+import { DashTypes } from "./types";
 
 class DashBoard {
     user_id;

@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { dataReturn } from "../helpers/functions";
-import DashBoard from "../models/Dash";
-import Invoice from "../models/Invoice";
+import { dataReturn } from "../../helpers/functions";
+import DashBoard from "../../models/dash-model/Dash";
+import Invoice from "../../models/invoice-model/Invoice";
 
 export const invoice = async (req: Request, res: Response) => {
     let date_init: any, date_end: any, walletId: any;

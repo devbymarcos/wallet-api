@@ -1,5 +1,5 @@
-import { prisma } from "../database/prismaClient.js";
-import { InvoiceTypes } from "./modelsType.js";
+import { prisma } from "../../database/prismaClient.js";
+import { InvoiceTypes } from "./types";
 class Invoice {
     id;
     user_id;
