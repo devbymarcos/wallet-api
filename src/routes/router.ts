@@ -8,7 +8,7 @@ import * as Auth from "../middlewares/Auth.js";
 import * as UserController from "../controllers/user/userController";
 import * as InvoiceFixedController from "../controllers/invoice/invoiceFixedController";
 import * as ExtractController from "../controllers/extract/extractController";
-import * as ReportController from "../controllers/report-controller/reportController";
+import * as ReportController from "../controllers/report/reportController";
 
 const router = Router();
 router.get("/", (req, res) => res.status(200).json({ message: "activate" }));
