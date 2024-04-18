@@ -2,18 +2,14 @@ import { prisma } from "../../database/prismaClient";
 import { CategoryTypes } from "./types";
 
 class Category {
-    id;
-    user_id;
-    name;
-    description;
-    type;
+    id?: number;
+    user_id!: number;
+    name!: string;
+    description!: string;
+    type!: string;
 
-    constructor(obj: CategoryTypes) {
-        this.id = obj.id || undefined;
-        this.user_id = obj.user_id || undefined;
-        this.name = obj.name || "";
-        this.description = obj.description || "";
-        this.type = obj.type || "";
+    constructor(id?: number) {
+        this.id = id;
     }
 
     async findById() {
