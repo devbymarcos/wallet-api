@@ -3,9 +3,10 @@ import ReportModel from "../../models/report-model/ReportModel";
 import { dataReturn } from "../../helpers/functions.js";
 
 export const cashFlowOnCategory = async (req: Request, res: Response) => {
+    const wallet_id:string = String(req.query.walletId)
     const [income, expense] = await Promise.all([
-        ReportModel.sumCategoryGroup("8", "income"),
-        ReportModel.sumCategoryGroup("8", "expense"),
+        ReportModel.sumCategoryGroup(wallet_id, "income"),
+        ReportModel.sumCategoryGroup(wallet_id, "expense"),
     ]);
 
     const dataReport = {
