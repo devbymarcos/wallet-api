@@ -182,12 +182,9 @@ export const invoiceSingle = async (req: Request, res: Response) => {
 export const dashBoard = async (req: Request, res: Response) => {
     //TODO VALIDAR OS DADOS
 
-    const dashObj = {
-        user_id: res.locals.userAuth.id,
-        wallet_id: Number(req.query.wallet_id),
-    };
-
-    const dash = new DashBoard(dashObj);
+    const user_id: number = res.locals.userAuth.id;
+    const wallet_id: number = Number(req.query.wallet_id);
+    const dash = new DashBoard(user_id, wallet_id);
 
     const [result, paidMonth, receivedMonth, balanceSum, invoiceOpen] =
         await Promise.all([

@@ -7,9 +7,9 @@ class DashBoard {
     user_id;
     wallet_id;
 
-    constructor(obj: DashTypes) {
-        this.user_id = obj.user_id || undefined;
-        this.wallet_id = obj.wallet_id;
+    constructor(user_id: number, wallet_id: number) {
+        this.user_id = user_id;
+        this.wallet_id = wallet_id;
     }
 
     async balance() {
