@@ -1,58 +1,22 @@
 import { prisma } from "../../database/prismaClient.js";
 import { InvoiceTypes } from "./types";
 class Invoice {
-    id;
-    user_id;
-    wallet_id;
-    category_id;
-    invoice_of;
-    name;
-    description;
-    price;
-    due_at;
-    type;
-    pay;
-    repeat_when;
-    period;
-    date_init;
-    date_end;
-    typeTransfer;
-
-    constructor({
-        id,
-        user_id,
-        wallet_id,
-        category_id,
-        invoice_of,
-        name,
-        description,
-        price,
-        due_at,
-        type,
-        pay,
-        repeat_when,
-        period,
-        date_init,
-        date_end,
-        typeTransfer,
-    }: InvoiceTypes) {
-        this.id = id;
-        this.user_id = user_id;
-        this.wallet_id = wallet_id;
-        this.category_id = category_id;
-        this.invoice_of = invoice_of;
-        this.name = name;
-        this.description = description;
-        this.price = price;
-        this.due_at = due_at;
-        this.type = type;
-        this.pay = pay;
-        this.repeat_when = repeat_when;
-        this.period = period;
-        this.date_init = date_init;
-        this.date_end = date_end;
-        this.typeTransfer = typeTransfer;
-    }
+    id!: number;
+    user_id!: number;
+    wallet_id!: number;
+    category_id!: number;
+    invoice_of!: number;
+    name!: string;
+    description!: string;
+    price!: number;
+    due_at!: Date;
+    type!: string;
+    pay!: string;
+    repeat_when!: string;
+    period!: string;
+    date_init!: string;
+    date_end!: string;
+    typeTransfer!: string;
 
     async findAllMonths() {
         try {
