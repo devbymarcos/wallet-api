@@ -17,13 +17,11 @@ class DashBoard {
             const balance: any =
                 await prisma.$queryRaw`SELECT (SELECT SUM(price) FROM app_invoice WHERE user_id= ${this.user_id} AND pay = 'paid' AND type = 'income' AND wallet_id = ${this.wallet_id}) as income,(SELECT SUM(price) FROM app_invoice WHERE user_id= ${this.user_id} AND pay = 'paid' AND type = 'expense' AND wallet_id = ${this.wallet_id}) as expense from app_invoice WHERE user_id = ${this.user_id} AND pay = 'paid' AND wallet_id = ${this.wallet_id} group by income,expense`;
             const balanceSum = balance[0].income - balance[0].expense;
-
             return balanceSum;
         } catch (err) {
             console.log(err);
-            return {
-                balanceSum: [],
-            };
+            const balanceSum = 0;
+            return balanceSum;
         } finally {
             prisma.$disconnect();
         }
