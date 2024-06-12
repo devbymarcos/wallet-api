@@ -6,7 +6,7 @@ import Invoice from "../../models/invoice-model/Invoice";
 export const invoice = async (req: Request, res: Response) => {
     let date_init: any, date_end: any, walletId: any;
 
-    if (req.query.date_one == "undefined") {
+    if (req.query.date_one == "undefined" || !req.query.date_one) {
         const date = new Date();
         date_init = `${date.getFullYear()}-${date.getMonth() + 1}-01`;
         console.log(date_init);
@@ -21,6 +21,7 @@ export const invoice = async (req: Request, res: Response) => {
         date_init = req.query.date_one;
         date_end = req.query.date_two;
         walletId = req.query.walletId;
+        console.log(walletId);
     }
 
     const income = new Invoice();
