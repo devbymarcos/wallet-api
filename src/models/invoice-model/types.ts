@@ -2,7 +2,9 @@ export interface InvoiceTypes {
     id: number;
     user_id?: number;
     wallet_id: number;
+    ds_wallet: string;
     category_id: number;
+    ds_category: string;
     invoice_of?: number;
     name?: string;
     description?: string;

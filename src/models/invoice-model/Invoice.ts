@@ -4,7 +4,9 @@ class Invoice {
     id!: number;
     user_id!: number;
     wallet_id!: number;
+    ds_wallet!: string;
     category_id!: number;
+    ds_category!: string;
     invoice_of!: number;
     name!: string;
     description!: string;
@@ -56,7 +58,9 @@ class Invoice {
                     },
                     data: {
                         wallet_id: this.wallet_id,
+                        ds_wallet: this.ds_wallet,
                         category_id: this.category_id,
+                        ds_category: this.ds_category,
                         description: this.description,
                         price: this.price,
                         due_at: this.due_at,
@@ -85,7 +89,9 @@ class Invoice {
                 data: {
                     user_id: this.user_id,
                     wallet_id: this.wallet_id,
+                    ds_wallet: this.ds_wallet,
                     category_id: this.category_id,
+                    ds_category: this.ds_category,
                     description: this.description,
                     price: this.price,
                     due_at: this.due_at,
