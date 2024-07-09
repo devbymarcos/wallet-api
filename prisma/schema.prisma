@@ -34,7 +34,9 @@ model app_invoice {
   id                Int            @id @default(autoincrement())
   user_id           Int?
   wallet_id         Int
+  ds_wallet         String ?       @db.VarChar(255)
   category_id       Int
+  ds_category       String ?       @db.VarChar(255)
   invoice_of        Int?
   name              String?         @db.VarChar(255)
   description       String?         @db.VarChar(255)
