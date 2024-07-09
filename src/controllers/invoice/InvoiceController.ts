@@ -69,7 +69,9 @@ export const create = async (req: Request, res: Response) => {
                 dataPersist.push({
                     user_id: res.locals.userAuth.id,
                     wallet_id: parseInt(req.body.wallet_id),
+                    ds_wallet: req.body.ds_wallet,
                     category_id: parseInt(req.body.category_id),
+                    ds_category: req.body.ds_category,
                     description:
                         req.body.description +
                         " parcela " +
@@ -99,7 +101,9 @@ export const create = async (req: Request, res: Response) => {
             invoice.id = 0;
             invoice.user_id = res.locals.userAuth.id;
             invoice.wallet_id = parseInt(req.body.wallet_id);
+            invoice.ds_wallet = req.body.ds_wallet;
             invoice.category_id = parseInt(req.body.category_id);
+            invoice.ds_category = req.body.ds_category;
             invoice.description = req.body.description;
             invoice.price = parseFloat(req.body.price);
             invoice.due_at = new Date(req.body.due_at);
@@ -133,7 +137,9 @@ export const update = async (req: Request, res: Response) => {
 
         invoice.id = parseInt(req.body.id);
         invoice.wallet_id = parseInt(req.body.wallet_id);
+        invoice.ds_wallet = req.body.ds_wallet;
         invoice.category_id = parseInt(req.body.category_id);
+        invoice.ds_category = req.body.ds_category;
         invoice.description = req.body.description;
         invoice.price = parseFloat(req.body.price);
         invoice.due_at = new Date(req.body.due_at);
