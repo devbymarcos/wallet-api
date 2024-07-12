@@ -485,18 +485,9 @@
                 "responses": {}
             }
         },
-        "/category": {
+        "/categories": {
             "get": {
                 "summary": "Lista todas as categorias",
-                "tags": ["Category"],
-                "responses": {
-                    "200": {
-                        "description": "ok"
-                    }
-                }
-            },
-            "post": {
-                "summary": "Cria categoria",
                 "tags": ["Category"],
                 "responses": {
                     "200": {
@@ -534,16 +525,34 @@
                 }
             }
         },
+        "/category": {
+            "post": {
+                "summary": "Cria categoria",
+                "tags": ["Category"],
+                "responses": {
+                    "200": {
+                        "description": "ok"
+                    }
+                }
+            }
+        },
         "/invoice": {
             "get": {
-                "summary": "Busca despesa",
-                "description": "Retorna um unico lançamento",
+                "summary": "Busca transações",
+                "description": "Retorna registros no periodo",
+                "tags": ["Invoice"]
+            },
+            "put": {
+                "summary": "Atualiza transação",
+                "description": "Atualiza a transação e retorna o resultado",
                 "tags": ["Invoice"]
             }
         },
-        "/invoices": {
-            "get": {
-                "summary": " retorna todos os lançamentos do mês"
+        "/invoice/{id}": {
+            "delete": {
+                "summary": "Remove a transação",
+                "description": "Necessário mandar o id",
+                "tags": ["Invoice"]
             }
         }
     }
