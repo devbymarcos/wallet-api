@@ -121,6 +121,7 @@ class DashBoard {
                     ],
                 },
             });
+            if (open.length <= 0) return null;
             return open;
         } catch (err) {
             console.log(err);
