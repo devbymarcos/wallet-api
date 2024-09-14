@@ -177,8 +177,7 @@ export const invoiceSingle = async (req: Request, res: Response) => {
 };
 
 export const dashBoard = async (req: Request, res: Response) => {
-    //TODO VALIDAR OS DADOS
-
+    //TODO VALIDAR DADOS
     const user_id: number = res.locals.userAuth.id;
     const wallet_id: number = Number(req.query.wallet_id);
     const dash = new DashBoard(user_id, wallet_id);
@@ -217,7 +216,7 @@ export const transfers = async (req: Request, res: Response) => {
     invoiceOut.id = 0;
     invoiceOut.user_id = res.locals.userAuth.id;
     invoiceOut.wallet_id = parseInt(req.body.wallet_exit);
-    invoiceOut.category_id = parseInt(req.body.category_id);
+    invoiceOut.category_id = parseInt(req.body.category_idOut);
     invoiceOut.description = req.body.description;
     invoiceOut.price = parseFloat(req.body.price);
     invoiceOut.due_at = new Date(year, month, day);
@@ -232,7 +231,7 @@ export const transfers = async (req: Request, res: Response) => {
     invoiceIn.id = 0;
     invoiceIn.user_id = res.locals.userAuth.id;
     invoiceIn.wallet_id = parseInt(req.body.wallet_entry);
-    invoiceIn.category_id = parseInt(req.body.category_id);
+    invoiceIn.category_id = parseInt(req.body.category_idIn);
     invoiceIn.description = req.body.description;
     invoiceIn.price = parseFloat(req.body.price);
     invoiceIn.due_at = new Date(year, month, day);
@@ -242,8 +241,10 @@ export const transfers = async (req: Request, res: Response) => {
     invoiceIn.period = !req.body.period ? "month" : req.body.period;
     invoiceIn.name = "";
 
-    const dataIn = await invoiceIn.register();
-    const dataOut = await invoiceOut.register();
+    const [dataIn, dataOut] = await Promise.all([
+        invoiceIn.register(),
+        invoiceOut.register(),
+    ]);
 
     if (!dataIn && !dataOut) {
         res.json({
