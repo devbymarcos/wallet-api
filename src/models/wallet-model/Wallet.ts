@@ -118,7 +118,7 @@ class Wallet {
                 name: string;
                 balance: number;
             }> =
-                await prisma.$queryRaw`SELECT w.name,(SUM(CASE WHEN i.type = 'income' THEN i.price ELSE 0 END) - SUM(CASE WHEN i.type = 'expense' THEN i.price ELSE 0 END)) AS balance FROM app_wallet w LEFT JOIN app_invoice i ON w.id = i.wallet_id WHERE w.user_id =${this.user_id} GROUP BY w.id, w.name`;
+                await prisma.$queryRaw`SELECT w.name,w.id,(SUM(CASE WHEN i.type = 'income' THEN i.price ELSE 0 END) - SUM(CASE WHEN i.type = 'expense' THEN i.price ELSE 0 END)) AS balance FROM app_wallet w LEFT JOIN app_invoice i ON w.id = i.wallet_id WHERE w.user_id =${this.user_id} GROUP BY w.id, w.name`;
 
             return walletBalance;
         } catch (err) {
