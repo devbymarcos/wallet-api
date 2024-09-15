@@ -8,12 +8,18 @@ class Wallet {
     description;
     option_wallet;
 
-    constructor(obj: WalletTypes) {
-        this.id = obj.id || undefined;
-        this.user_id = obj.user_id || undefined;
-        this.name = obj.name || "";
-        this.description = obj.description || "";
-        this.option_wallet = obj.option_wallet || 0;
+    constructor({
+        id,
+        user_id,
+        name,
+        description,
+        option_wallet,
+    }: WalletTypes) {
+        this.id = id || undefined;
+        this.user_id = user_id || undefined;
+        this.name = name || "";
+        this.description = description || "";
+        this.option_wallet = option_wallet || 0;
     }
 
     async findyAll() {
@@ -103,6 +109,21 @@ class Wallet {
             return false;
         } finally {
             prisma.$disconnect();
+        }
+    }
+
+    async getWalletBalance() {
+        try {
+            const walletBalance: Array<{
+                name: string;
+                balance: number;
+            }> =
+                await prisma.$queryRaw`SELECT w.name,(SUM(CASE WHEN i.type = 'income' THEN i.price ELSE 0 END) - SUM(CASE WHEN i.type = 'expense' THEN i.price ELSE 0 END)) AS balance FROM app_wallet w LEFT JOIN app_invoice i ON w.id = i.wallet_id WHERE w.user_id =${this.user_id} GROUP BY w.id, w.name`;
+
+            return walletBalance;
+        } catch (err) {
+            console.log(err);
+            return false;
         }
     }
 }

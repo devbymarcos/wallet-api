@@ -23,6 +23,11 @@ router.get("/dash", Auth.privateRouter, InvoiceController.dashBoard);
 //WALLET
 router.get("/wallet", Auth.privateRouter, WalletController.wallets);
 router.get("/wallet/:id", Auth.privateRouter, WalletController.walletUniq);
+router.get(
+    "/wallet-balance",
+    Auth.privateRouter,
+    WalletController.walletBalance
+);
 router.post("/wallet", Auth.privateRouter, WalletController.walletCreate);
 router.put("/wallet", Auth.privateRouter, WalletController.walletUpdate);
 router.delete("/wallet/:id", Auth.privateRouter, WalletController.walletDelete);
