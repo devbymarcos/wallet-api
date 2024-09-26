@@ -2,27 +2,29 @@ import { prisma } from "../../database/prismaClient";
 import { CategoryBase } from "./CategoryBase";
 import { CategoryTypes } from "./types";
 
-class CategoryRegister extends CategoryBase {
-    constructor({ id, name, type, user_id, description }: CategoryTypes) {
+class UpdateCategory extends CategoryBase {
+    constructor({ id, name, type, description }: CategoryTypes) {
         super();
         this.id = id;
         this.name = name;
-        this.type = type;
-        this.user_id = user_id;
         this.description = description;
+        this.type = type;
     }
 
     async execute() {
         try {
-            const category = await prisma.app_categories.create({
+            const category = await prisma.app_categories.update({
                 data: {
-                    user_id: this.user_id,
+                    id: this.id,
                     name: this.name,
                     description: this.description,
                     type: this.type,
                 },
-            });
 
+                where: {
+                    id: this.id,
+                },
+            });
             return category;
         } catch (err) {
             console.log(err);
@@ -33,4 +35,4 @@ class CategoryRegister extends CategoryBase {
     }
 }
 
-export default CategoryRegister;
+export default UpdateCategory;

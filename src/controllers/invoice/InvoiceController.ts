@@ -217,6 +217,7 @@ export const transfers = async (req: Request, res: Response) => {
     invoiceOut.user_id = res.locals.userAuth.id;
     invoiceOut.wallet_id = parseInt(req.body.wallet_exit);
     invoiceOut.category_id = parseInt(req.body.category_idOut);
+    invoiceOut.ds_category = req.body.req.body.ds_categoryOut;
     invoiceOut.description = req.body.description;
     invoiceOut.price = parseFloat(req.body.price);
     invoiceOut.due_at = new Date(year, month, day);
@@ -232,6 +233,7 @@ export const transfers = async (req: Request, res: Response) => {
     invoiceIn.user_id = res.locals.userAuth.id;
     invoiceIn.wallet_id = parseInt(req.body.wallet_entry);
     invoiceIn.category_id = parseInt(req.body.category_idIn);
+    invoiceOut.ds_category = req.body.req.body.ds_categoryIn;
     invoiceIn.description = req.body.description;
     invoiceIn.price = parseFloat(req.body.price);
     invoiceIn.due_at = new Date(year, month, day);

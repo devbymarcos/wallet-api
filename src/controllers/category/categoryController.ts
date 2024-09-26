@@ -1,25 +1,25 @@
 import { Request, Response } from "express";
 import { dataReturn } from "../../helpers/functions";
-import CategoryRegister from "../../models/category/CategoryRegister";
-import CategoryFindById from "../../models/category/CategoryFindById";
-import CategoryRemove from "../../models/category/CategoryRemove";
-import CategoryFindAll from "../../models/category/CategoryFindAll";
-import CategoryUpdate from "../../models/category/CategoryUpdate";
+import RegisterCategory from "../../models/category/RegisterCategory";
+import FindByIdCategory from "../../models/category/FindByIdCategory";
+import RemoveCategory from "../../models/category/RemoveCategory";
+import FindAllCategory from "../../models/category/FindAllCategory";
+import UpdateCategory from "../../models/category/UpdateCategory";
 
 export const categories = async (req: Request, res: Response) => {
-    const categories = new CategoryFindAll(res.locals.userAuth.id);
+    const categories = new FindAllCategory(res.locals.userAuth.id);
     const data = await categories.execute();
     res.json(dataReturn(data, "/category", ""));
 };
 
 export const category = async (req: Request, res: Response) => {
-    const category = new CategoryFindById(parseInt(req.params.id));
+    const category = new FindByIdCategory(parseInt(req.params.id));
     const data = await category.execute();
     res.json(dataReturn([data], "category", ""));
 };
 
 export const create = async (req: Request, res: Response) => {
-    const category = new CategoryRegister({
+    const category = new RegisterCategory({
         user_id: res.locals.userAuth.id,
         name: req.body.name,
         description: req.body.description,
@@ -31,14 +31,14 @@ export const create = async (req: Request, res: Response) => {
 };
 
 export const remove = async (req: Request, res: Response) => {
-    const category = new CategoryRemove(parseInt(req.params.id));
+    const category = new RemoveCategory(parseInt(req.params.id));
     const data = await category.execute();
     res.json(dataReturn(data, "/category", ""));
 };
 
 export const update = async (req: Request, res: Response) => {
     //TODO VALIDA DADOS
-    const category = new CategoryUpdate({
+    const category = new UpdateCategory({
         id: Number(req.body.id),
         name: req.body.name,
         description: req.body.description,

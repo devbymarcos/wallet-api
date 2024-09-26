@@ -1,22 +1,21 @@
 import { prisma } from "../../database/prismaClient";
 import { CategoryBase } from "./CategoryBase";
-import { CategoryTypes } from "./types";
 
-class CategoryFindAll extends CategoryBase {
-    constructor(user_id: number) {
+class RemoveCategory extends CategoryBase {
+    constructor(id: number) {
         super();
-        this.user_id = user_id;
+        this.id = id;
     }
 
     async execute() {
         try {
-            const categories = await prisma.app_categories.findMany({
+            const category = await prisma.app_categories.delete({
                 where: {
-                    user_id: this.user_id,
+                    id: this.id,
                 },
             });
 
-            return categories;
+            return true;
         } catch (err) {
             console.log(err);
             return false;
@@ -26,4 +25,4 @@ class CategoryFindAll extends CategoryBase {
     }
 }
 
-export default CategoryFindAll;
+export default RemoveCategory;

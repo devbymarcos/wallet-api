@@ -1,21 +1,21 @@
 import { prisma } from "../../database/prismaClient";
 import { CategoryBase } from "./CategoryBase";
-import { CategoryTypes } from "./types";
 
-class CategoryFindById extends CategoryBase {
-    constructor(id: number) {
+class FindAllCategory extends CategoryBase {
+    constructor(user_id: number) {
         super();
-        this.id = id;
+        this.user_id = user_id;
     }
 
     async execute() {
         try {
-            const category = await prisma.app_categories.findUnique({
+            const categories = await prisma.app_categories.findMany({
                 where: {
-                    id: this.id,
+                    user_id: this.user_id,
                 },
             });
-            return category;
+
+            return categories;
         } catch (err) {
             console.log(err);
             return false;
@@ -25,4 +25,4 @@ class CategoryFindById extends CategoryBase {
     }
 }
 
-export default CategoryFindById;
+export default FindAllCategory;
