@@ -209,7 +209,7 @@ export const transfers = async (req: Request, res: Response) => {
     const invoiceOut = new Invoice();
     invoiceOut.id = 0;
     invoiceOut.user_id = res.locals.userAuth.id;
-    invoiceOut.wallet_id = parseInt(req.body.walletOut);
+    invoiceOut.wallet_id = parseInt(req.body.walletIdOut);
     invoiceOut.category_id = parseInt(req.body.categoryIdOut);
     invoiceOut.description = req.body.description;
     invoiceOut.price = parseFloat(req.body.price);
@@ -224,7 +224,7 @@ export const transfers = async (req: Request, res: Response) => {
 
     invoiceIn.id = 0;
     invoiceIn.user_id = res.locals.userAuth.id;
-    invoiceIn.wallet_id = parseInt(req.body.walletIn);
+    invoiceIn.wallet_id = parseInt(req.body.walletIdIn);
     invoiceIn.category_id = parseInt(req.body.categoryIdIn);
     invoiceIn.description = req.body.description;
     invoiceIn.price = parseFloat(req.body.price);
@@ -246,6 +246,8 @@ export const transfers = async (req: Request, res: Response) => {
             message: "Algo aconteceu contate admin",
             request: "transfer",
         });
+
+        return;
     }
 
     res.json(dataReturn([dataIn, dataOut], "transfer"));
