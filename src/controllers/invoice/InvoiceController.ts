@@ -5,11 +5,9 @@ import Invoice from "../../models/invoice-model/Invoice";
 
 export const invoice = async (req: Request, res: Response) => {
     let date_init: any, date_end: any, walletId: any;
-
     if (req.query.date_one == "undefined" || !req.query.date_one) {
         const date = new Date();
         date_init = `${date.getFullYear()}-${date.getMonth() + 1}-01`;
-        console.log(date_init);
         const lastDayOfMonth = new Date(
             date.getFullYear(),
             date.getMonth() + 1,
@@ -21,7 +19,6 @@ export const invoice = async (req: Request, res: Response) => {
         date_init = req.query.date_one;
         date_end = req.query.date_two;
         walletId = req.query.walletId;
-        console.log(walletId);
     }
 
     const income = new Invoice();
@@ -212,8 +209,8 @@ export const transfers = async (req: Request, res: Response) => {
     const invoiceOut = new Invoice();
     invoiceOut.id = 0;
     invoiceOut.user_id = res.locals.userAuth.id;
-    invoiceOut.wallet_id = parseInt(req.body.wallet_exit);
-    invoiceOut.category_id = parseInt(req.body.category_idOut);
+    invoiceOut.wallet_id = parseInt(req.body.walletOut);
+    invoiceOut.category_id = parseInt(req.body.categoryIdOut);
     invoiceOut.description = req.body.description;
     invoiceOut.price = parseFloat(req.body.price);
     invoiceOut.due_at = new Date(year, month, day);
@@ -227,8 +224,8 @@ export const transfers = async (req: Request, res: Response) => {
 
     invoiceIn.id = 0;
     invoiceIn.user_id = res.locals.userAuth.id;
-    invoiceIn.wallet_id = parseInt(req.body.wallet_entry);
-    invoiceIn.category_id = parseInt(req.body.category_idIn);
+    invoiceIn.wallet_id = parseInt(req.body.walletIn);
+    invoiceIn.category_id = parseInt(req.body.categoryIdIn);
     invoiceIn.description = req.body.description;
     invoiceIn.price = parseFloat(req.body.price);
     invoiceIn.due_at = new Date(year, month, day);
