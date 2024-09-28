@@ -1,4 +1,5 @@
 import { prisma } from "../../database/prismaClient.js";
+import FindByIdCategory from "../category/FindByIdCategory.js";
 import { InvoiceTypes } from "./types";
 class Invoice {
     id!: number;
@@ -51,7 +52,9 @@ class Invoice {
     }
     async update() {
         try {
-            try {
+            const category = new FindByIdCategory(this.category_id);
+            const dsCategory = await category.execute();
+            if (dsCategory) {
                 const invoice = await prisma.app_invoice.update({
                     where: {
                         id: this.id,
@@ -60,7 +63,7 @@ class Invoice {
                         wallet_id: this.wallet_id,
                         ds_wallet: this.ds_wallet,
                         category_id: this.category_id,
-                        ds_category: this.ds_category,
+                        ds_category: dsCategory.name,
                         description: this.description,
                         price: this.price,
                         due_at: this.due_at,
@@ -72,37 +75,38 @@ class Invoice {
                     },
                 });
                 return invoice;
-            } catch (err) {
-                console.log(err);
-                return false;
-            } finally {
-                prisma.$disconnect();
             }
         } catch (err) {
             console.log(err);
             return false;
+        } finally {
+            prisma.$disconnect();
         }
     }
     async register() {
         try {
-            const invoice = await prisma.app_invoice.create({
-                data: {
-                    user_id: this.user_id,
-                    wallet_id: this.wallet_id,
-                    ds_wallet: this.ds_wallet,
-                    category_id: this.category_id,
-                    ds_category: this.ds_category,
-                    description: this.description,
-                    price: this.price,
-                    due_at: this.due_at,
-                    type: this.type,
-                    pay: this.pay,
-                    repeat_when: this.repeat_when,
-                    period: this.period,
-                    name: this.name,
-                },
-            });
-            return invoice;
+            const category = new FindByIdCategory(this.category_id);
+            const dsCategory = await category.execute();
+            if (dsCategory) {
+                const invoice = await prisma.app_invoice.create({
+                    data: {
+                        user_id: this.user_id,
+                        wallet_id: this.wallet_id,
+                        ds_wallet: this.ds_wallet,
+                        category_id: this.category_id,
+                        ds_category: dsCategory.name,
+                        description: this.description,
+                        price: this.price,
+                        due_at: this.due_at,
+                        type: this.type,
+                        pay: this.pay,
+                        repeat_when: this.repeat_when,
+                        period: this.period,
+                        name: this.name,
+                    },
+                });
+                return invoice;
+            }
         } catch (err) {
             console.log(err);
             return false;

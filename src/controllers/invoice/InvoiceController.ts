@@ -71,7 +71,6 @@ export const create = async (req: Request, res: Response) => {
                     wallet_id: parseInt(req.body.wallet_id),
                     ds_wallet: req.body.ds_wallet,
                     category_id: parseInt(req.body.category_id),
-                    ds_category: req.body.ds_category,
                     description:
                         req.body.description +
                         " parcela " +
@@ -103,7 +102,6 @@ export const create = async (req: Request, res: Response) => {
             invoice.wallet_id = parseInt(req.body.wallet_id);
             invoice.ds_wallet = req.body.ds_wallet;
             invoice.category_id = parseInt(req.body.category_id);
-            invoice.ds_category = req.body.ds_category;
             invoice.description = req.body.description;
             invoice.price = parseFloat(req.body.price);
             invoice.due_at = new Date(req.body.due_at);
@@ -139,7 +137,6 @@ export const update = async (req: Request, res: Response) => {
         invoice.wallet_id = parseInt(req.body.wallet_id);
         invoice.ds_wallet = req.body.ds_wallet;
         invoice.category_id = parseInt(req.body.category_id);
-        invoice.ds_category = req.body.ds_category;
         invoice.description = req.body.description;
         invoice.price = parseFloat(req.body.price);
         invoice.due_at = new Date(req.body.due_at);
@@ -217,7 +214,6 @@ export const transfers = async (req: Request, res: Response) => {
     invoiceOut.user_id = res.locals.userAuth.id;
     invoiceOut.wallet_id = parseInt(req.body.wallet_exit);
     invoiceOut.category_id = parseInt(req.body.category_idOut);
-    invoiceOut.ds_category = req.body.req.body.ds_categoryOut;
     invoiceOut.description = req.body.description;
     invoiceOut.price = parseFloat(req.body.price);
     invoiceOut.due_at = new Date(year, month, day);
@@ -233,7 +229,6 @@ export const transfers = async (req: Request, res: Response) => {
     invoiceIn.user_id = res.locals.userAuth.id;
     invoiceIn.wallet_id = parseInt(req.body.wallet_entry);
     invoiceIn.category_id = parseInt(req.body.category_idIn);
-    invoiceOut.ds_category = req.body.req.body.ds_categoryIn;
     invoiceIn.description = req.body.description;
     invoiceIn.price = parseFloat(req.body.price);
     invoiceIn.due_at = new Date(year, month, day);
