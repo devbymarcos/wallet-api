@@ -3,7 +3,7 @@ import { CategoryBase } from "./CategoryBase";
 import { CategoryTypes } from "./types";
 
 class UpdateCategory extends CategoryBase {
-    constructor({ id, name, type, description }: CategoryTypes) {
+    constructor({ id, name, type, description, wallet_id }: CategoryTypes) {
         super();
         this.id = id;
         this.name = name;

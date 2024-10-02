@@ -10,6 +10,7 @@ datasource db {
 model app_categories {
   id          Int           @id @default(autoincrement())
   user_id     Int?
+  wallet_id   Int?
   name        String        @db.VarChar(255)
   description String        @db.Text
   type        String        @db.VarChar(255)

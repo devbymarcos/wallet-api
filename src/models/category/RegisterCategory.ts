@@ -3,13 +3,23 @@ import { CategoryBase } from "./CategoryBase";
 import { CategoryTypes } from "./types";
 
 class RegisterCategory extends CategoryBase {
-    constructor({ id, name, type, user_id, description }: CategoryTypes) {
+    walletId?: number;
+
+    constructor({
+        id,
+        name,
+        type,
+        user_id,
+        description,
+        wallet_id,
+    }: CategoryTypes) {
         super();
         this.id = id;
         this.name = name;
         this.type = type;
         this.user_id = user_id;
         this.description = description;
+        this.walletId = wallet_id;
     }
 
     async execute() {
@@ -20,6 +30,7 @@ class RegisterCategory extends CategoryBase {
                     name: this.name,
                     description: this.description,
                     type: this.type,
+                    wallet_id: this.walletId,
                 },
             });
 

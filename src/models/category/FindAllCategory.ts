@@ -2,9 +2,11 @@ import { prisma } from "../../database/prismaClient";
 import { CategoryBase } from "./CategoryBase";
 
 class FindAllCategory extends CategoryBase {
-    constructor(user_id: number) {
+    walletId!: number;
+    constructor(user_id: number, walletId: number) {
         super();
         this.user_id = user_id;
+        this.walletId = walletId;
     }
 
     async execute() {
@@ -12,6 +14,7 @@ class FindAllCategory extends CategoryBase {
             const categories = await prisma.app_categories.findMany({
                 where: {
                     user_id: this.user_id,
+                    wallet_id: this.walletId,
                 },
             });
 

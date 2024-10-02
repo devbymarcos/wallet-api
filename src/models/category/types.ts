@@ -4,4 +4,5 @@ export interface CategoryTypes {
     name: string;
     description: string;
     type: string;
+    wallet_id?: number;
 }

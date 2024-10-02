@@ -7,7 +7,8 @@ import FindAllCategory from "../../models/category/FindAllCategory";
 import UpdateCategory from "../../models/category/UpdateCategory";
 
 export const categories = async (req: Request, res: Response) => {
-    const categories = new FindAllCategory(res.locals.userAuth.id);
+    const walletId = Number(req.query.wallet_id);
+    const categories = new FindAllCategory(res.locals.userAuth.id, walletId);
     const data = await categories.execute();
     res.json(dataReturn(data, "/category", ""));
 };
@@ -24,6 +25,7 @@ export const create = async (req: Request, res: Response) => {
         name: req.body.name,
         description: req.body.description,
         type: req.body.type,
+        wallet_id: Number(req.body.wallet_id),
     });
 
     const data = await category.execute();
@@ -44,6 +46,7 @@ export const update = async (req: Request, res: Response) => {
         description: req.body.description,
         type: req.body.type,
         user_id: res.locals.userAuth.id,
+        wallet_id: Number(req.body.wallet_id),
     });
 
     const data = await category.execute();
