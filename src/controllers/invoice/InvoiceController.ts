@@ -176,7 +176,7 @@ export const dashBoard = async (req: Request, res: Response) => {
     const wallet_id: number = Number(req.query.wallet_id);
     const dash = new DashBoard(user_id, wallet_id);
 
-    const [result, paidMonth, receivedMonth, balanceSum, invoiceOpen] =
+    const [chart, paidMonth, receivedMonth, balanceSum, invoiceOpen] =
         await Promise.all([
             dash.resultLastFourMonth(),
             dash.paidMonth(),
@@ -186,10 +186,7 @@ export const dashBoard = async (req: Request, res: Response) => {
         ]);
 
     const dataDash = {
-        result: {
-            months: result.months,
-            values: result.values,
-        },
+        chart,
         paidMonth: paidMonth.paidMonth,
         receivedMonth: receivedMonth.receivedMonth,
         balanceSum,
