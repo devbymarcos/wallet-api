@@ -87,7 +87,14 @@ class DashBoard {
             }> = await prisma.$queryRaw`
             SELECT year(due_at) as due_year,month(due_at) as due_month,DATE_FORMAT (due_at,'%m/%y') AS due_date,(SELECT SUM(price) FROM app_invoice WHERE user_id = ${this.user_id} AND pay = 'paid' AND type = 'income'AND wallet_id = ${this.wallet_id} AND year(due_at) = due_year AND month(due_at) = due_month ) as income,(SELECT SUM(price) FROM app_invoice WHERE user_id = ${this.user_id} AND pay = 'paid' AND type = 'expense' AND wallet_id = ${this.wallet_id} AND year(due_at) = due_year AND month(due_at) = due_month ) as expense FROM app_invoice WHERE user_id = ${this.user_id} AND pay = 'paid' AND due_at >= date(now()- INTERVAL 4 MONTH) GROUP BY due_year , due_month ,due_date ORDER BY due_year , due_month ASC  limit 5`;
 
-            return chart;
+            const formattedChart = chart.map((item) => ({
+                due_year: Number(item.due_year), // Conversão para Number erro em produção aparece como bigInt
+                due_month: item.due_month,
+                due_date: item.due_date,
+                income: item.income,
+                expense: item.expense,
+            }));
+            return formattedChart;
         } catch (err) {
             console.log(err);
             return {
