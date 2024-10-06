@@ -107,11 +107,15 @@ class DashBoard {
     }
     async invoiceOpen() {
         try {
+            const today = new Date();
+            const tenDaysFromNow = new Date(
+                today.setDate(today.getDate() + 10)
+            );
             const open = await prisma.app_invoice.findMany({
                 where: {
                     AND: [
                         { user_id: this.user_id },
-                        { due_at: { lt: new Date() } },
+                        { due_at: { lt: tenDaysFromNow } },
                         { pay: "unpaid" },
                         { wallet_id: this.wallet_id },
                     ],
