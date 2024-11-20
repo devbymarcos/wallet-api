@@ -192,7 +192,7 @@ export const dashBoard = async (req: Request, res: Response) => {
         balanceSum,
         invoiceOpen,
     };
-    console.log(dataDash);
+
     res.json(dataReturn(dataDash, "dash"));
 };
 
