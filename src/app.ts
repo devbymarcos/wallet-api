@@ -50,7 +50,7 @@ app.use(express.static(path.join(__dirname, "public")));
 // habilita pegar dados no corpo da requizição
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 app.use(morgan("dev"));
 //rotas da API
 app.use("/v1", mainRoutes);

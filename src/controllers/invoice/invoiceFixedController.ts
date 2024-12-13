@@ -16,7 +16,7 @@ export const invoiceFixedList = async (req, res) => {
             const obj = {};
             const date = new Date(item.due_at);
             //formata status
-            let statusPay = "";
+            let statusPay:boolean;
             if (item.pay === "paid") {
                 statusPay = true;
             } else {
