@@ -44,6 +44,7 @@ router.post("/invoice", Auth.privateRouter, InvoiceController.create);
 router.put("/invoice", Auth.privateRouter, InvoiceController.update);
 router.delete("/invoice/:id", Auth.privateRouter, InvoiceController.remove);
 router.post("/transfer", Auth.privateRouter, InvoiceController.transfers);
+router.get("/fixed",Auth.privateRouter,InvoiceFixedController.ListAll)
 //REPORTS
 router.get(
     "/category-flow",

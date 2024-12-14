@@ -1,10 +1,10 @@
 export interface InvoiceTypes {
-    id: number;
-    user_id?: number;
+    id?: number;
+    user_id: number;
     wallet_id: number;
     ds_wallet: string;
     category_id: number;
-    ds_category: string;
+    ds_category?: string;
     invoice_of?: number;
     name?: string;
     description?: string;
@@ -17,4 +17,11 @@ export interface InvoiceTypes {
     date_init?: string;
     date_end?: string;
     typeTransfer?: string;
+}
+
+
+export interface IInvoiceSearch{
+    id?: number;
+    user_id: number;
+    wallet_id: number;
 }
