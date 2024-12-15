@@ -3,12 +3,14 @@ import { prisma } from "../../database/prismaClient.js";
 import { FixedListAll } from "../../models/invoice-model/FixedListAll.js";
 
 export const listAll = async (req:Request, res:Response) => {
+    
     const fixedList = new FixedListAll({
         user_id: res.locals.userAuth.id,
-        wallet_id:req.body.wallet_id
+        wallet_id:Number(req.query.wallet_id)
     })
 
-    const dataResponse = fixedList.execute()
+    const dataResponse = await fixedList.execute()
+    console.log(dataResponse)
     res.json(dataResponse)
     
 };

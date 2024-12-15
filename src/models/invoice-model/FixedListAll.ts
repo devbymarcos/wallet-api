@@ -11,7 +11,7 @@ export class FixedListAll extends InvoiceBase{
         this.wallet_id = wallet_id
     }
 
-    private mapData(data:any){
+    private async mapData(data:any){
         const newData = data.map((item:any) => {
             const obj:Record<string, unknown> = {};
             const date = new Date(item.due_at);
@@ -46,17 +46,18 @@ export class FixedListAll extends InvoiceBase{
 
 
     async execute(){
+        //precisa fazer o prisma desse lado entender no container ja funciona
         try{
-            const fixed = await prisma.app_invoice.findMany({
+            const fixed = await prisma.app_fixed.findMany({
                 where: {
                     user_id: this.user_id,
                     wallet_id: this.wallet_id,
                     
                 },
             });
-
+         return  this.mapData(fixed)   
         }catch(error){
-            console.log(error)
+             console.log(error)
         }finally{
             prisma.$disconnect()
         }
