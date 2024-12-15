@@ -1,11 +1,11 @@
-service:
+services:
   app:
     build: .
     ports:
       - "3000:3000"
     volumes:
       - .:/app
-    comand: npm run dev
+    command: npm run dev
     depends_on:
       - mysql
   mysql:
@@ -17,8 +17,5 @@ service:
       MYSQL_DATABASE: finnance
     volumes:
       - db-data:/var/lib/mysql
-      
-
-      
 volumes:
-  db-data:
+    db-data:
