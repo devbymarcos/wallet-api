@@ -10,7 +10,7 @@ export  class  InvoiceBase{
     description?: string = "";
     price?: number= 0;
     due_at: Date =  new Date();
-    type: string = "";
+    type?: string = "";
     pay: string = "";
     repeat_when: string = "";
     period: string = "";

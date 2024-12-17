@@ -2,21 +2,19 @@ import { prisma } from "../../database/prismaClient";
 import { InvoiceBase } from "./InvoiceBase";
 import { IInvoiceList } from "./types";
 
-
-export class FixedListAll extends InvoiceBase{
-
-    constructor({user_id,wallet_id}:IInvoiceList){
-        super()
+export class FixedListAll extends InvoiceBase {
+    constructor({ user_id, wallet_id }: IInvoiceList) {
+        super();
         this.user_id = user_id;
-        this.wallet_id = wallet_id
+        this.wallet_id = wallet_id;
     }
 
-    private async mapData(data:any){
-        const newData = data.map((item:any) => {
-            const obj:Record<string, unknown> = {};
+    private async mapData(data: any) {
+        const newData = data.map((item: any) => {
+            const obj: Record<string, unknown> = {};
             const date = new Date(item.due_at);
             //formata status
-            let statusPay:boolean;
+            let statusPay: boolean;
             if (item.pay === "paid") {
                 statusPay = true;
             } else {
@@ -44,23 +42,19 @@ export class FixedListAll extends InvoiceBase{
         return newData;
     }
 
-
-    async execute(){
-        //precisa fazer o prisma desse lado entender no container ja funciona
-        try{
+    async execute() {
+        try {
             const fixed = await prisma.app_fixed.findMany({
                 where: {
                     user_id: this.user_id,
                     wallet_id: this.wallet_id,
-                    
                 },
             });
-         return  this.mapData(fixed)   
-        }catch(error){
-             console.log(error)
-        }finally{
-            prisma.$disconnect()
+            return this.mapData(fixed);
+        } catch (error) {
+            console.log(error);
+        } finally {
+            prisma.$disconnect();
         }
-
     }
 }
