@@ -110,6 +110,10 @@ model app_fixed {
   price       Decimal?  @db.Decimal(10, 2)
   due_at      DateTime  @db.Date
   type        String?   @db.VarChar(255)
+  active      Int?
   created_at  DateTime? @default(now()) @db.Timestamp(0)
   updated_at  DateTime? @db.Timestamp(0)
+
+  @@index([category_id], map: "fk_appCategories_category_id")
+  @@index([wallet_id], map: "fk_appWallet_wallet_id")
 }

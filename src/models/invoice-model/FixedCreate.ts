@@ -11,6 +11,7 @@ export class FixedCreate extends InvoiceBase {
         due_at,
         price,
         type,
+        active,
     }: InvoiceTypes) {
         super();
         this.user_id = user_id;
@@ -20,6 +21,7 @@ export class FixedCreate extends InvoiceBase {
         this.price = price;
         this.type = type;
         this.due_at = due_at;
+        this.active = active;
     }
 
     async execute() {

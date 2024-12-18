@@ -17,6 +17,7 @@ export interface InvoiceTypes {
     date_init?: string;
     date_end?: string;
     typeTransfer?: string;
+    active?: number;
 }
 
 export interface IInvoiceList {
