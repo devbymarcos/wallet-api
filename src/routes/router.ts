@@ -50,6 +50,14 @@ router.get(
     Auth.privateRouter,
     ReportController.cashFlowOnCategory
 );
+//FIXED
+router.get("/fixed", Auth.privateRouter, InvoiceFixedController.listAll);
+router.post("/fixed", Auth.privateRouter, InvoiceFixedController.create);
+router.get(
+    "/fixed-generate",
+    Auth.privateRouter,
+    InvoiceFixedController.fixedGeneratePoint
+);
 
 //TODO CRIAR PARAMETROS PARA ESSA ROTA
 router.get("/extract", Auth.privateRouter, ExtractController.extract);
