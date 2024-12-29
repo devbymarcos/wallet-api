@@ -4,7 +4,7 @@ import RegisterCategory from "../../models/category/RegisterCategory";
 import FindByIdCategory from "../../models/category/FindByIdCategory";
 import RemoveCategory from "../../models/category/RemoveCategory";
 import FindAllCategory from "../../models/category/FindAllCategory";
-import UpdateCategory from "../../models/category/UpdateCategory";
+import UpdateCategory from "../../models/category/UpdateCategory"; 
 
 export const categories = async (req: Request, res: Response) => {
     const walletId = Number(req.query.wallet_id);

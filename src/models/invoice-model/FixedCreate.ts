@@ -34,6 +34,7 @@ export class FixedCreate extends InvoiceBase {
                     description: this.description,
                     price: this.price,
                     type: this.type,
+                    active: this.active,
                     due_at: this.due_at,
                 },
             });

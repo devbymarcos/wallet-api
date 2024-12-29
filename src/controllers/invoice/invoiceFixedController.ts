@@ -24,10 +24,11 @@ export const create = async (req: Request, res: Response) => {
         wallet_id: Number(req.body.wallet_id),
         description: req.body.description,
         type: req.body.type,
+        active: req.body.active,
         price: Number(req.body.price),
     });
     const response = await fixedCreate.execute();
-    console.log(response);
+   
     if (response?.id) {
         res.json(response);
         return;
